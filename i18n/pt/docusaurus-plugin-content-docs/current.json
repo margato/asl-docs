@@ -1,0 +1,18 @@
+{
+  "version.label": {
+    "message": "Próximo",
+    "description": "The label for version current"
+  },
+  "sidebar.docsSidebar.category.Get started": {
+    "message": "Primeiros passos",
+    "description": "The label for category Get started in sidebar docsSidebar"
+  },
+  "sidebar.docsSidebar.category.Extend it": {
+    "message": "Personalize",
+    "description": "The label for category Extend it in sidebar docsSidebar"
+  },
+  "sidebar.docsSidebar.category.Learn more about it": {
+    "message": "Saiba mais",
+    "description": "The label for category Learn more about it in sidebar docsSidebar"
+  }
+}

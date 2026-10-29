@@ -1,0 +1,43 @@
+.switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid #52525b;
+  border-radius: 999px;
+  background: #1a1a1e;
+  transition: border-color 0.15s;
+}
+.switch:hover,
+.switch:focus-within { border-color: #8a8a94; }
+
+.option {
+  position: relative;
+  padding: 3px 11px;
+  border-radius: 999px;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.78rem;
+  font-weight: 500;
+  text-align: center;
+  color: #b9b9c2;
+  text-decoration: none;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.option:hover {
+  background: #34343b;
+  color: #fff;
+  text-decoration: none;
+}
+
+.option:focus-visible {
+  outline: 2px solid var(--asl-accent-text);
+  outline-offset: 2px;
+}
+
+.active,
+.active:hover {
+  background: var(--ifm-color-primary);
+  color: #000;
+  font-weight: 700;
+}

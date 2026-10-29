@@ -1,0 +1,26 @@
+{
+  "link.title.Docs": {
+    "message": "Documentação"
+  },
+  "link.title.Project": {
+    "message": "Projeto"
+  },
+  "link.item.label.Introduction": {
+    "message": "Introdução"
+  },
+  "link.item.label.Custom policies": {
+    "message": "Custom policies"
+  },
+  "link.item.label.Why architecture as code": {
+    "message": "Por que arquitetura como código"
+  },
+  "link.item.label.CLI": {
+    "message": "CLI"
+  },
+  "link.item.label.CEL": {
+    "message": "CEL"
+  },
+  "link.item.label.How ASL works": {
+    "message": "Como o ASL funciona"
+  }
+}

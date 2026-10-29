@@ -1,0 +1,41 @@
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--asl-border);
+  border-radius: 999px;
+  background: #0b0b0c;
+  color: #a1a1aa;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: border-color 0.15s, color 0.15s, background-color 0.15s;
+}
+
+.link:hover {
+  border-color: #34343b;
+  background: #111113;
+  color: #fff;
+  text-decoration: none;
+}
+
+.icon { font-size: 1.05rem; }
+
+/* top bar on phones: icon only */
+@media (max-width: 996px) {
+  .link:not(.mobile) span { display: none; }
+  .link:not(.mobile) { padding: 0.4rem; }
+}
+
+/* inside the mobile side menu: a normal full-width row with its label */
+.mobile {
+  display: flex;
+  width: 100%;
+  margin: 0.4rem 0;
+  padding: 0.65rem 0.9rem;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  color: #e4e4e7;
+}
+.mobile span { display: inline; }
