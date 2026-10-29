@@ -1,0 +1,56 @@
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--asl-border);
+  border-radius: 999px;
+  background: var(--asl-surface);
+  color: var(--asl-text-3);
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: border-color 0.15s, color 0.15s, background-color 0.15s;
+}
+
+.link:hover {
+  border-color: var(--asl-border-3);
+  background: var(--asl-surface-hover);
+  color: var(--asl-strong);
+  text-decoration: none;
+}
+
+.icon { font-size: 1.05rem; }
+
+.count {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-left: 0.15rem;
+  padding-left: 0.55rem;
+  border-left: 1px solid var(--asl-border);
+  font-variant-numeric: tabular-nums;
+  color: var(--asl-strong);
+}
+
+@media (min-width: 997px) {
+  .link:not(.mobile) { margin-right: 0.9rem; }
+}
+
+/* top bar on phones: icon only */
+@media (max-width: 996px) {
+  .link:not(.mobile) .label { display: none; }
+  .link:not(.mobile) { padding: 0.4rem 0.6rem; }
+}
+
+/* inside the mobile side menu: a normal full-width row with its label */
+.mobile {
+  display: flex;
+  width: 100%;
+  margin: 0.4rem 0;
+  padding: 0.65rem 0.9rem;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  color: var(--asl-text-1);
+}
+.mobile .label { display: inline; }

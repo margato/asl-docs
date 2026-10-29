@@ -1,0 +1,822 @@
+/* Home: "spec sheet" look. Square hairlines, mono labels. Colors are the global --asl-* tokens. */
+
+/* ---------- hero ---------- */
+.hero {
+  position: relative;
+  padding: 2.5rem 0 0;
+  border-bottom: 1px solid var(--asl-border-2);
+}
+.heroGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: 4rem;
+  align-items: center;
+  padding-bottom: 4.5rem;
+}
+.h1 {
+  margin: 0 0 1.5rem;
+  font-size: clamp(2.7rem, 5.6vw, 4.9rem);
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: -0.045em;
+  color: var(--asl-strong);
+}
+.accent { color: var(--asl-accent-text); }
+.sub {
+  max-width: 34rem;
+  margin: 0;
+  font-size: 1.12rem;
+  line-height: 1.6;
+  color: var(--asl-text-3);
+}
+.ctas { display: flex; align-items: center; flex-wrap: wrap; gap: 1.5rem; margin-top: 2.25rem; }
+.textLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--asl-text-1);
+  font-weight: 500;
+  text-decoration: underline;
+}
+.textLink:hover { color: var(--asl-accent-text); text-decoration: underline; }
+
+/* hero diagram: a drawing sheet with a title block */
+.diagram {
+  position: relative;
+  min-width: 0;
+  border: 1px solid var(--asl-border-3);
+  border-radius: 12px;
+  background: #fff;
+}
+/* VS Code window: title bar, tab strip, editor (the canvas), panel (the terminal) */
+.ideTitle {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0.55rem 0.9rem;
+  border-radius: 11px 11px 0 0;
+  background: var(--asl-band);
+  border-bottom: 1px solid var(--asl-border-2);
+  user-select: none;
+}
+.ideShort { display: none; }
+.ideDots { display: inline-flex; gap: 6px; }
+.ideDots i { width: 10px; height: 10px; border-radius: 50%; background: var(--asl-border-4); }
+.ideName {
+  position: absolute;
+  left: 50%;
+  max-width: calc(100% - 7rem);
+  overflow: hidden;
+  transform: translateX(-50%);
+  font-size: 0.74rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--asl-muted);
+}
+.diagramBar {
+  display: flex;
+  align-items: stretch;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  gap: 0.75rem;
+  min-width: 0;
+  padding: 0 0.9rem 0 0;
+  border-bottom: 1px solid var(--asl-border-2);
+  background: var(--asl-band);
+  user-select: none;
+}
+.tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-width: 0;
+  padding: 0.55rem 1rem;
+  border-top: 2px solid var(--asl-accent-text);
+  border-right: 1px solid var(--asl-border-2);
+  background: #fff;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.78rem;
+  white-space: nowrap;
+  color: var(--asl-text-1);
+}
+.tab svg { flex-shrink: 0; font-size: 0.95rem; color: var(--asl-accent-text); }
+/* status line: a flat strip with a colored edge, like an IDE status bar; pinned right */
+.agentChip {
+  --c: var(--asl-accent-text);
+  align-self: center;
+  margin: 0.35rem 0 0.35rem auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  max-width: 100%;
+  min-width: 0;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid color-mix(in srgb, var(--c) 45%, transparent);
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--c) 10%, #fff);
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--asl-strong);
+  transition: background-color 0.3s, border-color 0.3s;
+}
+.chipErr { --c: var(--asl-bad); }
+.chipOk { --c: var(--asl-success); }
+.agentChip span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.agentChip i {
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--c);
+  animation: pulse 1.2s ease-in-out infinite;
+}
+.agentChip .dotErr, .agentChip .dotOk { animation: none; }
+@keyframes pulse { 50% { opacity: 0.25; } }
+.phase {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.7rem 0.9rem;
+  border-bottom: 1px solid var(--asl-border-2);
+  background: var(--asl-band);
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.88rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--asl-text-1);
+  user-select: none;
+}
+.controls { display: inline-flex; align-items: center; gap: 0.6rem; flex-shrink: 0; }
+.playBtn {
+  display: inline-grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: var(--asl-surface-2);
+  font-size: 0.95rem;
+  color: var(--asl-strong);
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+.playBtn svg { display: block; }
+.playBtn:hover { background: var(--asl-border-3); }
+/* paused: the button becomes the call to action */
+.playBtn:has(.playIcon) { background: var(--asl-accent-text); color: #fff; }
+.playBtn:has(.playIcon):hover { background: var(--ifm-color-primary-dark); }
+.playIcon { margin-left: 2px; }
+.pips { display: inline-flex; gap: 2px; }
+/* each step is a button; the visible bar is its ::after so the click target stays comfortable */
+.pip {
+  position: relative;
+  width: 18px;
+  height: 22px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.pip::after {
+  content: '';
+  position: absolute;
+  inset: 9px 1px;
+  border-radius: 2px;
+  background: var(--asl-border-3);
+  transition: background-color 0.3s;
+}
+.pip:hover::after { background: var(--asl-border-4); }
+.pipOn::after, .pipOn:hover::after { background: var(--asl-accent-text); }
+.pipCur::after { inset: 7px 1px; }
+.pip:focus-visible, .playBtn:focus-visible { outline: 2px solid var(--asl-accent-text); outline-offset: 1px; }
+.on { opacity: 1; transition: opacity 0.5s; }
+.off { opacity: 0; transition: opacity 0.3s; }
+.edgeIdle { stroke: var(--asl-border-4); stroke-dasharray: 5 5; animation: flow 1.6s linear infinite; }
+.arrowIdle { fill: var(--asl-border-4); }
+.node, .nodeFlag { transition: stroke 0.4s, fill 0.4s; }
+.termBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.4rem 1rem;
+  border-top: 1px solid var(--asl-border-3);
+  background: var(--asl-band);
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.72rem;
+  color: var(--asl-muted);
+  user-select: none;
+}
+.termTab {
+  padding-bottom: 0.15rem;
+  border-bottom: 1px solid var(--asl-accent-text);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--asl-text-1);
+}
+.verdict {
+  min-height: 6.7rem;
+  margin: 0;
+  padding: 0.9rem 1rem;
+  border: 0;
+  border-radius: 0 0 11px 11px;
+  background: #fff;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  user-select: none;
+}
+.term { position: relative; }
+/* the agent's focus ring: one element over the drawing and the terminal, so it travels between them */
+.work { position: relative; }
+.ring {
+  position: absolute;
+  z-index: 3;
+  border: 1.2px dashed var(--asl-accent-text);
+  border-radius: 16px;
+  pointer-events: none;
+  transition: left 0.7s cubic-bezier(0.4, 0, 0.2, 1), top 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+    width 0.7s cubic-bezier(0.4, 0, 0.2, 1), height 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+    border-radius 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.ring span {
+  position: absolute;
+  top: -10px;
+  right: 14px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--asl-accent-text);
+  font: 600 11px var(--ifm-font-family-monospace);
+  color: #fff;
+}
+.vHide { display: none; }
+.vPrompt, .vErr, .vDim, .vOk { display: block; }
+.vOk { color: var(--asl-success); font-weight: 600; }
+.diagramSvg { display: block; width: 100%; height: auto; }
+.node { fill: var(--asl-surface); stroke: var(--asl-border-4); stroke-width: 1; }
+.nodeDb { fill: var(--asl-surface); stroke: var(--asl-accent-text); stroke-width: 1.5; }
+.nodeFlag { fill: var(--asl-bad-bg); stroke: var(--asl-bad); stroke-width: 1.5; }
+.nodeKind { font: 500 11px var(--ifm-font-family-monospace); fill: var(--asl-muted); letter-spacing: 0.08em; text-transform: uppercase; }
+.nodeName { font: 500 16px var(--ifm-font-family-monospace); fill: var(--asl-strong); }
+.edge { fill: none; stroke-width: 1.5; }
+.edgeOk { stroke: var(--asl-accent-text); stroke-dasharray: 5 5; animation: flow 1.6s linear infinite; }
+.edgeFlag { stroke: var(--asl-bad); stroke-dasharray: 5 5; animation: flow 1.6s linear infinite; }
+.arrowOk { fill: var(--asl-accent-text); }
+.arrowFlag { fill: var(--asl-bad); }
+.edgeLabel { font: 500 11px var(--ifm-font-family-monospace); fill: var(--asl-text-1); }
+.edgeLabelBg { fill: #fff; stroke: var(--asl-border-3); stroke-width: 1; }
+.badge { fill: var(--asl-bad); }
+.badgeText { font-family: var(--ifm-font-family-monospace); font-weight: 600; fill: #fff; }
+@keyframes flow { to { stroke-dashoffset: -20; } }
+@media (prefers-reduced-motion: reduce) {
+  .edgeOk, .edgeFlag, .edgeIdle, .agentChip i { animation: none; }
+  .ring { transition: none; }
+}
+.vPrompt { color: var(--asl-muted); }
+.vErr { color: var(--asl-bad); font-weight: 600; }
+.vDim { color: var(--asl-faint); }
+
+/* spec table: the five indicators */
+.proof {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  border-top: 1px solid var(--asl-border-2);
+}
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 1.5rem 1.5rem 1.7rem 0;
+  border-left: 1px solid var(--asl-border-2);
+  padding-left: 1.5rem;
+}
+.stat:first-child { border-left: 0; padding-left: 0; }
+.statIcon { margin-bottom: 1rem; font-size: 1.15rem; color: var(--asl-accent-text); }
+.stat strong {
+  font-family: var(--asl-display);
+  font-size: 1.6rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.035em;
+  overflow-wrap: anywhere;
+  color: var(--asl-strong);
+}
+.stat span { margin-top: 0.6rem; font-size: 0.85rem; line-height: 1.45; color: var(--asl-muted); }
+
+/* ---------- sections ---------- */
+.section { padding: 8rem 0; }
+.band {
+  background: var(--asl-band);
+  border-top: 1px solid var(--asl-border-2);
+  border-bottom: 1px solid var(--asl-border-2);
+}
+.h2 {
+  max-width: 46rem;
+  margin: 0 0 1.25rem;
+  font-size: clamp(1.9rem, 3.6vw, 3rem);
+  line-height: 1.1;
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  color: var(--asl-strong);
+}
+/* section titles stay on one line on desktop; on phones they wrap */
+@media (min-width: 997px) {
+  .h2 {
+    max-width: none;
+    font-size: clamp(1.5rem, 2.3vw, 2rem);
+    white-space: nowrap;
+  }
+}
+.extend {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.8rem;
+  width: 100%;
+  margin: -0.6rem 0 1.6rem;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--asl-accent-line);
+  border-left-width: 3px;
+  border-radius: 10px;
+  background: var(--asl-warm);
+  color: var(--asl-text-1);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+.extendTag {
+  color: var(--asl-accent-text);
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.lead { width: 100%; margin: 0 0 1.6rem; font-size: 1.05rem; line-height: 1.6; color: var(--asl-text-3); }
+
+/* ---------- harness: one ruled table, three columns ---------- */
+.hCards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 3rem 0 0;
+  padding: 0;
+  list-style: none;
+  border: 1px solid var(--asl-border-3);
+  border-radius: 12px;
+  background: var(--asl-bg);
+}
+.hCard {
+  position: relative;
+  display: grid;
+  grid-row: span 3;
+  grid-template-rows: subgrid;
+  gap: 0;
+  min-width: 0;
+  border-left: 1px solid var(--asl-border-3);
+}
+.hCard:first-child { border-left: 0; }
+.hCard .stepHead { margin: 0; padding: 2rem 1.75rem 1.25rem; }
+.stepHead { display: flex; align-items: baseline; gap: 0.9rem; }
+.stepN {
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.85rem;
+  color: var(--asl-accent-text);
+}
+.stepTitle {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--asl-strong);
+}
+.hProblem { padding: 0 1.75rem 2rem; color: var(--asl-text-3); }
+.hAnswer {
+  position: relative;
+  padding: 1.75rem 1.75rem 2rem;
+  border-top: 1px solid var(--asl-border-3);
+  background: var(--asl-warm);
+  box-shadow: inset 2px 0 0 var(--asl-accent-text);
+  color: var(--asl-strong);
+}
+.hProblem p, .hAnswer p { margin: 0; font-size: 0.95rem; line-height: 1.65; }
+.hProblem, .hAnswer { display: flex; align-items: flex-start; gap: 0.75rem; }
+.hProblem p, .hAnswer p { flex: 1; min-width: 0; }
+.hTagBad, .hTagGood { display: flex; flex-shrink: 0; margin-top: 0.15rem; }
+.hTagBad svg, .hTagGood svg { font-size: 1.1rem; }
+.hTagBad svg { color: var(--asl-bad); }
+.hTagGood { color: var(--asl-accent-text); }
+.hArrow {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 1.75rem;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border: 1px solid var(--asl-accent-text);
+  border-radius: 8px;
+  background: var(--asl-bg);
+  color: var(--asl-accent-text);
+  transform: translate(0, -50%);
+}
+.hAnswer { padding-top: 2.1rem; }
+.srOnly { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* mobile: the ruled table becomes three separate cards */
+@media (max-width: 996px) {
+  .hCards { gap: 1rem; padding: 0; border: 0; border-radius: 0; background: transparent; }
+  .hCard { overflow: hidden; border: 1px solid var(--asl-border-3); border-radius: 12px; background: var(--asl-bg); }
+  .hCard:first-child { border-top: 1px solid var(--asl-border-3); }
+}
+
+/* ---------- portability: ruled index, not cards ---------- */
+.portGrid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  margin-top: 2.5rem;
+  border-top: 1px solid var(--asl-border-3);
+  border-left: 1px solid var(--asl-border-3);
+}
+.card {
+  min-width: 0;
+  padding: 1.75rem;
+  border-right: 1px solid var(--asl-border-3);
+  border-bottom: 1px solid var(--asl-border-3);
+  grid-column: span 2;
+  transition: background-color 0.2s;
+}
+.card:nth-child(n + 4) { grid-column: span 3; }
+.card:hover { background: var(--asl-surface-hover); }
+.card h3 { margin: 0 0 0.5rem; font-size: 1.15rem; font-weight: 600; letter-spacing: -0.02em; color: var(--asl-strong); }
+.card p { margin: 0; color: var(--asl-muted); font-size: 0.95rem; line-height: 1.55; }
+.portIcon { margin-bottom: 1.25rem; font-size: 1.5rem; color: var(--asl-accent-text); }
+
+/* brand colors, only on the logo marks */
+.brandGo { color: #00add8; font-size: 2.4rem; margin: -0.45rem 0 0.8rem; }
+.brandPython { color: #4b8bbe; }
+.brandVscode { color: #23a9f2; }
+.brandKubernetes { color: #5b8def; }
+.hueGreen { color: var(--asl-hue-green); }
+.hueViolet { color: var(--asl-hue-violet); }
+.hueCyan { color: var(--asl-hue-cyan); }
+.hueOrange { color: var(--asl-hue-orange); }
+
+/* ---------- final call ---------- */
+.final { padding: 6rem 0; border-top: 1px solid var(--asl-border-2); }
+.finalRow {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.finalRow .lead { margin: 0; }
+.finalActions { display: flex; flex-wrap: wrap; gap: 0.8rem; }
+.btnIcon { margin-right: 0.35rem; vertical-align: -0.15em; }
+
+@media (max-width: 996px) {
+  .hero { padding-top: 1.5rem; }
+  .heroGrid { grid-template-columns: minmax(0, 1fr); gap: 2.5rem; padding-bottom: 3rem; }
+  .proof { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stat { padding: 1.25rem 1rem 1.3rem 1.25rem; border-left: 1px solid var(--asl-border-2); border-top: 1px solid var(--asl-border-2); }
+  .stat:first-child, .stat:nth-child(odd) { border-left: 0; padding-left: 0; }
+  .stat:nth-child(-n + 2) { border-top: 0; }
+  .stat:last-child { grid-column: 1 / -1; }
+  .section { padding: 4.5rem 0; }
+  .hCards { grid-template-columns: minmax(0, 1fr); }
+  .hCard { grid-row: auto; grid-template-rows: auto; border-left: 0; border-top: 1px solid var(--asl-border-3); }
+  .hCard:first-child { border-top: 0; }
+  .portGrid { grid-template-columns: minmax(0, 1fr); }
+  .card, .card:nth-child(n + 4) { grid-column: auto; }
+}
+
+.flow {
+  margin-top: 2rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+.flowResult { margin-top: 1.5rem; }
+.flowTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0 0 0.5rem;
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--asl-strong);
+}
+.flowN {
+  display: inline-grid;
+  place-items: center;
+  min-width: 2rem;
+  height: 2rem;
+  padding: 0 0.4rem;
+  border: 1px solid var(--asl-accent-text);
+  border-radius: 8px;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--asl-accent-text);
+}
+.flowSub { margin: 0 0 1rem; color: var(--asl-muted); font-size: 0.95rem; }
+.flowCol :global(.theme-code-block) { margin-bottom: 0; }
+
+@media (max-width: 996px) {
+  .flow { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* steps 01 and 02: same height, code blocks stretch to fill the column */
+.flow { align-items: stretch; }
+.flowCol { display: flex; flex-direction: column; }
+.flowCol :global(.theme-code-block) {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+.flowCol :global(.theme-code-block) > :global(div[class*='codeBlockContent']),
+.flowCol :global(.theme-code-block) > :global(div:not([class*='codeBlockTitle'])) {
+  flex: 1;
+  display: flex;
+}
+.flowCol :global(.theme-code-block) pre {
+  flex: 1;
+  margin: 0;
+  max-height: 27rem;
+  overflow: auto;
+}
+
+.focusWrap { display: flex; flex: 1; flex-direction: column; }
+.focusWrap > :global(.theme-code-block) { flex: 1; }
+
+.finalActions { display: flex; flex-wrap: wrap; gap: 0.8rem; }
+.btnIcon { margin-right: 0.35rem; vertical-align: -0.15em; }
+
+/* grid children may shrink below their content, so long code lines scroll instead of widening the page */
+.flowCol,
+.flowResult,
+.focusWrap,
+.card { min-width: 0; }
+.flowCol :global(.theme-code-block),
+.flowResult :global(.theme-code-block) { max-width: 100%; }
+
+/* step 01: the lines that break the rule are highlighted in light red.
+   Highlighted rows are table rows, so the side bar is drawn on the line-number cell. */
+.focusWrap :global(.theme-code-block-highlighted-line) {
+  background: rgba(248, 113, 113, 0.16);
+}
+.focusWrap :global(.theme-code-block-highlighted-line) [class*='codeLineNumber'] {
+  box-shadow: inset 3px 0 0 var(--asl-bad);
+}
+
+/* step 02: the rule that fires is highlighted in light blue, same treatment */
+.flow > .flowCol:nth-child(2) :global(.theme-code-block-highlighted-line) {
+  background: rgba(96, 165, 250, 0.16);
+}
+.flow > .flowCol:nth-child(2) :global(.theme-code-block-highlighted-line) [class*='codeLineNumber'] {
+  box-shadow: inset 3px 0 0 #6676ff;
+}
+
+/* flow section: code windows go pure black on the band, title bar stays on the surface tone */
+.flowCol :global(.theme-code-block),
+.flowResult :global(.theme-code-block) {
+  border-color: var(--asl-border-3);
+}
+.flowCol :global(div[class*='codeBlockContainer']),
+.flowResult :global(div[class*='codeBlockContainer']),
+.flowCol :global(.theme-code-block) pre,
+.flowResult :global(.theme-code-block) pre {
+  background-color: var(--asl-screen) !important;
+}
+.flowCol :global(div[class*='codeBlockTitle']),
+.flowResult :global(div[class*='codeBlockTitle']) {
+  background-color: var(--asl-surface-hover) !important;
+  border-bottom-color: var(--asl-border-3);
+  color: var(--asl-text-2);
+}
+.flowCol :global(.theme-code-block) [class*='codeLineNumber'],
+.flowResult :global(.theme-code-block) [class*='codeLineNumber'] {
+  color: var(--asl-muted);
+}
+.focusWrap :global(.theme-code-block-highlighted-line) { background: rgba(248, 113, 113, 0.24); }
+.flow > .flowCol:nth-child(2) :global(.theme-code-block-highlighted-line) { background: rgba(96, 165, 250, 0.24); }
+
+.stage {
+  position: relative;
+  /* dotted canvas, like a prototyping board */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Ccircle cx='1' cy='1' r='1' fill='%2330363d'/%3E%3C/svg%3E");
+  background-size: 20px 20px;
+  background-position: 9px 9px;
+}
+
+.phase > span:first-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@media (max-width: 520px) {
+  .ideLong { display: none; }
+  .ideShort { display: inline; }
+  .ideName { max-width: calc(100% - 6rem); font-size: 0.8rem; }
+  .tab { display: none; }
+  .ring span { font-size: 12px; padding: 3px 12px; top: -12px; }
+  /* the agent status gets a row of its own, under the tab */
+  .diagramBar { flex-wrap: wrap; gap: 0; padding: 0; }
+  .diagramBar .agentChip {
+    flex: 1 1 100%;
+    align-self: stretch;
+    margin: 0;
+    border-top: 1px solid var(--asl-border-2);
+    border-radius: 0;
+  }
+    /* two rows: the label on top (it may wrap), the play button and steps below */
+  .phase { flex-direction: column; align-items: flex-start; gap: 0.35rem; font-size: 0.82rem; }
+  .phase > span:first-child { overflow: visible; text-overflow: clip; white-space: normal; }
+  /* the steps take the whole second row */
+  .phase { align-items: stretch; }
+  .controls { width: 100%; gap: 0.75rem; }
+  .pips { flex: 1; gap: 4px; }
+  .pip { flex: 1; width: auto; height: 30px; }
+  .pip::after { inset: 12px 0; }
+  .pipCur::after { inset: 10px 0; }
+  .playBtn { width: 36px; height: 36px; font-size: 1.1rem; }
+}
+
+/* the agent reads the compiler error: the tag says it is reasoning, with a soft pulse */
+.thinking { font-style: normal; animation: pulse 1.2s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .thinking { animation: none; } }
+
+/* ---------- cyberpunk layer: HUD details, no glow, no gradients, no hover movement ---------- */
+/* blueprint grid behind the hero */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Cpath d='M48 0H0V48' fill='none' stroke='%23001aff' stroke-opacity='.12'/%3E%3C/svg%3E");
+}
+.hero > * { position: relative; }
+
+/* short RGB-split glitch every few seconds on the accent words */
+.glitch { position: relative; }
+.glitch::before, .glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  animation: glitch 6s infinite;
+}
+.glitch::before { color: #00e5ff; }
+.glitch::after { color: #ff2e93; animation-delay: 0.05s; }
+@keyframes glitch {
+  0%, 92%, 100% { opacity: 0; transform: none; clip-path: inset(0); }
+  93% { opacity: 0.9; transform: translateX(-3px); clip-path: inset(10% 0 55% 0); }
+  95% { opacity: 0.9; transform: translateX(3px); clip-path: inset(60% 0 8% 0); }
+  97% { opacity: 0.9; transform: translateX(-2px); clip-path: inset(35% 0 35% 0); }
+}
+
+/* CRT scanlines over the hero window */
+.diagram::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 3px);
+}
+
+/* HUD corner brackets */
+.hCards::before, .hCards::after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+  border: 2px solid var(--asl-accent-text);
+}
+.hCards { position: relative; }
+.hCards::before { top: -6px; left: -6px; border-right: 0; border-bottom: 0; }
+.hCards::after { right: -6px; bottom: -6px; border-left: 0; border-top: 0; }
+
+/* chamfered primary button on the hero */
+.ctas :global(.button--primary),
+.finalActions :global(.button) {
+  border-radius: 0;
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  font-family: var(--ifm-font-family-monospace);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .glitch::before, .glitch::after { animation: none; }
+}
+@media (max-width: 520px) {
+  .hCards::before, .hCards::after { display: none; }
+}
+
+/* ---------- langchain-inspired softness: big radii, translucent surfaces ---------- */
+.hCards { border-radius: 1.5rem; overflow: hidden; }
+.hCards::before, .hCards::after { display: none; }
+.hAnswer { background: var(--asl-accent-wash); }
+.diagram, .diagram::after { border-radius: 0; }
+.ideTitle { border-radius: 0; }
+.portGrid { gap: 1rem; border: 0; }
+.card {
+  border: 1px solid var(--asl-border-2);
+  border-radius: 1.25rem;
+  background: var(--asl-surface);
+  transition: background-color 0.2s;
+}
+.card:hover { background: var(--asl-surface-hover); }
+.proof { border-top: 0; gap: 1rem; margin-top: 1rem; padding-bottom: 4rem; }
+.stat, .stat:first-child {
+  padding: 1.5rem;
+  border: 1px solid var(--asl-border-2);
+  border-radius: 1.25rem;
+  background: var(--asl-surface);
+  transition: background-color 0.2s;
+}
+.stat:hover { background: var(--asl-surface-hover); }
+@media (max-width: 996px) {
+  .proof { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stat:last-child { grid-column: 1 / -1; }
+  .stat, .stat:first-child, .stat:nth-child(odd), .stat:nth-child(-n + 2) {
+    padding: 1.25rem;
+    border: 1px solid var(--asl-border-2);
+  }
+}
+
+/* hover: a bright band sweeps once, then the button stays lit (slightly brighter border or fill) until the pointer leaves */
+.ctas :global(.button--primary),
+.finalActions :global(.button--primary:not(.button--outline)) {
+  position: relative;
+  overflow: hidden;
+  transition: background-color 0.2s, box-shadow 0.2s;
+}
+.ctas :global(.button--primary)::before,
+.finalActions :global(.button--primary:not(.button--outline))::before,
+.finalActions :global(.button--outline)::after {
+  background-image: linear-gradient(110deg, transparent 42%, rgba(255, 255, 255, 0.35) 50%, transparent 58%);
+  background-repeat: no-repeat;
+  background-size: 250% 100%;
+  background-position: 120% 0;
+}
+.ctas :global(.button--primary)::before,
+.finalActions :global(.button--primary:not(.button--outline))::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.ctas :global(.button--primary):hover,
+.finalActions :global(.button--primary:not(.button--outline)):hover {
+  background-color: var(--ifm-color-primary-dark);
+}
+.ctas :global(.button--primary):hover::before,
+.finalActions :global(.button--primary:not(.button--outline)):hover::before,
+.finalActions :global(.button--outline):hover::after { animation: borderShine 0.7s ease-out; }
+
+/* outline button: clip-path would cut its border at the chamfers, so the shape is two clipped layers
+   (::before = the yellow border, ::after = the fill) */
+.finalActions :global(.button--outline) {
+  position: relative;
+  isolation: isolate;
+  border: 0;
+  background: transparent;
+  clip-path: none;
+  color: var(--asl-accent-text);
+}
+.finalActions :global(.button--outline)::before,
+.finalActions :global(.button--outline)::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+}
+.finalActions :global(.button--outline)::before {
+  inset: 0;
+  background-color: var(--asl-accent-text);
+  transition: background-color 0.2s;
+}
+.finalActions :global(.button--outline)::after {
+  inset: 1px;
+  background-color: var(--asl-bg);
+  clip-path: polygon(0 0, calc(100% - 11px) 0, 100% 11px, 100% 100%, 11px 100%, 0 calc(100% - 11px));
+  transition: background-color 0.2s;
+}
+.finalActions :global(.button--outline):hover { background: transparent; color: var(--ifm-color-primary-dark); }
+.finalActions :global(.button--outline):hover::before { background-color: var(--ifm-color-primary-dark); }
+.finalActions :global(.button--outline):hover::after { background-color: color-mix(in srgb, var(--asl-accent-text) 10%, var(--asl-bg)); }
+@keyframes borderShine { to { background-position: -20% 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .ctas :global(.button--primary):hover::before,
+  .finalActions :global(.button--primary):hover::before,
+  .finalActions :global(.button--outline):hover::after { animation: none; }
+}

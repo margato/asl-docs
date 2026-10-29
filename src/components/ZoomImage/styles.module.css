@@ -1,0 +1,30 @@
+.thumb {
+  cursor: zoom-in;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: var(--asl-scrim-soft);
+  -webkit-backdrop-filter: blur(25px);
+  backdrop-filter: blur(25px);
+  cursor: zoom-out;
+}
+
+.overlay .full {
+  width: auto;
+  max-width: 100% !important;
+  max-height: 100%;
+  margin: 0;
+  border: 1px solid var(--asl-border-3);
+  border-radius: 10px;
+}
+
+@media (max-width: 600px) {
+  .overlay { padding: 12px; }
+}

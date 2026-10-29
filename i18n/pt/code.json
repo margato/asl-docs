@@ -1,0 +1,44 @@
+{
+  "asl.github.star": {
+    "message": "Dar estrela no GitHub"
+  },
+  "asl.mermaid.fullscreen": {
+    "message": "Tela cheia"
+  },
+  "asl.mermaid.exitFullscreen": {
+    "message": "Sair da tela cheia"
+  },
+  "theme.SearchBar.label": {
+    "message": "Pesquisar"
+  },
+  "theme.SearchBar.seeAll": {
+    "message": "Ver todos os resultados"
+  },
+  "theme.SearchBar.noResultsText": {
+    "message": "Nenhum resultado"
+  },
+  "theme.SearchPage.existingResultsTitle": {
+    "message": "Resultados para \"{query}\""
+  },
+  "theme.SearchPage.emptyResultsTitle": {
+    "message": "Pesquisar na documentação"
+  },
+  "theme.SearchPage.documentsFound.plurals": {
+    "message": "1 documento encontrado|{count} documentos encontrados"
+  },
+  "theme.SearchPage.noResultsText": {
+    "message": "Nenhum documento encontrado"
+  },
+  "theme.SearchPage.searchContext.everywhere": {
+    "message": "Em todo lugar"
+  },
+  "asl.theme.light": {
+    "message": "Tema claro"
+  },
+  "asl.theme.dark": {
+    "message": "Tema escuro"
+  },
+  "asl.theme.label": {
+    "message": "Tema"
+  }
+}
