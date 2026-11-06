@@ -295,7 +295,7 @@
   padding-left: 1.5rem;
 }
 .stat:first-child { border-left: 0; padding-left: 0; }
-.statIcon { margin-bottom: 1rem; font-size: 1.15rem; color: var(--asl-accent-text); }
+.statIcon { margin-bottom: 1rem; font-size: 1.75rem; color: var(--asl-accent-text); }
 .stat strong {
   font-family: var(--asl-display);
   font-size: 1.6rem;
@@ -443,6 +443,7 @@
   border-top: 1px solid var(--asl-border-3);
   border-left: 1px solid var(--asl-border-3);
 }
+.portMore { margin: 1.75rem 0 0; }
 .card {
   min-width: 0;
   padding: 1.75rem;
@@ -661,25 +662,6 @@
 }
 .hero > * { position: relative; }
 
-/* short RGB-split glitch every few seconds on the accent words */
-.glitch { position: relative; }
-.glitch::before, .glitch::after {
-  content: attr(data-text);
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  pointer-events: none;
-  animation: glitch 6s infinite;
-}
-.glitch::before { color: #00e5ff; }
-.glitch::after { color: #ff2e93; animation-delay: 0.05s; }
-@keyframes glitch {
-  0%, 92%, 100% { opacity: 0; transform: none; clip-path: inset(0); }
-  93% { opacity: 0.9; transform: translateX(-3px); clip-path: inset(10% 0 55% 0); }
-  95% { opacity: 0.9; transform: translateX(3px); clip-path: inset(60% 0 8% 0); }
-  97% { opacity: 0.9; transform: translateX(-2px); clip-path: inset(35% 0 35% 0); }
-}
-
 /* CRT scanlines over the hero window */
 .diagram::after {
   content: '';
@@ -714,9 +696,6 @@
 }
 
 
-@media (prefers-reduced-motion: reduce) {
-  .glitch::before, .glitch::after { animation: none; }
-}
 @media (max-width: 520px) {
   .hCards::before, .hCards::after { display: none; }
 }

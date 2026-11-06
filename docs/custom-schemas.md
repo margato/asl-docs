@@ -268,3 +268,7 @@ A `--schemas-bundle-path` that is not a directory also exits with `2`.
 ## Where it works
 
 The same bundle works wherever ASL runs, not only in the terminal. See [How ASL works](./architecture.md#where-asl-runs). For the flag, exit codes and the format of diagnostics, see [CLI](./cli.md).
+
+:::warning[Work in progress]
+In the browser there is no folder to point to, and the JavaScript package cannot load a bundle as it is yet. Loading it from a single file, such as a `.tar.gz`, is tracked in [issue #36](https://github.com/architectureascode/asl/issues/36).
+:::

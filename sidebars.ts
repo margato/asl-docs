@@ -6,7 +6,12 @@ const sidebars: SidebarsConfig = {
       type: 'category',
       label: 'Get started',
       collapsible: false,
-      items: ['intro', 'cli', 'vscode-extension'],
+      items: [
+        'intro',
+        'cli',
+        'vscode-extension',
+        'javascript',
+      ],
     },
     {
       type: 'category',

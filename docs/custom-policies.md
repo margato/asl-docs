@@ -107,3 +107,9 @@ Expressions are written in [CEL](https://cel.dev), a small language for rules. E
 ## Policies for your own kinds
 
 Policies can also target [custom schemas](./custom-schemas.md). Set `selector.apiVersion` to the group of your kind, for example `acme/v1`.
+
+## In the browser
+
+:::warning[Work in progress]
+In the browser there is no folder to point to, and the JavaScript package cannot load a bundle as it is yet. Loading it from a single file, such as a `.tar.gz`, is tracked in [issue #36](https://github.com/architectureascode/asl/issues/36).
+:::

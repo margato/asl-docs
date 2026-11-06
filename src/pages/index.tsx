@@ -52,6 +52,7 @@ type Copy = {
   portTitle: string;
   portSub: string;
   port: Item[];
+  portMore: string;
   ctaTitle: string;
   ctaText: string;
   ctaGithub: string;
@@ -159,6 +160,7 @@ const COPY: Record<string, Copy> = {
         text: 'See the architecture in a sidebar panel and the broken rule on the line that causes it, as your agent types.',
       },
     ],
+    portMore: 'Learn more: JavaScript and npm',
     ctaTitle: 'Give your agents *an architecture they can read.*',
     ctaText:
       'Write the rule once. Every system design is checked before anyone writes code.',
@@ -262,6 +264,7 @@ const COPY: Record<string, Copy> = {
         text: 'Veja a arquitetura num painel lateral e a regra quebrada na linha que a causa, enquanto o seu agente escreve.',
       },
     ],
+    portMore: 'Conheça mais: JavaScript e npm',
     ctaTitle: 'Dê aos seus agentes *uma arquitetura que eles consigam ler.*',
     ctaText:
       'Escreva a regra uma vez. Todo system design é conferido antes de alguém escrever código.',
@@ -777,12 +780,7 @@ export default function Home(): ReactNode {
               <div>
                 <h1 className={styles.h1}>
                   {t.title}{' '}
-                  <span
-                    className={`${styles.accent} ${styles.glitch}`}
-                    data-text={t.titleAccent}
-                  >
-                    {t.titleAccent}
-                  </span>
+                  <span className={styles.accent}>{t.titleAccent}</span>
                 </h1>
                 <p className={styles.sub}>{t.sub}</p>
                 <div className={styles.ctas}>
@@ -961,6 +959,11 @@ export default function Home(): ReactNode {
                   );
                 })}
               </div>
+              <p className={styles.portMore}>
+                <Link className={styles.textLink} to="/docs/javascript">
+                  {t.portMore} <FiArrowRight />
+                </Link>
+              </p>
             </div>
           </section>
 

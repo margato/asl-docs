@@ -103,3 +103,9 @@ As expressões são escritas em [CEL](https://cel.dev), uma linguagem pequena pa
 ## Policies para os seus kinds
 
 As policies também podem mirar [custom schemas](./custom-schemas.md). Defina `selector.apiVersion` com o group do seu kind, por exemplo `acme/v1`.
+
+## No navegador
+
+:::warning[Em construção]
+No navegador não existe uma pasta para apontar, e o pacote JavaScript ainda não consegue carregar um bundle como ele é. Carregá-lo a partir de um único arquivo, como um `.tar.gz`, está no [issue #36](https://github.com/architectureascode/asl/issues/36).
+:::

@@ -1,6 +1,6 @@
 {
   "asl.github.star": {
-    "message": "Dar estrela no GitHub"
+    "message": "Favoritar no GitHub"
   },
   "asl.mermaid.fullscreen": {
     "message": "Tela cheia"
@@ -40,5 +40,38 @@
   },
   "asl.theme.label": {
     "message": "Tema"
+  },
+  "asl.playground.manifest": {
+    "message": "Manifest ASL"
+  },
+  "asl.playground.output": {
+    "message": "Saída do compilador"
+  },
+  "asl.playground.failed": {
+    "message": "O compilador não carregou. Recarregue a página."
+  },
+  "asl.playground.loading": {
+    "message": "Carregando o compilador…"
+  },
+  "asl.playground.line": {
+    "message": "linha"
+  },
+  "asl.playground.reset": {
+    "message": "Restaurar"
+  },
+  "asl.playground.valid": {
+    "message": "Válido"
+  },
+  "asl.playground.error": {
+    "message": "erro"
+  },
+  "asl.playground.errors": {
+    "message": "erros"
+  },
+  "asl.playground.warning": {
+    "message": "aviso"
+  },
+  "asl.playground.warnings": {
+    "message": "avisos"
   }
 }
