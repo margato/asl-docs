@@ -40,7 +40,7 @@
 /* top bar on phones: icon only */
 @media (max-width: 996px) {
   .link:not(.mobile) .label { display: none; }
-  .link:not(.mobile) { padding: 0.4rem 0.6rem; }
+  .link:not(.mobile) { padding: 0.4rem 0.6rem; margin-left: 0.75rem; }
 }
 
 /* inside the mobile side menu: a normal full-width row with its label */

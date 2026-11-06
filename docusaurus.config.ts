@@ -101,6 +101,7 @@ const config: Config = {
           position: 'right',
           label: 'Docs',
         },
+        {type: 'custom-playgroundLink', position: 'right'},
         {type: 'search', position: 'right'},
         {type: 'custom-githubLink', position: 'left'},
         {type: 'custom-localeSwitch', position: 'right'},

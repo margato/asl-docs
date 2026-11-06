@@ -7,6 +7,10 @@
     "message": "Primeiros passos",
     "description": "The label for category Get started in sidebar docsSidebar"
   },
+  "sidebar.docsSidebar.category.SDKs": {
+    "message": "SDKs",
+    "description": "The label for category SDKs in sidebar docsSidebar"
+  },
   "sidebar.docsSidebar.category.Extend it": {
     "message": "Personalize",
     "description": "The label for category Extend it in sidebar docsSidebar"

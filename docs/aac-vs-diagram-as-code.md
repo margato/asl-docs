@@ -34,7 +34,7 @@ Architecture is specified as typed data. A compiler turns it into a graph and ch
 - **Consistency:** names are unique and contracts line up.
 - **Policies:** your own rules run over the whole graph.
 
-This validation is **deterministic**: same input, same result, every time. It is a plain program run in CI or on your machine. No model is called, so it costs **zero tokens**, and it does not hallucinate.
+This validation is **deterministic**: same input, same result, every time. It is a plain program run in CI or on your machine. No model is called, so validating costs **zero tokens**, and it does not hallucinate. The agent only spends tokens reading the few lines of diagnostics it gets back.
 
 ## Agents: structured context, not pictures to decode
 
@@ -56,7 +56,7 @@ The shape of the loop changes: the agent proposes a change, `asl` validates it f
 | "Is it valid?" | Only syntax | Shape, references, consistency, policies |
 | Wrong reference | Renders anyway | A diagnostic that fails the build |
 | Rules and governance | Not expressible | Policies, enforced on every run |
-| Validation cost | A human looking at it | Deterministic, zero tokens |
+| Validation cost | A human looking at it | Deterministic, zero tokens; the agent reads only the diagnostics |
 | Agent reading it | Decode a picture or a layout | Read structured data |
 | Meaning of an arrow | Up to the reader | Defined by the specification |
 

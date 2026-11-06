@@ -5,6 +5,7 @@
   "scripts": {
     "docusaurus": "docusaurus",
     "start": "ASL_EN_ONLY=1 docusaurus start --locale en --port 3000 --no-open",
+    "br": "docusaurus start --locale pt --port 3000 --no-open",
     "start:prod": "docusaurus build && docusaurus serve --no-open",
     "dev": "ASL_EN_ONLY=1 docusaurus start --locale en",
     "dev:pt": "docusaurus start --locale pt",

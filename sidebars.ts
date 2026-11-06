@@ -10,8 +10,13 @@ const sidebars: SidebarsConfig = {
         'intro',
         'cli',
         'vscode-extension',
-        'javascript',
       ],
+    },
+    {
+      type: 'category',
+      label: 'SDKs',
+      collapsible: false,
+      items: ['javascript'],
     },
     {
       type: 'category',

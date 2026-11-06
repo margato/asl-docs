@@ -34,7 +34,7 @@ A arquitetura é especificada como dado tipado. Um compilador a transforma em um
 - **Consistência:** os nomes são únicos e os contratos fecham.
 - **Policies:** as suas regras rodam sobre o grafo inteiro.
 
-Essa validação é **determinística**: mesma entrada, mesmo resultado, sempre. É um programa comum, que roda no CI ou na sua máquina. Nenhum modelo é chamado, então o custo é **zero token**, e não existe alucinação.
+Essa validação é **determinística**: mesma entrada, mesmo resultado, sempre. É um programa comum, que roda no CI ou na sua máquina. Nenhum modelo é chamado, então validar custa **zero token**, e não existe alucinação. O agente só gasta tokens lendo as poucas linhas de diagnóstico que recebe de volta.
 
 ## Agentes: contexto estruturado, não imagem para decifrar
 
@@ -56,7 +56,7 @@ O ciclo muda de forma: o agente propõe uma alteração, o `asl` valida de graç
 | "Está válido?" | Só a sintaxe | Formato, referências, consistência, policies |
 | Referência errada | Renderiza do mesmo jeito | Um diagnóstico que derruba o build |
 | Regras e governança | Não dá para expressar | Policies, aplicadas a cada execução |
-| Custo da validação | Uma pessoa olhando | Determinística, zero token |
+| Custo da validação | Uma pessoa olhando | Determinística, zero token; o agente lê só os diagnósticos |
 | Agente lendo | Decifrar imagem ou layout | Ler dado estruturado |
 | Significado de uma seta | Depende do leitor | Definido pela especificação |
 

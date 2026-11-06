@@ -1,9 +1,9 @@
 ---
 sidebar_position: 4
-title: JavaScript and npm
+title: JavaScript SDK
 ---
 
-# JavaScript and npm
+# JavaScript SDK
 
 ASL is not only a command. The same compiler is available as an npm package, so you can use ASL as the foundation of your own tools. A diagram editor in the browser, for example, can validate the architecture behind the drawing against your rules as people draw, with no server involved.
 
@@ -22,6 +22,8 @@ spec:
 ```
 
 <Playground />
+
+Want more room? [Try it in the full playground](/playground), with ready-made examples to start from.
 
 ## Install
 

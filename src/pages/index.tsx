@@ -1,21 +1,33 @@
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import {
+  useEffect,
+  useRef,
+  useState,
+  type KeyboardEvent,
+  type ReactNode,
+} from 'react';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import CodeBlock from '@theme/CodeBlock';
 import UseCases from '@site/src/components/UseCases';
-import { FiArrowDown, FiArrowRight, FiCheck, FiX } from 'react-icons/fi';
+import {
+  FiArrowDown,
+  FiArrowRight,
+  FiCheck,
+  FiHelpCircle,
+  FiX,
+} from 'react-icons/fi';
 import {
   LuTerminal,
-  LuGlobe,
   LuPlug,
   LuDollarSign,
   LuRepeat,
   LuLayers,
 } from 'react-icons/lu';
-import { SiGo, SiKubernetes, SiPython } from 'react-icons/si';
-import { VscFileCode, VscVscode } from 'react-icons/vsc';
+import { SiGo, SiJavascript, SiKubernetes, SiPython } from 'react-icons/si';
+import { VscFileCode, VscMarkdown, VscVscode } from 'react-icons/vsc';
 import { FaGithub, FaPause, FaPlay } from 'react-icons/fa6';
+import type { IconType } from 'react-icons';
 import styles from './styles.module.css';
 
 type Item = { title: string; text: string };
@@ -34,6 +46,20 @@ type Copy = {
   policyBroken: [string, string];
   agentSteps: string[];
   proof: { value: string; label: string }[];
+  langTitle: string;
+  langLead: string;
+  vsMd: string;
+  vsAsl: string;
+  vsMdVerdict: string;
+  vsAslVerdict: string;
+  vsScenarioTag: string;
+  vsScenario: string;
+  vsMdTag: string;
+  vsAslTag: string;
+  vsTry: string;
+  vsMdHead: string;
+  vsAslHead: string;
+  vsRows: { label: string; md: string; asl: string }[];
   harnessTitle: string;
   harnessLead: string;
   harnessBad: string;
@@ -62,7 +88,7 @@ const COPY: Record<string, Copy> = {
   en: {
     title: 'The system design harness',
     titleAccent: 'for your agents.',
-    sub: 'Agents ship code faster than anyone can review the design. ASL implements Architecture as Code: your architecture as structured context, and a compiler that checks every change at zero token cost.',
+    sub: 'Agents ship code faster than anyone can review the design. ASL is a language for representing system design: references, contracts and your own rules are checked on every change, with no model call.',
     cta1: 'Get started',
     cta2: 'See how it works',
     diagramPhase: 'System design time, before any coding',
@@ -92,16 +118,50 @@ const COPY: Record<string, Copy> = {
       { value: 'Extensible', label: 'Your own schemas and policies' },
       { value: 'Portable', label: 'CLI, Go, browser, Python and VS Code' },
     ],
+    langTitle: 'Markdown describes. *A language can be checked deterministically.*',
+    langLead:
+      'An agent can review an architecture written in Markdown, and a skill can teach it how. But every review reads every file, costs tokens, depends on the session, and a violated policy can read as perfectly fine. ASL is a structured way to represent architecture: typed elements and relationships instead of free text, so references have to resolve and rules have to hold, and the compiler gives the same verdict at no cost.',
+    vsMd: 'Markdown',
+    vsAsl: 'ASL',
+    vsScenarioTag: 'The example',
+    vsScenario:
+      'In both versions, `inventory-service` writes to `stock-db`, a database that was renamed `inventory-db`. Who notices?',
+    vsMdTag: 'May be missed.',
+    vsMdVerdict:
+      'Even with a rule for this exact case, an agent has to read all three files on every review.',
+    vsTry: 'Try it in the playground',
+    vsAslTag: 'Caught.',
+    vsAslVerdict:
+      'The compiler reports that `stock-db` does not exist, before anyone writes code.',
+    vsMdHead: 'Markdown, reviewed by a skill or agent',
+    vsAslHead: 'ASL, checked by the compiler',
+    vsRows: [
+      {
+        label: 'How the architecture is represented',
+        md: 'Free text to interpret',
+        asl: 'Typed elements and relationships',
+      },
+      {
+        label: 'Cost and repeatability',
+        md: 'Tokens on every review, and the verdict can change between runs',
+        asl: 'No LLM use, and the same input gives the same verdict',
+      },
+      {
+        label: "Your own company's policies",
+        md: 'An agent can overlook or misread a rule. A skill can run in CI, but its verdict varies.',
+        asl: 'Rules written once as policies and enforced on every run.',
+      },
+    ],
     harnessTitle: 'Agents pay to interpret your architecture. *Every time.*',
     harnessLead:
-      'A diagram was made for people. Architecture as Code gives the agent context to read, guardrails to respect and feedback to correct.',
+      'A diagram was made for people. ASL, used as Architecture as Code, is made for agents: context to read, guardrails to respect and feedback to correct.',
     harnessBad: 'The problem',
     harnessGood: 'How ASL solves it',
     harness: [
       {
         n: '01',
         who: 'Context',
-        bad: 'A draw.io file is XML full of coordinates and generated ids, and a screenshot costs image tokens and leaves every arrow open to interpretation. The agent pays to recover a graph that was never stored as one.',
+        bad: 'A draw.io file is XML full of coordinates and generated ids, and every arrow is left open to interpretation. The agent pays to recover a graph that was never stored as one.',
         good: 'With ASL, the agent reads the architecture as typed data. No decoding, no guessing what an arrow means.',
       },
       {
@@ -114,7 +174,7 @@ const COPY: Record<string, Copy> = {
         n: '03',
         who: 'Feedback',
         bad: 'Nothing tells the agent it is wrong. Dangling dependencies and broken contracts surface in production, not in the prompt.',
-        good: 'ASL compiles the change and returns a few lines of diagnostics. The agent fixes it, and CI blocks the merge on exit 1.',
+        good: 'ASL compiles the change and returns a few lines of diagnostics. The agent fixes it on its own.',
       },
     ],
     hcTitle:
@@ -144,23 +204,23 @@ const COPY: Record<string, Copy> = {
         text: 'Run it on every pull request. An architecture that breaks a rule fails the build before it merges.',
       },
       {
-        title: 'In your own tools',
-        text: 'Build the check into the platform or portal your team already uses, and validate architecture where people work.',
+        title: 'Go SDK',
+        text: 'Embed validation in your team\'s portal or internal engineering platform and check the architecture right there, without leaving the tool.',
       },
       {
-        title: 'In a diagram editor',
-        text: 'Power a diagram editor: people draw on a canvas while ASL validates the architecture behind it, live and with no server.',
+        title: 'JS SDK',
+        text: 'Validate in the browser, with no server. Example: a diagram editor, where people draw on a canvas and ASL checks the architecture live.',
       },
       {
-        title: 'In Python',
+        title: 'Python SDK',
         text: 'Run the same checks from your scripts and notebooks, next to your data and AI tooling.',
       },
       {
         title: 'In VS Code',
-        text: 'See the architecture in a sidebar panel and the broken rule on the line that causes it, as your agent types.',
+        text: 'See the architecture in a sidebar panel and the violated policy on the line that causes it, as your agent types.',
       },
     ],
-    portMore: 'Learn more: JavaScript and npm',
+    portMore: 'Learn more: SDKs',
     ctaTitle: 'Give your agents *an architecture they can read.*',
     ctaText:
       'Write the rule once. Every system design is checked before anyone writes code.',
@@ -169,7 +229,7 @@ const COPY: Record<string, Copy> = {
   pt: {
     title: 'O harness de system design',
     titleAccent: 'para seus agentes.',
-    sub: 'Agentes escrevem código mais rápido do que qualquer pessoa consegue revisar o design. O ASL implementa Arquitetura como Código: a sua arquitetura como contexto estruturado e um compilador que valida cada mudança sem gastar um único token.',
+    sub: 'Agentes escrevem código mais rápido do que qualquer pessoa consegue revisar o design. O ASL é uma linguagem para representar system design: referências, contratos e as regras da sua empresa são checados a cada mudança, sem chamar um modelo.',
     cta1: 'Começar',
     cta2: 'Ver como funciona',
     diagramPhase: 'Hora do system design, antes de codar',
@@ -196,17 +256,51 @@ const COPY: Record<string, Copy> = {
       { value: 'Extensível', label: 'Com os seus próprios schemas e policies' },
       { value: 'Portátil', label: 'CLI, Go, navegador, Python e VS Code' },
     ],
+    langTitle: 'Markdown apenas descreve. *Uma linguagem pode ser verificada, sempre com o mesmo resultado.*',
+    langLead:
+      'Um agente consegue revisar uma arquitetura escrita em Markdown, e uma skill pode ensiná-lo a fazer isso. Mas cada revisão lê todos os arquivos, gasta tokens, varia de uma sessão para outra, e uma policy violada pode passar despercebida. O ASL representa a arquitetura de forma estruturada, com elementos e relacionamentos tipados em vez de texto livre. Assim, toda referência precisa apontar para algo que existe, toda regra é aplicada, e o compilador dá sempre o mesmo resultado, sem gastar tokens.',
+    vsMd: 'Markdown',
+    vsAsl: 'ASL',
+    vsScenarioTag: 'O exemplo',
+    vsScenario:
+      'Nas duas versões, o `inventory-service` grava no `stock-db`, um banco que foi renomeado para `inventory-db`. Quem percebe?',
+    vsMdTag: 'Pode passar.',
+    vsMdVerdict:
+      'Mesmo com uma regra para esse caso, o agente precisa reler os três arquivos a cada revisão.',
+    vsTry: 'Teste no playground',
+    vsAslTag: 'Detectado.',
+    vsAslVerdict:
+      'O compilador aponta que o `stock-db` não existe, antes de começar a desenvolver.',
+    vsMdHead: 'Markdown, revisado por uma skill ou agente',
+    vsAslHead: 'ASL, conferido pelo compilador',
+    vsRows: [
+      {
+        label: 'Como a arquitetura é representada',
+        md: 'Texto livre para interpretar',
+        asl: 'Elementos e relacionamentos tipados',
+      },
+      {
+        label: 'Custo e repetibilidade',
+        md: 'Tokens a cada revisão, e o resultado pode mudar entre execuções',
+        asl: 'Sem uso de LLM, e a mesma entrada dá o mesmo resultado',
+      },
+      {
+        label: 'As políticas de arquitetura da sua empresa',
+        md: 'O agente pode ignorar ou interpretar mal uma regra. Uma skill pode rodar no CI, mas o resultado varia.',
+        asl: 'Regras escritas uma vez como políticas de arquitetura e aplicadas a cada execução.',
+      },
+    ],
     harnessTitle:
       'Seus agentes pagam para interpretar a arquitetura. *Toda vez.*',
     harnessLead:
-      'Um diagrama foi feito para pessoas. Arquitetura como Código dá ao agente contexto para ler, guardrails para respeitar e feedback para corrigir.',
+      'Um diagrama foi feito para pessoas. O ASL, usado como Arquitetura como Código, foi feito para agentes: contexto para ler, guardrails para respeitar e feedback para corrigir.',
     harnessBad: 'O problema',
     harnessGood: 'Como o ASL resolve',
     harness: [
       {
         n: '01',
         who: 'Contexto',
-        bad: 'Um arquivo draw.io é XML cheio de coordenadas e ids gerados, e uma captura de tela custa tokens de imagem e deixa cada seta aberta a interpretação. O agente paga para reconstruir um grafo que nunca foi guardado como grafo.',
+        bad: 'Um arquivo draw.io é XML cheio de coordenadas e ids gerados, e cada seta fica aberta a interpretação. O agente paga para reconstruir um grafo que nunca foi guardado como grafo.',
         good: 'Com o ASL, o agente lê a arquitetura como dado tipado. Sem decifrar desenho, sem alucinar o que uma seta quer dizer.',
       },
       {
@@ -219,7 +313,7 @@ const COPY: Record<string, Copy> = {
         n: '03',
         who: 'Feedback',
         bad: 'Nada avisa o agente de que ele errou. Dependências soltas e contratos quebrados só aparecem em produção, nunca no prompt.',
-        good: 'O ASL compila a mudança e devolve poucas linhas de diagnóstico. O agente corrige sozinho, e o CI barra o merge quando o exit code é 1.',
+        good: 'O ASL compila a mudança e devolve poucas linhas de diagnóstico. O agente corrige sozinho.',
       },
     ],
     hcTitle: 'Veja como é um harness de arquitetura *em casos de uso reais:*',
@@ -233,13 +327,13 @@ const COPY: Record<string, Copy> = {
     manifestTitle: 'O agente propõe',
     manifestSub:
       'O billing-service precisa registrar dados de crédito, e gravar direto no credit-db é o caminho mais rápido para entregar a funcionalidade.',
-    policyTitle: 'Seu contexto diz não',
+    policyTitle: 'Seu contexto proíbe',
     policySub:
       'Uma CustomPolicy, versionada com o código: um banco de dados tem um único escritor.',
     resultTitle: 'O compilador responde',
     resultSub:
       'Sem chamada a modelo nenhum. O agente lê poucas linhas, dá ao billing-service um banco só dele e roda de novo.',
-    portTitle: 'Um único compilador. *Use onde você já trabalha.*',
+    portTitle: 'Um único compilador. *Leve para onde o seu time já trabalha.*',
     portSub:
       'As mesmas checagens e o mesmo resultado no seu pipeline, nas suas ferramentas, no editor, no navegador e nos seus scripts.',
     port: [
@@ -248,23 +342,23 @@ const COPY: Record<string, Copy> = {
         text: 'Rode a cada pull request. Uma arquitetura que viola uma regra derruba o build antes de ser integrada.',
       },
       {
-        title: 'Nas suas ferramentas',
-        text: 'Integre a checagem ao portal ou à plataforma interna que o seu time já usa. A arquitetura é validada ali mesmo, sem ninguém sair da ferramenta.',
+        title: 'Go SDK',
+        text: 'Integre a validação no portal ou na plataforma de engenharia interna do seu time e confira a arquitetura ali mesmo, sem sair da ferramenta.',
       },
       {
-        title: 'Em um editor de diagramas',
-        text: 'Alimente um editor de diagramas: a pessoa desenha no canvas e o ASL valida a arquitetura por trás, ao vivo e sem servidor.',
+        title: 'JS SDK',
+        text: 'Valide no navegador, sem servidor. Exemplo: um editor de diagramas, em que a pessoa desenha no canvas e o ASL confere a arquitetura ao vivo.',
       },
       {
-        title: 'Em Python',
+        title: 'Python SDK',
         text: 'Rode as mesmas checagens em scripts e notebooks, junto das suas ferramentas de dados e IA.',
       },
       {
         title: 'No VS Code',
-        text: 'Veja a arquitetura num painel lateral e a regra quebrada na linha que a causa, enquanto o seu agente escreve.',
+        text: 'Veja a arquitetura num painel lateral e a política violada na linha que a causa, enquanto o seu agente escreve.',
       },
     ],
-    portMore: 'Conheça mais: JavaScript e npm',
+    portMore: 'Conheça mais: SDKs',
     ctaTitle: 'Dê aos seus agentes *uma arquitetura que eles consigam ler.*',
     ctaText:
       'Escreva a regra uma vez. Todo system design é conferido antes de alguém escrever código.',
@@ -339,6 +433,186 @@ const RESULT = `error: Only one application may write to database
 
 error: could not compile due to 1 previous error (6.6ms)`;
 
+const VS_MD = [
+  {
+    title: '.claude/skills/architecture-review/SKILL.md',
+    text: `---
+name: architecture-review
+description: Review the architecture docs for consistency
+---
+# Architecture review
+
+Read every file under docs/. Then check that:
+
+1. Every service has an owner.
+2. Every name in a data flow is listed under Components.
+3. Each database has a single writer.
+4. Every event has a producer and a consumer.
+
+Report each problem with the file and the line.
+
+...
+
+A real company has many more architecture policies than these four. As the list grows, Markdown may not be enough to keep them all checked.`,
+  },
+  {
+    title: 'docs/checkout.md',
+    text: `# Checkout context
+
+## Components
+
+- **checkout-service**: Go on EKS. Owner: team-checkout.
+  Takes the cart, charges the customer and publishes an event for each order placed.
+  - HTTPS API \`checkout-api\` (sync, ingress)
+- **orders-db**: PostgreSQL on RDS. Owner: team-checkout.
+  Orders, their items and their payment status.
+- **order-events**: MSK topic, Avro.
+  One event per order placed.
+
+## Data flow
+
+| From             | To           | How      |
+| ---------------- | ------------ | -------- |
+| checkout-service | order-events | produces |
+| checkout-service | orders-db    | writes   |`,
+  },
+  {
+    title: 'docs/inventory.md',
+    text: `# Inventory context
+
+## Components
+
+- **inventory-service**: Go on EKS. Owner: team-catalog.
+  Reserves stock for each order placed and keeps the available quantity per product.
+  - gRPC API \`stock-api\` (sync, ingress)
+- **inventory-db**: PostgreSQL on RDS. Owner: team-catalog.
+  Available quantity and reservations per product.
+
+## Data flow
+
+| From              | To           | How      |
+| ----------------- | ------------ | -------- |
+| inventory-service | order-events | consumes |
+| inventory-service | stock-db     | writes   |`,
+  },
+];
+
+const VS_ASL = [
+  {
+    title: 'architecture/checkout.asl.yaml',
+    text: `apiVersion: asl/v1
+kind: Application
+metadata:
+  name: checkout-service
+  description: Takes the cart, charges the customer and publishes an event for each order placed
+  labels:
+    owner: team-checkout
+spec:
+  providers:
+    aws: EKS
+  language: Go
+  interfaces:
+    - name: checkout-api
+      protocol: HTTPS
+      type: sync
+      flow: ingress
+---
+apiVersion: asl/v1
+kind: Database
+metadata:
+  name: orders-db
+  description: Orders, their items and their payment status
+  labels:
+    owner: team-checkout
+spec:
+  providers:
+    aws: RDSPostgreSQL
+---
+apiVersion: asl/v1
+kind: Topic
+metadata:
+  name: order-events
+  description: One event per order placed
+spec:
+  providers:
+    aws: MSK
+  messageFormat: Avro
+---
+apiVersion: asl/v1
+kind: Relationship
+metadata:
+  name: checkout-relations
+spec:
+  relations:
+    - from:
+        kind: Application
+        name: checkout-service
+      to:
+        kind: Topic
+        name: order-events
+      type: produces
+    - from:
+        kind: Application
+        name: checkout-service
+      to:
+        kind: Database
+        name: orders-db
+      type: writes`,
+  },
+  {
+    title: 'architecture/inventory.asl.yaml',
+    text: `apiVersion: asl/v1
+kind: Application
+metadata:
+  name: inventory-service
+  description: Reserves stock for each order placed and keeps the available quantity per product
+  labels:
+    owner: team-catalog
+spec:
+  providers:
+    aws: EKS
+  language: Go
+  interfaces:
+    - name: stock-api
+      protocol: GRPC
+      type: sync
+      flow: ingress
+---
+apiVersion: asl/v1
+kind: Database
+metadata:
+  name: inventory-db
+  description: Available quantity and reservations per product
+  labels:
+    owner: team-catalog
+spec:
+  providers:
+    aws: RDSPostgreSQL
+---
+apiVersion: asl/v1
+kind: Relationship
+metadata:
+  name: inventory-relations
+spec:
+  relations:
+    - from:
+        kind: Application
+        name: inventory-service
+      to:
+        kind: Topic
+        name: order-events
+      type: consumes
+    - from:
+        kind: Application
+        name: inventory-service
+      to:
+        kind: Database
+        name: stock-db
+      type: writes`,
+  },
+];
+
+// the drawing is cropped to y 16..336 to keep the window short
 // Turns every "CEL" in a copy string into a link to cel.dev.
 // *text* marks the accent-colored part of a section title.
 function hl(text: string): ReactNode {
@@ -351,6 +625,13 @@ function hl(text: string): ReactNode {
       part
     ),
   );
+}
+
+// Text between backticks is shown as code.
+function renderCode(text: string): ReactNode {
+  return text
+    .split('`')
+    .map((part, i) => (i % 2 ? <code key={i}>{part}</code> : part));
 }
 
 function withCel(text: string): ReactNode {
@@ -767,6 +1048,144 @@ function ArchDiagram({
   );
 }
 
+function Cards({
+  items,
+  bad,
+  good,
+}: {
+  items: { n: string; who: string; bad: string; good: string }[];
+  bad: string;
+  good: string;
+}): ReactNode {
+  return (
+    <ol className={styles.hCards}>
+      {items.map((r) => (
+        <li key={r.n} className={styles.hCard}>
+          <div className={styles.stepHead}>
+            <span className={styles.stepN}>{r.n}</span>
+            <h3 className={styles.stepTitle}>{r.who}</h3>
+          </div>
+          <div className={styles.hProblem}>
+            <small className={styles.hTagBad}>
+              <FiX aria-hidden />
+              <span className={styles.srOnly}>{bad}</span>
+            </small>
+            <p>{r.bad}</p>
+          </div>
+          <div className={styles.hAnswer}>
+            <span className={styles.hArrow} aria-hidden>
+              <FiArrowDown />
+            </span>
+            <small className={styles.hTagGood}>
+              <FiCheck aria-hidden />
+              <span className={styles.srOnly}>{good}</span>
+            </small>
+            <p>{withCel(r.good)}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  );
+}
+
+// Editor-style tabs: every panel shares one grid cell, so the height of the
+// tallest file is reserved and switching tabs never moves the page. `mark`
+// opens the first file that contains it and highlights those lines in red.
+function FileTabs({
+  id,
+  label,
+  accent,
+  files,
+  language,
+  Icon,
+  mark,
+}: {
+  id: string;
+  label: string;
+  accent?: boolean;
+  files: { title: string; text: string }[];
+  language: string;
+  Icon: IconType;
+  mark: string;
+}): ReactNode {
+  const first = files.findIndex((f) => f.text.includes(mark));
+  const [active, setActive] = useState(Math.max(first, 0));
+  const panels = useRef<HTMLDivElement>(null);
+  const marked = (text: string) =>
+    text
+      .split('\n')
+      .flatMap((l, i) => (l.includes(mark) ? [i + 1] : []))
+      .join(',');
+  // Bring the marked line into view inside the panel, never the page.
+  useEffect(() => {
+    const box = panels.current;
+    if (!box) return;
+    const line = box.querySelector<HTMLElement>(
+      `#${id}-panel-${active} .theme-code-block-highlighted-line`,
+    );
+    box.scrollTop = line
+      ? line.getBoundingClientRect().top -
+        box.getBoundingClientRect().top +
+        box.scrollTop -
+        box.clientHeight / 3
+      : 0;
+  }, [active, id]);
+  const onKey = (e: KeyboardEvent<HTMLButtonElement>) => {
+    const dir = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+    if (!dir) return;
+    e.preventDefault();
+    const next = (active + dir + files.length) % files.length;
+    setActive(next);
+    document.getElementById(`${id}-tab-${next}`)?.focus();
+  };
+  return (
+    <div
+      className={`${styles.fileTabs} ${accent ? styles.fileTabsAccent : ''}`}
+    >
+      <div className={styles.fileTabLabel}>{label}</div>
+      <div className={styles.fileTabBar} role="tablist">
+        {files.map((f, i) => (
+          <button
+            key={f.title}
+            id={`${id}-tab-${i}`}
+            type="button"
+            role="tab"
+            title={f.title}
+            aria-selected={i === active}
+            aria-controls={`${id}-panel-${i}`}
+            tabIndex={i === active ? 0 : -1}
+            className={`${styles.fileTab} ${i === active ? styles.fileTabActive : ''}`}
+            onClick={() => setActive(i)}
+            onKeyDown={onKey}
+          >
+            <Icon aria-hidden />
+            {f.title.split('/').pop()}
+          </button>
+        ))}
+      </div>
+      <div className={styles.fileTabPath}>{files[active].title}</div>
+      <div className={styles.fileTabPanels} ref={panels}>
+        {files.map((f, i) => (
+          <div
+            key={f.title}
+            id={`${id}-panel-${i}`}
+            role="tabpanel"
+            aria-labelledby={`${id}-tab-${i}`}
+            className={`${styles.fileTabPanel} ${i === active ? '' : styles.fileTabPanelOff}`}
+          >
+            <CodeBlock
+              language={language}
+              metastring={marked(f.text) ? `{${marked(f.text)}}` : undefined}
+            >
+              {f.text}
+            </CodeBlock>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function Home(): ReactNode {
   const { i18n } = useDocusaurusContext();
   const t = COPY[i18n.currentLocale] ?? COPY.en;
@@ -837,37 +1256,97 @@ export default function Home(): ReactNode {
         </header>
 
         <main>
+          <section className={styles.section}>
+            <div className="container">
+              <h2 className={styles.h2}>{hl(t.langTitle)}</h2>
+              <p className={styles.lead}>{t.langLead}</p>
+              <p className={`${styles.extend} ${styles.vsScenario}`}>
+                <span className={styles.extendTag}>{t.vsScenarioTag}</span>
+                <span>{renderCode(t.vsScenario)}</span>
+              </p>
+              <div className={styles.vs}>
+                <div className={styles.vsPane}>
+                  <FileTabs
+                    id="vs-md"
+                    label={t.vsMd}
+                    files={VS_MD}
+                    language="text"
+                    Icon={VscMarkdown}
+                    mark="stock-db"
+                  />
+                  <p className={`${styles.vsVerdict} ${styles.vsOk}`}>
+                    <FiHelpCircle aria-hidden />
+                    <span>
+                      <strong>{t.vsMdTag}</strong> {renderCode(t.vsMdVerdict)}
+                    </span>
+                  </p>
+                </div>
+                <div className={styles.vsPane}>
+                  <FileTabs
+                    id="vs-asl"
+                    label={t.vsAsl}
+                    accent
+                    files={VS_ASL}
+                    language="yaml"
+                    Icon={VscFileCode}
+                    mark="stock-db"
+                  />
+                  <p className={`${styles.vsVerdict} ${styles.vsCaught}`}>
+                    <FiCheck aria-hidden />
+                    <span>
+                      <strong>{t.vsAslTag}</strong> {renderCode(t.vsAslVerdict)}
+                    </span>
+                  </p>
+                </div>
+              </div>
+              <p className={styles.vsTry}>
+                <Link className={styles.textLink} to="/playground">
+                  {t.vsTry} <FiArrowRight />
+                </Link>
+              </p>
+              <div className={styles.vsTable} role="table">
+                <div className={`${styles.vsRow} ${styles.vsHead}`} role="row">
+                  <span role="columnheader" />
+                  <span role="columnheader">{t.vsMdHead}</span>
+                  <span
+                    role="columnheader"
+                    className={`${styles.vsCell} ${styles.vsColAsl}`}
+                  >
+                    {t.vsAslHead}
+                  </span>
+                </div>
+                {t.vsRows.map((r) => (
+                  <div key={r.label} className={styles.vsRow} role="row">
+                    <span role="rowheader" className={styles.vsLabelCell}>
+                      {r.label}
+                    </span>
+                    <span
+                      role="cell"
+                      className={styles.vsCell}
+                      data-label={t.vsMd}
+                    >
+                      <FiX className={styles.vsIconBad} aria-hidden />
+                      <span>{r.md}</span>
+                    </span>
+                    <span
+                      role="cell"
+                      className={`${styles.vsCell} ${styles.vsColAsl}`}
+                      data-label={t.vsAsl}
+                    >
+                      <FiCheck className={styles.vsIconGood} aria-hidden />
+                      <span>{r.asl}</span>
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
           <section className={`${styles.section} ${styles.band}`}>
             <div className="container">
               <h2 className={styles.h2}>{hl(t.harnessTitle)}</h2>
               <p className={styles.lead}>{t.harnessLead}</p>
-              <ol className={styles.hCards}>
-                {t.harness.map((r) => (
-                  <li key={r.n} className={styles.hCard}>
-                    <div className={styles.stepHead}>
-                      <span className={styles.stepN}>{r.n}</span>
-                      <h3 className={styles.stepTitle}>{r.who}</h3>
-                    </div>
-                    <div className={styles.hProblem}>
-                      <small className={styles.hTagBad}>
-                        <FiX aria-hidden />
-                        <span className={styles.srOnly}>{t.harnessBad}</span>
-                      </small>
-                      <p>{r.bad}</p>
-                    </div>
-                    <div className={styles.hAnswer}>
-                      <span className={styles.hArrow} aria-hidden>
-                        <FiArrowDown />
-                      </span>
-                      <small className={styles.hTagGood}>
-                        <FiCheck aria-hidden />
-                        <span className={styles.srOnly}>{t.harnessGood}</span>
-                      </small>
-                      <p>{withCel(r.good)}</p>
-                    </div>
-                  </li>
-                ))}
-              </ol>
+              <Cards items={t.harness} bad={t.harnessBad} good={t.harnessGood} />
             </div>
           </section>
 
@@ -940,13 +1419,17 @@ export default function Home(): ReactNode {
               <p className={styles.lead}>{t.portSub}</p>
               <div className={styles.portGrid}>
                 {t.port.map((a, i) => {
-                  const Icon = [LuTerminal, SiGo, LuGlobe, SiPython, VscVscode][
-                    i
-                  ];
+                  const Icon = [
+                    LuTerminal,
+                    SiGo,
+                    SiJavascript,
+                    SiPython,
+                    VscVscode,
+                  ][i];
                   const brand = [
                     styles.hueGreen,
                     styles.brandGo,
-                    styles.hueCyan,
+                    styles.brandJavascript,
                     styles.brandPython,
                     styles.brandVscode,
                   ][i];

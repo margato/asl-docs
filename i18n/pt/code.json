@@ -1,4 +1,7 @@
 {
+  "asl.navbar.playground": {
+    "message": "Playground"
+  },
   "asl.github.star": {
     "message": "Favoritar no GitHub"
   },
@@ -73,5 +76,32 @@
   },
   "asl.playground.warnings": {
     "message": "avisos"
+  },
+  "asl.playgroundPage.title": {
+    "message": "Playground"
+  },
+  "asl.playgroundPage.hint": {
+    "message": "Edite a arquitetura e o compilador responde enquanto você digita. Escolha um exemplo para começar."
+  },
+  "asl.playgroundPage.examples": {
+    "message": "Exemplos"
+  },
+  "asl.playgroundPage.example.checkout": {
+    "message": "Checkout e estoque"
+  },
+  "asl.playgroundPage.example.checkout.hint": {
+    "message": "Dois serviços compartilhando um evento. Renomeie `stock-db` para `inventory-db` para corrigir o erro."
+  },
+  "asl.playgroundPage.example.events": {
+    "message": "Orientado a eventos"
+  },
+  "asl.playgroundPage.example.events.hint": {
+    "message": "Um serviço produz, outro consome. Troque uma relação por um nome que não existe."
+  },
+  "asl.playgroundPage.example.database": {
+    "message": "Banco de dados único"
+  },
+  "asl.playgroundPage.example.database.hint": {
+    "message": "O menor manifesto possível. Tente remover um campo ou errar o nome de um provider."
   }
 }

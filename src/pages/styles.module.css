@@ -355,8 +355,139 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   white-space: nowrap;
+  /* same box height as one line of the text beside it, so both centers line up */
+  display: inline-flex;
+  align-items: center;
+  align-self: center;
+  min-height: 1.425rem;
+  line-height: 1;
 }
 .lead { width: 100%; margin: 0 0 1.6rem; font-size: 1.05rem; line-height: 1.6; color: var(--asl-text-3); }
+
+/* ---------- Markdown vs language: two panes, one accepted and one rejected ---------- */
+.vs {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: 1.5rem;
+  margin: 3rem 0 0;
+  align-items: stretch;
+}
+.vsPane { display: flex; flex-direction: column; gap: 0.75rem; min-width: 0; max-height: 500px; }
+.vsPane :global(.theme-code-block) { margin: 0; }
+/* Wrap instead of scrolling: Windows and Linux draw a thick horizontal scrollbar. */
+.vsPane :global(pre), .vsPane :global(code) { white-space: pre-wrap; overflow-wrap: anywhere; }
+.vsPane :global(pre) { overflow-x: hidden; }
+.fileTabs.fileTabsAccent { border-color: var(--asl-accent-text); }
+.fileTabLabel {
+  padding: 0.55rem 1rem;
+  border-bottom: 1px solid var(--asl-border-3);
+  background: var(--asl-band);
+  font-family: var(--asl-mono, ui-monospace, monospace);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--asl-text-1);
+}
+.vsVerdict {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: auto 0 0;
+  padding: 0.8rem 1rem;
+  min-height: 5rem;
+  line-height: 1.5;
+  border: 1px solid var(--asl-border-3);
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+.vsScenario { margin: 2.5rem 0 1rem; }
+.vsOk { color: var(--asl-text-3); }
+.vsCaught { border-color: var(--asl-success); color: var(--asl-text-1); }
+.vsCaught svg, .vsCaught strong { color: var(--asl-success); }
+.vsVerdict strong { font-weight: 700; }
+.vsScenario code, .vsVerdict code { padding: 0 0.35rem; font-size: 0.85em; line-height: inherit; vertical-align: baseline; color: var(--asl-text-1); }
+.vsVerdict svg { flex-shrink: 0; font-size: 1.75rem; }
+.fileTabs { display: flex; flex: 1; flex-direction: column; min-width: 0; min-height: 0; border: 1px solid var(--asl-border-3); border-radius: 8px; overflow: hidden; }
+.fileTabBar { display: flex; flex-wrap: wrap; border-bottom: 1px solid var(--asl-border-3); }
+.fileTab {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.6rem 1rem;
+  border: 0;
+  border-right: 1px solid var(--asl-border-3);
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--asl-text-3);
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.fileTab svg { font-size: 1rem; }
+.fileTab:hover { color: var(--asl-text-1); }
+.fileTab:focus-visible { outline: 2px solid var(--asl-accent-text); outline-offset: -2px; }
+.fileTabActive { border-bottom-color: var(--asl-accent-text); color: var(--asl-text-1); }
+.fileTabPath {
+  padding: 0.4rem 1rem;
+  border-bottom: 1px solid var(--asl-border-3);
+  font-family: var(--asl-mono, ui-monospace, monospace);
+  font-size: 0.75rem;
+  color: var(--asl-text-3);
+}
+.fileTabPanels { display: grid; flex: 1; min-width: 0; min-height: 0; overflow-y: auto; }
+.fileTabPanel { grid-area: 1 / 1; min-width: 0; }
+.fileTabPanelOff { visibility: hidden; }
+.fileTabPanel :global(.theme-code-block-highlighted-line) {
+  background: color-mix(in srgb, var(--asl-bad) 22%, transparent);
+  box-shadow: inset 3px 0 0 var(--asl-bad);
+}
+.fileTabPanel :global(.theme-code-block) { height: 100%; border: 0; border-radius: 0; box-shadow: none; }
+.vsTry { display: flex; justify-content: flex-end; margin: 1rem 0 0; }
+.vsTable {
+  margin: 2.5rem 0 0;
+  border: 1px solid var(--asl-border-3);
+  border-radius: 12px;
+  background: var(--asl-bg);
+  position: relative;
+}
+/* One continuous accent frame around the whole ASL column (4 of the 13 grid fractions). */
+.vsTable::after {
+  content: '';
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  bottom: -1px;
+  width: calc(100% * 4 / 13 + 1px);
+  border: 1px solid var(--asl-accent-text);
+  border-radius: 12px;
+  pointer-events: none;
+}
+.vsRow {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 4fr) minmax(0, 4fr);
+  border-top: 1px solid var(--asl-border-3);
+  font-size: 0.95rem;
+}
+.vsRow:first-child { border-top: 0; }
+.vsRow > * { padding: 1rem 1.25rem; min-width: 0; }
+.vsLabelCell { color: var(--asl-text-1); font-weight: 500; }
+.vsCell { display: flex; align-items: flex-start; gap: 0.6rem; color: var(--asl-text-3); }
+.vsCell svg { flex-shrink: 0; margin-top: 0.2rem; font-size: 1.05rem; }
+.vsIconBad { color: var(--asl-bad); }
+.vsIconGood { color: var(--asl-text-1); }
+.vsColAsl { background: var(--asl-band); color: var(--asl-text-1); }
+.vsRow:first-child > .vsColAsl { border-top-right-radius: 11px; }
+.vsRow:last-child > .vsColAsl { border-bottom-right-radius: 11px; }
+.vsHead > * {
+  padding-top: 0.8rem;
+  padding-bottom: 0.8rem;
+  font-family: var(--asl-mono, ui-monospace, monospace);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--asl-text-3);
+}
+.vsHead .vsColAsl { color: var(--asl-text-1); }
 
 /* ---------- harness: one ruled table, three columns ---------- */
 .hCards {
@@ -460,6 +591,8 @@
 
 /* brand colors, only on the logo marks */
 .brandGo { color: #00add8; font-size: 2.4rem; margin: -0.45rem 0 0.8rem; }
+/* the JS letters are cut out of the square, so the black behind it fills them */
+.brandJavascript { color: #f7df1e; background: #000; }
 .brandPython { color: #4b8bbe; }
 .brandVscode { color: #23a9f2; }
 .brandKubernetes { color: #5b8def; }
@@ -492,6 +625,19 @@
   .stat:last-child { grid-column: 1 / -1; }
   .section { padding: 4.5rem 0; }
   .hCards { grid-template-columns: minmax(0, 1fr); }
+  .vs { grid-template-columns: minmax(0, 1fr); }
+  .vsPane { max-height: none; }
+  .vsPane:last-child { order: -1; }
+  .fileTab { padding: 0.5rem 0.7rem; font-size: 0.8rem; }
+  .vsRow { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .vsRow > * { padding: 0.8rem 1rem; }
+  .vsRow > .vsLabelCell { grid-column: 1 / -1; padding-bottom: 0.2rem; }
+  .vsRow > .vsCell { flex-wrap: wrap; row-gap: 0.15rem; }
+  .vsRow > .vsCell::before { content: attr(data-label); flex-basis: 100%; font-family: var(--asl-mono, ui-monospace, monospace); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--asl-text-3); }
+  .vsRow > .vsCell.vsColAsl::before { color: var(--asl-accent-text); }
+  .vsRow.vsHead { display: none; }
+  .vsTable::after { display: none; }
+  .vsRow > .vsColAsl { border-left: 2px solid var(--asl-accent-text); }
   .hCard { grid-row: auto; grid-template-rows: auto; border-left: 0; border-top: 1px solid var(--asl-border-3); }
   .hCard:first-child { border-top: 0; }
   .portGrid { grid-template-columns: minmax(0, 1fr); }

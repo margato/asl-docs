@@ -17,10 +17,16 @@ spec: {}
 // The compiler is WebAssembly and needs the browser, so it loads on the client only.
 type Asl = typeof import('../../lib/asl');
 
-export default function Playground(): ReactNode {
+export default function Playground({
+  initialSource = SAMPLE,
+  fileName = 'orders-db.asl.yaml',
+}: {
+  initialSource?: string;
+  fileName?: string;
+}): ReactNode {
   const wasmUrl = useBaseUrl('/asl/asl.wasm.gz');
   const [asl, setAsl] = useState<Asl | null>(null);
-  const [source, setSource] = useState(SAMPLE);
+  const [source, setSource] = useState(initialSource);
   const [diagnostics, setDiagnostics] = useState<Diagnostic[] | null>(null);
   const [failed, setFailed] = useState(false);
 
@@ -53,6 +59,24 @@ export default function Playground(): ReactNode {
   const lines = source.split('\n').length;
   const errors = diagnostics?.filter((d) => d.severity === 'error').length ?? 0;
   const warnings = (diagnostics?.length ?? 0) - errors;
+  // A diagnostic marks its whole block: the YAML document it points at, from its `---` to the next one.
+  // An error wins over a warning on the same line.
+  const rows = source.split('\n');
+  const isSeparator = (n: number) => rows[n - 1].trim() === '---';
+  const marked = new Map<number, 'error' | 'warning'>();
+  for (const d of diagnostics ?? []) {
+    if (d.line < 1 || d.line > lines) continue;
+    let start = d.line;
+    while (start > 1 && !isSeparator(start)) start--;
+    let end = d.line;
+    while (end < lines && (end === start || !isSeparator(end + 1))) end++;
+    const severity = d.severity === 'error' ? 'error' : 'warning';
+    for (let n = start; n <= end; n++) if (severity === 'error' || !marked.has(n)) marked.set(n, severity);
+  }
+  const markClass = (n: number) => {
+    const sev = marked.get(n);
+    return sev === 'error' ? styles.markError : sev === 'warning' ? styles.markWarning : undefined;
+  };
 
   return (
     <div className={styles.window}>
@@ -62,13 +86,13 @@ export default function Playground(): ReactNode {
           <i />
           <i />
         </span>
-        <span className={styles.file}>orders-db.asl.yaml</span>
+        <span className={styles.file}>{fileName}</span>
         <Status diagnostics={diagnostics} errors={errors} warnings={warnings} />
         <button
           type="button"
           className={styles.reset}
-          onClick={() => setSource(SAMPLE)}
-          disabled={source === SAMPLE}>
+          onClick={() => setSource(initialSource)}
+          disabled={source === initialSource}>
           <LuRotateCcw aria-hidden />
           {translate({id: 'asl.playground.reset', message: 'Reset'})}
         </button>
@@ -77,10 +101,15 @@ export default function Playground(): ReactNode {
         <div className={styles.editorPane}>
           <div className={styles.gutter} aria-hidden>
             {Array.from({length: lines}, (_, i) => (
-              <span key={i}>{i + 1}</span>
+              <span key={i} className={markClass(i + 1)}>
+                {i + 1}
+              </span>
             ))}
           </div>
           <div className={styles.editor}>
+            {[...marked.keys()].map((n) => (
+              <div key={n} className={`${styles.mark} ${markClass(n)}`} style={{top: 16 + (n - 1) * 24}} aria-hidden />
+            ))}
             <Editor
               value={source}
               onValueChange={setSource}

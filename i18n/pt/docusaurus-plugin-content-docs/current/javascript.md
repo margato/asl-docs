@@ -1,9 +1,9 @@
 ---
 sidebar_position: 4
-title: JavaScript e npm
+title: JavaScript SDK
 ---
 
-# JavaScript e npm
+# JavaScript SDK
 
 :::warning[Em construção]
 Esta página está em construção. O conteúdo pode mudar ou estar incompleto.
@@ -26,6 +26,8 @@ spec:
 ```
 
 <Playground />
+
+Quer mais espaço? [Experimente no playground completo](/playground), com exemplos prontos para começar.
 
 ## Instalação
 
@@ -90,7 +92,6 @@ const diagnostics = await compile(components);
 ```
 
 Lista vazia significa que a ASL não encontrou nada a reportar: o manifest segue a definição do seu kind e todas as policies passaram, então esta arquitetura pode seguir em frente.
-
 
 Uma lista é sempre uma lista, mesmo com um único manifest. Um objeto solto é rejeitado com um `TypeError`. A lista pode ter quantos componentes o seu desenho tiver, e eles enxergam uns aos outros, então uma `Relationship` pode apontar para um `Database` declarado ao lado dela.
 

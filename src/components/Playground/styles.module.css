@@ -89,7 +89,14 @@
   color: var(--asl-faint);
   user-select: none;
 }
-.editor { flex: 1; min-width: 0; }
+.editor { position: relative; flex: 1; min-width: max-content; }
+
+/* the block a diagnostic points at: a band behind each of its lines and a tint on their numbers */
+.mark { position: absolute; left: 0; right: 0; height: 24px; pointer-events: none; }
+.mark.markError { background: color-mix(in srgb, var(--asl-bad) 16%, transparent); box-shadow: inset 2px 0 0 var(--asl-bad); }
+.mark.markWarning { background: color-mix(in srgb, var(--asl-warning) 16%, transparent); box-shadow: inset 2px 0 0 var(--asl-warning); }
+.gutter .markError { color: var(--asl-bad); }
+.gutter .markWarning { color: var(--asl-warning); }
 
 .editor :global(pre),
 .textarea { color: var(--asl-text-1) !important; }
