@@ -32,9 +32,9 @@ A arquitetura é especificada como dado tipado. Um compilador a transforma em um
 - **Formato:** cada elemento bate com a definição do seu kind.
 - **Referências:** todo relacionamento aponta para algo que existe.
 - **Consistência:** os nomes são únicos e os contratos fecham.
-- **Policies:** as suas regras rodam sobre o grafo inteiro.
+- **Policies:** as suas regras executam sobre o grafo inteiro.
 
-Essa validação é **determinística**: mesma entrada, mesmo resultado, sempre. É um programa comum, que roda no CI ou na sua máquina. Nenhum modelo é chamado, então validar custa **zero token**, e não existe alucinação. O agente só gasta tokens lendo as poucas linhas de diagnóstico que recebe de volta.
+Essa validação é **determinística**: mesma entrada, mesmo resultado, sempre. É um programa comum, que executa no CI ou na sua máquina. Nenhum LLM é chamado, então validar custa **zero token**, e não existe alucinação. O agente só gasta tokens lendo as poucas linhas de diagnóstico que recebe de volta.
 
 ## Agentes: contexto estruturado, não imagem para decifrar
 

@@ -25,7 +25,7 @@ Abra uma pasta com arquivos `*.asl.yaml`. O ícone **ASL** aparece na barra de a
 
 ## O painel ASL
 
-O painel tem três views. No topo da primeira, **Compile architecture** roda as verificações sob demanda, e o botão **ⓘ** abre esta documentação.
+O painel tem três views. No topo da primeira, **Compile architecture** executa as verificações sob demanda, e o botão **ⓘ** abre esta documentação.
 
 ![O painel ASL no VS Code: a view Workspace com o catalog-db expandido e marcado em vermelho, a view Schemas com os kinds nativos e a view Extra com uma custom policy encontrada](/img/vscode/panel.png)
 
@@ -65,7 +65,7 @@ Quando um manifest quebra uma regra, a extensão mostra isso onde você está tr
 - o mesmo problema aparece no painel **Problems**;
 - no painel ASL, o recurso, a conexão e o kind ficam **vermelhos** (ou amarelos).
 
-As verificações rodam quando você abre a pasta, a cada edição de um manifest e a cada save. Uma custom policy que você alterar é reconhecida ao salvar. Não há nada para configurar.
+As verificações executam quando você abre a pasta, a cada edição de um manifest e a cada save. Uma custom policy que você alterar é reconhecida ao salvar. Não há nada para configurar.
 
 ## Ícones dos kinds
 

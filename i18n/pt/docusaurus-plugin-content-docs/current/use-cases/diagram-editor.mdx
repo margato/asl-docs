@@ -1,0 +1,59 @@
+---
+sidebar_position: 5
+title: Um editor de diagramas com ASL
+---
+
+# Um editor de diagramas com ASL
+
+:::warning[Em construção]
+Esta página está em construção. O conteúdo pode mudar ou estar incompleto.
+:::
+
+O seu time de plataforma constrói um editor de diagramas interno para os times de produto esboçarem novos sistemas. Nada impede alguém de desenhar o `checkout-service` ligado a um banco de outro time, e o erro só aparece na revisão de design.
+
+Com o [ASL JavaScript SDK](../javascript.md), é possível executar o compilador no navegador, sem servidor. O editor confere o desenho a cada mudança e marca a caixa que causa o problema.
+
+## Do canvas à checagem
+
+Cada caixa do canvas vira um manifest, e cada seta vira um `Relationship`. A cada mudança, o editor monta a lista de componentes e passa para o `compile`:
+
+```js title="editor.js"
+import { compile, hasErrors } from '@architectureascode/asl';
+
+async function onCanvasChange(canvas) {
+  const components = canvas.nodes.map((node) => ({
+    apiVersion: 'asl/v1',
+    kind: node.kind,
+    metadata: { name: node.name },
+    spec: node.spec,
+  }));
+
+  const diagnostics = await compile(components);
+  showOnCanvas(diagnostics);
+  return !hasErrors(diagnostics);
+}
+```
+
+Um `Database` solto no canvas, sem provider, volta como um diagnóstico:
+
+```json
+[
+  {
+    "file": "",
+    "line": 1,
+    "policy": "asl.builtin.api-contract",
+    "severity": "error",
+    "message": "spec: missing properties: 'providers'"
+  }
+]
+```
+
+O editor mostra isso como um selo vermelho na caixa. Escolhido um provider, a lista fica vazia e o selo some.
+
+## As suas regras, dentro do editor
+
+A mesma chamada executa as regras da sua empresa. Passe as suas [policies customizadas](../custom-policies.md) e uma regra como "cada aplicação é dona dos próprios dados" é aplicada no canvas, assim que alguém desenha a seta.
+
+## Para onde ir agora
+
+A instalação do pacote e o carregamento do compilador no navegador estão no [SDK de JavaScript](../javascript.md).

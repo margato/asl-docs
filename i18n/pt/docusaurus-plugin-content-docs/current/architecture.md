@@ -9,15 +9,15 @@ title: Como o ASL funciona
 Esta página está em construção. O conteúdo pode mudar ou estar incompleto.
 :::
 
-Você roda `asl ./architecture` na pasta da sua arquitetura e, num piscar de olhos, ele avisa que o `courier-app` publica na `dispatch-queue`, que ninguém declarou. Ninguém abriu um diagrama, e nenhum modelo foi consultado. O que aconteceu nesse piscar?
+Você executa `asl ./architecture` na pasta da sua arquitetura e, num piscar de olhos, ele avisa que o `courier-app` publica na `dispatch-queue`, que ninguém declarou. Ninguém abriu um diagrama, e nenhum LLM foi consultado. O que aconteceu nesse piscar?
 
-Cinco etapas, sempre na mesma ordem. A mesma entrada dá o mesmo veredito toda vez, e é por isso que não custa nada rodar a cada commit.
+Cinco etapas, sempre na mesma ordem. A mesma entrada dá o mesmo resultado toda vez, e é por isso que não custa nada executar a cada commit.
 
 ```mermaid
 flowchart LR
     Y["<b>Ler</b><br/>seus arquivos YAML"] --> V["<b>Validar</b><br/>contra a definição de cada kind"]
     V --> G["<b>Montar o grafo</b><br/>relacionamentos viram arestas"]
-    G --> P["<b>Rodar policies</b><br/>built-in e as suas"]
+    G --> P["<b>Executar policies</b><br/>built-in e as suas"]
     P --> R["<b>Reportar</b><br/>diagnósticos e exit code"]
 ```
 
@@ -39,17 +39,17 @@ Aplicações, bancos e os demais manifests viram os nós de um grafo. Cada item 
 
 Uma referência para algo que não existe é reportada como erro.
 
-## 4. Rodar policies
+## 4. Executar policies
 
-As policies built-in rodam primeiro, depois as suas [custom policies](./custom-policies.md). As policies enxergam o grafo inteiro, e é assim que uma regra como "um banco pertence a uma única aplicação" é possível: nenhum manifest sozinho sabe a resposta.
+As policies built-in executam primeiro, depois as suas [custom policies](./custom-policies.md). As policies enxergam o grafo inteiro, e é assim que uma regra como "um banco pertence a uma única aplicação" é possível: nenhum manifest sozinho sabe a resposta.
 
 ## 5. Reportar
 
 Os problemas saem um bloco por vez, com arquivo e linha. Erros viram exit code `1`, e warnings não fazem a execução falhar. Nada para no primeiro problema: você vê tudo de uma vez. O formato está em [CLI](./cli.md).
 
-## Onde o ASL roda
+## Onde o ASL executa
 
-Os seus arquitetos usam o terminal. O seu time de plataforma quer a mesma checagem dentro de um portal interno. O time de dados quer num script Python. Todos precisam receber o mesmo veredito, ou as regras deixam de ser regras.
+Os seus arquitetos usam o terminal. O seu time de plataforma quer a mesma checagem dentro de um portal interno. O time de dados quer num script Python. Todos precisam receber o mesmo resultado, ou as regras deixam de ser regras.
 
 Por isso a lógica de checagem é uma peça só, e todo o resto é uma camada fina em volta dela: o comando `asl` para terminal e CI, um build para navegador e Node, um binding para Python e programas em Go. Custom schemas e custom policies entram por fora, sem mudar nada por dentro.
 
@@ -117,11 +117,11 @@ flowchart LR
     GO --> API
 
 
-    classDef adapter fill:#06063a,stroke:#4f8aff,color:#cfe0ff
-    classDef core fill:#0b2418,stroke:#22c55e,color:#bbf7d0
-    classDef api fill:#2a1d07,stroke:#f59e0b,color:#fde68a
-    classDef extension fill:#04202a,stroke:#22d3ee,color:#a5f3fc
-    classDef builtin fill:#141416,stroke:#6b7280,color:#d1d5db
+    classDef adapter fill:#e0e7ff,stroke:#4f6bff,color:#1e2a78
+    classDef core fill:#dcfce7,stroke:#16a34a,color:#14532d
+    classDef api fill:#fef3c7,stroke:#d97706,color:#78350f
+    classDef extension fill:#cffafe,stroke:#0891b2,color:#164e63
+    classDef builtin fill:#f3f4f6,stroke:#6b7280,color:#374151
 
     class PY,PYSDK,ABI,WEB,JSSDK,WASM,GO,GOLIB adapter
     class PARSER,COMPILER,SCHEMAS,POLICIES core
@@ -130,4 +130,4 @@ flowchart LR
     class BUILTIN_S,BUILTIN_P builtin
 ```
 
-Você escolhe onde roda. As regras, e o veredito, continuam as mesmas.
+Você escolhe onde executa. As regras, e o resultado, continuam as mesmas.

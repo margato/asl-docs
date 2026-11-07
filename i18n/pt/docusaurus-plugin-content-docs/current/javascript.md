@@ -11,11 +11,11 @@ Esta página está em construção. O conteúdo pode mudar ou estar incompleto.
 
 A ASL não é só um comando. O mesmo compilador está disponível como um pacote npm, para você usar a ASL como base das suas próprias ferramentas. Um editor de diagramas no navegador, por exemplo, pode validar a arquitetura por trás do desenho contra as suas regras enquanto as pessoas desenham, sem nenhum servidor.
 
-O pacote `@architectureascode/asl` é o mesmo compilador do [comando `asl`](./cli.md), empacotado para JavaScript. Roda no navegador e no Node.js, sem binário para instalar, e dá o mesmo veredito sobre os mesmos manifests e as mesmas [policies](./custom-policies.md).
+O pacote `@architectureascode/asl` é o mesmo compilador do [comando `asl`](./cli.md), empacotado para JavaScript. Executa no navegador e no Node.js, sem binário para instalar, e dá o mesmo resultado sobre os mesmos manifests e as mesmas [policies](./custom-policies.md).
 
 ## Experimente
 
-Este playground roda a biblioteca JavaScript `@architectureascode/asl`: o compilador é carregado no seu navegador como WebAssembly, e o `compile()` roda de novo a cada tecla, sem servidor. Ele confere texto YAML, a forma de string do `compile`.
+Este playground executa a biblioteca JavaScript `@architectureascode/asl`: o compilador é carregado no seu navegador como WebAssembly, e o `compile()` executa de novo a cada tecla, sem servidor. Ele confere texto YAML, a forma de string do `compile`.
 
 O banco não tem provider, então há um erro. Troque `spec: {}` por isto e o erro some:
 
@@ -177,7 +177,7 @@ As verificações embutidas conhecem a ASL, não a sua empresa. `compile` recebe
 const diagnostics = await compile(components, policies, schemas);
 ```
 
-`policies` são as suas [custom policies](./custom-policies.md), como string YAML ou lista de objetos. `schemas` são os seus [custom schemas](./custom-schemas.md), como um objeto `{ '<grupo>/<versão>/<Kind>.yaml': string YAML ou objeto }`. Os dois rodam **além** dos embutidos, como `--policies-bundle-path` e `--schemas-bundle-path` no [comando `asl`](./cli.md).
+`policies` são as suas [custom policies](./custom-policies.md), como string YAML ou lista de objetos. `schemas` são os seus [custom schemas](./custom-schemas.md), como um objeto `{ '<grupo>/<versão>/<Kind>.yaml': string YAML ou objeto }`. Os dois executam **além** dos embutidos, como `--policies-bundle-path` e `--schemas-bundle-path` no [comando `asl`](./cli.md).
 
 O que ainda falta é carregar um bundle inteiro, a pasta que o comando lê, direto no navegador. Por enquanto você precisa passar o conteúdo por conta própria. Carregá-lo a partir de um único arquivo está no [issue #36](https://github.com/architectureascode/asl/issues/36).
 

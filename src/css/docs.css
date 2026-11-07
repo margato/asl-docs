@@ -293,6 +293,54 @@ html[lang='pt-BR'] .theme-doc-toc-desktop::before { content: 'Neste artigo'; }
 }
 .theme-doc-sidebar-item-category-level-1 > .menu__list-item-collapsible > .menu__caret { display: none; }
 
+/* a collapsible section (Use cases) is a button: pointer, hover and a plus/minus icon instead of the default caret */
+.theme-doc-sidebar-item-category-level-1 > .menu__list-item-collapsible > .menu__link--sublist-caret {
+  pointer-events: auto;
+  cursor: pointer;
+  justify-content: space-between;
+}
+.theme-doc-sidebar-item-category-level-1 > .menu__list-item-collapsible > .menu__link--sublist-caret {
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+  border-radius: 8px;
+  transition: background-color 0.15s, color 0.15s;
+}
+.theme-doc-sidebar-item-category-level-1 > .menu__list-item-collapsible:has(> .menu__link--sublist-caret),
+.theme-doc-sidebar-item-category-level-1 > .menu__list-item-collapsible > .menu__link--sublist-caret:hover {
+  cursor: pointer;
+}
+.theme-doc-sidebar-item-category-level-1 > .menu__list-item-collapsible > .menu__link--sublist-caret:hover {
+  background: var(--asl-band);
+  color: var(--asl-strong);
+}
+.theme-doc-sidebar-item-category-level-1 > .menu__list-item-collapsible > .menu__link--sublist-caret:hover::after {
+  color: var(--asl-accent-text);
+}
+.theme-doc-sidebar-item-category-level-1 > .menu__list-item-collapsible > .menu__link--sublist-caret:focus-visible {
+  outline: 2px solid var(--asl-accent-text);
+  outline-offset: 2px;
+}
+.theme-doc-sidebar-item-category-level-1 > .menu__list-item-collapsible > .menu__link--sublist-caret::after {
+  width: 0.8rem;
+  height: 0.8rem;
+  min-width: 0.8rem;
+  margin-left: auto;
+  background: currentColor;
+  filter: none;
+  transform: none;
+  -webkit-mask: var(--asl-sidebar-minus) center / contain no-repeat;
+  mask: var(--asl-sidebar-minus) center / contain no-repeat;
+}
+.theme-doc-sidebar-item-category-level-1.menu__list-item--collapsed > .menu__list-item-collapsible > .menu__link--sublist-caret::after {
+  transform: none;
+  -webkit-mask-image: var(--asl-sidebar-plus);
+  mask-image: var(--asl-sidebar-plus);
+}
+:root {
+  --asl-sidebar-plus: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8 2v12M2 8h12' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+  --asl-sidebar-minus: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M2 8h12' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+
 /* mermaid diagrams in docs */
 .theme-doc-markdown .docusaurus-mermaid-container {
   margin: 1.6rem 0;

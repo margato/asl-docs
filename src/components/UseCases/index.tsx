@@ -1,7 +1,8 @@
-import {useRef, useState, type ReactNode} from 'react';
+import {useRef, useState, type ComponentType, type ReactNode} from 'react';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {FiCheckCircle, FiChevronLeft, FiChevronRight, FiFileText, FiTerminal} from 'react-icons/fi';
 import {LuCode, LuPencilRuler, LuScanSearch, LuShieldCheck, LuWorkflow} from 'react-icons/lu';
-import {COPY, type Locale} from './data';
+import {COPY, type CaseCopy, type Copy, type Locale} from './data';
 import {AgentCli, Design, Editor, PciScope, PullRequest} from './demos';
 import styles from './styles.module.css';
 
@@ -84,56 +85,87 @@ export default function UseCases({locale}: {locale: Locale}): ReactNode {
       </div>
 
       <div className={styles.demo} role="tabpanel" id="uc-panel" aria-labelledby={`uc-tab-${sel}`}>
-        <div className={styles.brief}>
-          {SHOW_SDLC && (
-            <>
-            <h3 className={styles.sdlcTitle}>{t.sdlcLabel}</h3>
-            <ol className={styles.sdlc} aria-label={t.sdlcLabel}>
-              {t.stages.map((name, i) => {
-                const on = items[sel].c.sdlc.includes(i);
-                return (
-                  <li key={name} className={`${styles.stage} ${on ? styles.stageOn : ''}`} aria-current={on ? 'step' : undefined}>
-                    <span className={styles.stageDot} aria-hidden />
-                    <span className={styles.stageName}>{name}</span>
-                  </li>
-                );
-              })}
-            </ol>
-            </>
-          )}
-          <div className={`${styles.scenario} ${SHOW_SDLC ? '' : styles.scenarioAlone}`}>
-            <div className={styles.scenarioHead}>
-              <h3 className={styles.scenarioTitle}>{t.scenario}</h3>
-            </div>
-            <div className={`${styles.timeline} ${styles.scenarioTimeline}`}>
-              {([
-                [FiFileText, items[sel].c.story.context, ''],
-                [FiTerminal, items[sel].c.story.action, ''],
-                [FiCheckCircle, items[sel].c.story.asl, styles.tone_good],
-              ] as const).map(([StepIcon, text, tone], n) => (
-                <div key={n} className={styles.ev}>
-                  <span className={`${styles.evIcon} ${tone}`}>
-                    <StepIcon aria-hidden />
-                  </span>
-                  <div className={styles.evBody}>
-                    <strong className={styles.stepLabel}>{t.scenarioSteps[n]}</strong>
-                    <p className={styles.stepText}>{text}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+        <CaseView t={t} c={items[sel].c} Demo={Demo} />
+      </div>
+    </div>
+  );
+}
+
+type DemoProps = {side: 'off' | 'on'; t: Copy};
+
+function CaseView({
+  t,
+  c,
+  Demo,
+}: {
+  t: Copy;
+  c: CaseCopy;
+  Demo: ComponentType<DemoProps>;
+}): ReactNode {
+  return (
+    <>
+    <div className={styles.brief}>
+      {SHOW_SDLC && (
+        <>
+        <h3 className={styles.sdlcTitle}>{t.sdlcLabel}</h3>
+        <ol className={styles.sdlc} aria-label={t.sdlcLabel}>
+          {t.stages.map((name, i) => {
+            const on = c.sdlc.includes(i);
+            return (
+              <li key={name} className={`${styles.stage} ${on ? styles.stageOn : ''}`} aria-current={on ? 'step' : undefined}>
+                <span className={styles.stageDot} aria-hidden />
+                <span className={styles.stageName}>{name}</span>
+              </li>
+            );
+          })}
+        </ol>
+        </>
+      )}
+      <div className={`${styles.scenario} ${SHOW_SDLC ? '' : styles.scenarioAlone}`}>
+        <div className={styles.scenarioHead}>
+          <h3 className={styles.scenarioTitle}>{t.scenario}</h3>
         </div>
-        <div className={styles.cols}>
-          <div className={styles.col}>
-            <div className={`${styles.head} ${styles.headOff}`}>{t.off}</div>
-            <Demo key={`off-${sel}`} side="off" t={t} />
-          </div>
-          <div className={styles.col}>
-            <div className={`${styles.head} ${styles.headOn}`}>{t.on}</div>
-            <Demo key={`on-${sel}`} side="on" t={t} />
-          </div>
+        <div className={`${styles.timeline} ${styles.scenarioTimeline}`}>
+          {([
+            [FiFileText, c.story.context, ''],
+            [FiTerminal, c.story.action, ''],
+            [FiCheckCircle, c.story.asl, styles.tone_good],
+          ] as const).map(([StepIcon, text, tone], n) => (
+            <div key={n} className={styles.ev}>
+              <span className={`${styles.evIcon} ${tone}`}>
+                <StepIcon aria-hidden />
+              </span>
+              <div className={styles.evBody}>
+                <strong className={styles.stepLabel}>{t.scenarioSteps[n]}</strong>
+                <p className={styles.stepText}>{text}</p>
+              </div>
+            </div>
+          ))}
         </div>
+      </div>
+    </div>
+    <div className={styles.cols}>
+      <div className={styles.col}>
+        <div className={`${styles.head} ${styles.headOff}`}>{t.off}</div>
+        <Demo key="off" side="off" t={t} />
+      </div>
+      <div className={styles.col}>
+        <div className={`${styles.head} ${styles.headOn}`}>{t.on}</div>
+        <Demo key="on" side="on" t={t} />
+      </div>
+    </div>
+    </>
+  );
+}
+
+/** One use case on its own, for the docs pages. `id` is the case index (0 design, 1 developing, 2 PCI, 4 interpreting). */
+export function UseCase({id}: {id: number}): ReactNode {
+  const {i18n} = useDocusaurusContext();
+  const t = COPY[i18n.currentLocale === 'pt' ? 'pt' : 'en'];
+  return (
+    <div className={`${styles.wrap} ${styles.single}`}>
+      <div className={styles.demo}>
+        <CaseView t={t} c={t.cases[id]} Demo={DEMOS[id]} />
       </div>
     </div>
   );

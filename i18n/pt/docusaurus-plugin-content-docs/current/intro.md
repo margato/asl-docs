@@ -40,12 +40,21 @@ spec:
 ```
 Todo manifest tem `apiVersion`, `kind` e `metadata`. O resto vai em `spec`, e o que é permitido ali depende do kind.
 
-Rode `asl ./architecture` e você recebe `ok`. Adicione uma segunda aplicação que divide o banco com a primeira, junto da regra que proíbe isso, e o resultado vira um erro. É exatamente isso que você vai fazer em [Custom policies](./custom-policies.md).
+Execute `asl ./architecture` e você recebe `ok`. Adicione uma segunda aplicação que divide o banco com a primeira, junto da regra que proíbe isso, e o resultado vira um erro. É exatamente isso que você vai fazer em [Custom policies](./custom-policies.md).
+
+## Onde executa
+
+É um único compilador, e ele dá o mesmo resultado onde quer que você o use:
+
+- **No seu pipeline.** Execute o `asl` a cada pull request, e uma arquitetura que viola uma regra derruba o build antes de ser integrada. Veja o [CLI](./cli.md).
+- **No VS Code.** Veja a arquitetura num painel lateral e a policy violada na linha que a causa. Veja a [extensão do VS Code](./vscode-extension.md).
+- **Em JavaScript.** Valide no navegador ou no Node.js, sem servidor, por exemplo num editor de diagramas. Veja o [SDK de JavaScript](./javascript.md).
+- **Em Go e Python.** Integre as mesmas checagens na plataforma de engenharia interna, ou execute em scripts e notebooks.
 
 ## Para onde ir agora
 
-- [CLI](./cli.md): rode a checagem na sua máquina e no CI.
+- [CLI](./cli.md): execute a checagem na sua máquina e no CI.
 - [Custom policies](./custom-policies.md): escreva suas próprias regras.
 - [Custom schemas](./custom-schemas.md): ensine ao ASL os seus próprios kinds.
 - [Por que arquitetura como código](./why.md) e [como ela difere de Diagram as Code](./aac-vs-diagram-as-code.md).
-- [Como o ASL funciona](./architecture.md): o que acontece entre o seu YAML e o veredito.
+- [Como o ASL funciona](./architecture.md): o que acontece entre o seu YAML e o resultado.

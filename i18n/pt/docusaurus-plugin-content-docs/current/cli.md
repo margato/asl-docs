@@ -35,7 +35,7 @@ No PowerShell:
 irm https://raw.githubusercontent.com/architectureascode/asl/main/install.ps1 | iex
 ```
 
-Se você usa o Git Bash, pode rodar o comando do `install.sh` acima, mas ele só adiciona o `asl` ao `PATH` do Git Bash. Use o `install.ps1` para deixá-lo disponível no PowerShell e no cmd.
+Se você usa o Git Bash, pode executar o comando do `install.sh` acima, mas ele só adiciona o `asl` ao `PATH` do Git Bash. Use o `install.ps1` para deixá-lo disponível no PowerShell e no cmd.
 
 ### Fixar uma versão
 
@@ -51,7 +51,7 @@ iex "& { $(irm https://raw.githubusercontent.com/architectureascode/asl/main/ins
 
 ### Atualizar
 
-Rode o comando de instalação de novo: ele instala a última release por cima da atual, na pasta que você escolher. O `asl` também avisa quando há uma versão nova.
+Execute o comando de instalação de novo: ele instala a última release por cima da atual, na pasta que você escolher. O `asl` também avisa quando há uma versão nova.
 
 ### Download manual
 
@@ -73,7 +73,7 @@ asl <path> [--policies-bundle-path <bundle>] [--schemas-bundle-path <dir>]
 | Argumento | Descrição |
 | --- | --- |
 | `<path>` | Uma pasta com seus arquivos `*.asl.yaml` (subpastas incluídas), ou um único arquivo. |
-| `--policies-bundle-path` | Um arquivo ou pasta com as suas [custom policies](./custom-policies.md). Elas rodam **além** das built-in. |
+| `--policies-bundle-path` | Um arquivo ou pasta com as suas [custom policies](./custom-policies.md). Elas executam **além** das built-in. |
 | `--schemas-bundle-path` | Uma pasta de [custom schemas](./custom-schemas.md), organizada como `<group>/<version>/<Kind>.yaml`. Eles são **somados** aos kinds built-in. |
 
 :::warning
@@ -96,7 +96,7 @@ Depois que o agente dá ao `recommendation-service` um banco só dele, o mesmo c
 ```asldiag
 ok 5.8ms
 ```
-Cada erro diz o que está errado, onde (arquivo e linha) e qual [policy](./custom-policies.md#sua-primeira-policy) o levantou. Corrija o ponto indicado e rode o comando de novo.
+Cada erro diz o que está errado, onde (arquivo e linha) e qual [policy](./custom-policies.md#sua-primeira-policy) o levantou. Corrija o ponto indicado e execute o comando de novo.
 
 ### Warnings
 
@@ -115,7 +115,7 @@ warning: compiled with 1 warning (6.9ms)
 | --- | --- |
 | `0` | Nada a reportar, ou só warnings. |
 | `1` | Pelo menos um erro. A arquitetura não é válida. |
-| `2` | O `asl` não conseguiu rodar a checagem: o path não existe, a pasta não tem manifests ou um bundle é inválido. |
+| `2` | O `asl` não conseguiu executar a checagem: o path não existe, a pasta não tem manifests ou um bundle é inválido. |
 
 ```text
 $ asl ./empty-folder

@@ -34,7 +34,7 @@ Architecture is specified as typed data. A compiler turns it into a graph and ch
 - **Consistency:** names are unique and contracts line up.
 - **Policies:** your own rules run over the whole graph.
 
-This validation is **deterministic**: same input, same result, every time. It is a plain program run in CI or on your machine. No model is called, so validating costs **zero tokens**, and it does not hallucinate. The agent only spends tokens reading the few lines of diagnostics it gets back.
+This validation is **deterministic**: same input, same result, every time. It is a plain program run in CI or on your machine. No LLM is called, so validating costs **zero tokens**, and it does not hallucinate. The agent only spends tokens reading the few lines of diagnostics it gets back.
 
 ## Agents: structured context, not pictures to decode
 

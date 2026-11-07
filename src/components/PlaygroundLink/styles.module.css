@@ -22,19 +22,10 @@
 
 .icon { font-size: 1rem; }
 
-/* vertical rule between Docs and the playground; Docs only shows on desktop */
 .sep { display: contents; }
 
 @media (min-width: 997px) {
-  .sep {
-    display: inline-flex;
-    align-items: center;
-    height: var(--ifm-navbar-height);
-    margin-left: 0.5rem;
-    padding-left: 0.9rem;
-    border-left: 1px solid var(--asl-border);
-  }
-  .link:not(.mobile) { margin-right: 0.5rem; }
+  .link:not(.mobile) { margin-left: 0.9rem; margin-right: 0.5rem; }
 }
 
 /* top bar on phones: icon only */

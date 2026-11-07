@@ -14,6 +14,19 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
+      label: 'Use cases',
+      collapsible: true,
+      collapsed: true,
+      items: [
+        'use-cases/designing',
+        'use-cases/developing',
+        'use-cases/pci-scope',
+        'use-cases/interpreting',
+        'use-cases/diagram-editor',
+      ],
+    },
+    {
+      type: 'category',
       label: 'SDKs',
       collapsible: false,
       items: ['javascript'],
@@ -27,8 +40,9 @@ const sidebars: SidebarsConfig = {
     {
       type: 'category',
       label: 'Learn more about it',
-      collapsible: false,
-      items: ['why', 'aac-vs-diagram-as-code', 'architecture'],
+      collapsible: true,
+      collapsed: true,
+      items: ['why', 'aac-vs-diagram-as-code', 'architecture', 'faq'],
     },
   ],
 };

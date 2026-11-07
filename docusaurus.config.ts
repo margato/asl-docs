@@ -100,6 +100,7 @@ const config: Config = {
           sidebarId: 'docsSidebar',
           position: 'right',
           label: 'Docs',
+          className: 'navbar-docs-link',
         },
         {type: 'custom-playgroundLink', position: 'right'},
         {type: 'search', position: 'right'},
@@ -139,7 +140,7 @@ const config: Config = {
       copyright: `ASL · Architecture Specification Language · Architecture as Code · © ${new Date().getFullYear()}`,
     },
     mermaid: {
-      theme: {light: 'dark', dark: 'dark'},
+      theme: {light: 'default', dark: 'default'},
       options: {
         fontFamily: 'Instrument Sans, system-ui, sans-serif',
         flowchart: {curve: 'basis', htmlLabels: true},

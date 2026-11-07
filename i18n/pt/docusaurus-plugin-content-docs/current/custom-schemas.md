@@ -205,7 +205,7 @@ spec:
       to: { kind: Database, name: billing-db }
       type: readsAndWrites
 ```
-Rode com os dois bundles:
+Execute com os dois bundles:
 
 ```sh
 asl ./architecture \
@@ -254,7 +254,7 @@ Um `--schemas-bundle-path` que não é uma pasta também termina com `2`.
 
 ## Onde funciona
 
-O mesmo bundle funciona onde quer que o ASL rode, não só no terminal. Veja [Como o ASL funciona](./architecture.md#onde-o-asl-roda). Para a flag, os exit codes e o formato dos diagnósticos, veja [CLI](./cli.md).
+O mesmo bundle funciona onde quer que o ASL execute, não só no terminal. Veja [Como o ASL funciona](./architecture.md#onde-o-asl-executa). Para a flag, os exit codes e o formato dos diagnósticos, veja [CLI](./cli.md).
 
 :::warning[Em construção]
 No navegador não existe uma pasta para apontar, e o pacote JavaScript ainda não consegue carregar um bundle como ele é. Carregá-lo a partir de um único arquivo, como um `.tar.gz`, está no [issue #36](https://github.com/architectureascode/asl/issues/36).

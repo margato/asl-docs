@@ -11,7 +11,7 @@ Esta página está em construção. O conteúdo pode mudar ou estar incompleto.
 
 A sua empresa tem uma regra: **cada aplicação é dona dos seus dados**. Duas aplicações nunca dividem um banco. Hoje a regra mora numa página de wiki, e o agente que adicionou o `recommendation-service` nunca a leu. Ele apontou o novo serviço para o `orders-db`, e a revisão de design só pegou isso semanas depois.
 
-Essa regra não cabe em nenhuma das checagens built-in, porque é a regra da sua empresa, não a de todo mundo. Uma **custom policy** é a forma de ensinar as suas regras ao `asl`. É um arquivo YAML pequeno que seleciona alguns manifests e diz o que precisa ser verdade sobre eles. O `asl` roda a policy em toda checagem, logo depois das built-in, e nunca no lugar delas.
+Essa regra não cabe em nenhuma das checagens built-in, porque é a regra da sua empresa, não a de todo mundo. Uma **custom policy** é a forma de ensinar as suas regras ao `asl`. É um arquivo YAML pequeno que seleciona alguns manifests e diz o que precisa ser verdade sobre eles. O `asl` executa a policy em toda checagem, logo depois das built-in, e nunca no lugar delas.
 
 ## Sua primeira policy
 
@@ -35,7 +35,7 @@ spec:
 ```
 Leia em voz alta: para cada `Database`, conte as aplicações que têm um relacionamento apontando para ele. Precisa haver no máximo uma.
 
-Rode junto dos seus manifests:
+Execute junto dos seus manifests:
 
 ```sh
 asl ./architecture --policies-bundle-path ./policies

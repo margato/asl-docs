@@ -169,6 +169,14 @@
 
 /* demo */
 .demo { margin-top: 2.6rem; }
+/* one case inside the narrow docs column: stack the two sides */
+.single .demo { margin-top: 1.6rem; }
+.single .cols { grid-template-columns: minmax(0, 1fr); gap: 1.4rem; }
+/* the docs article styles h3 and p with margins; keep the panel compact */
+.single .brief { margin-bottom: 1.4rem; }
+.single .scenarioTitle,
+.single .stepText { margin: 0; }
+.single .scenarioHead { margin-bottom: 0.7rem; }
 .scenario { padding-top: 1.3rem; border-top: 1px solid var(--asl-border); }
 .scenarioAlone { padding-top: 0; border-top: 0; }
 .scenarioHead { margin-bottom: 0.55rem; }
@@ -624,7 +632,7 @@
 }
 .termResult { color: var(--asl-hue-green); font-weight: 700; }
 
-/* the proposed connection: two nodes joined by a labeled edge, tinted by the verdict */
+/* the proposed connection: two nodes joined by a labeled edge, tinted by the result */
 .link {
   gap: 0.7rem;
   padding: 0.8rem;

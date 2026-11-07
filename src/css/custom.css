@@ -17,8 +17,8 @@
   --ifm-link-hover-decoration: underline;
   --asl-line: var(--asl-border);
   --asl-radius: 16px;
-  /* diagrams stay dark in both themes (their colors are drawn for a dark ground) */
-  --asl-diagram-bg: #0b0b0c;
+  /* Mermaid diagrams are light in both themes (their colors are drawn for a light ground) */
+  --asl-diagram-bg: #fff;
 }
 
 /* Light (default). Pairs with the dark block below: same token names, same roles. */
@@ -137,6 +137,14 @@ h1, h2, h3 { font-family: var(--asl-display); }
   box-shadow: none;
 }
 
+/* docs sidebar: its right border starts under the navbar, not through it */
+@media (min-width: 997px) {
+  .theme-doc-sidebar-container { margin-top: 0 !important; }
+  .theme-doc-sidebar-container > div { top: var(--ifm-navbar-height) !important; max-height: calc(100vh - var(--ifm-navbar-height)) !important; }
+  .theme-doc-sidebar-container .theme-doc-sidebar-menu { padding-top: 0.5rem; }
+  .theme-doc-sidebar-container > div > div { padding-top: 0 !important; }
+}
+
 /* text logo */
 .navbar__brand { margin-right: 0.3rem; }
 .navbar__logo { height: 2.5rem; margin-right: 0; }
@@ -161,6 +169,12 @@ h1, h2, h3 { font-family: var(--asl-display); }
 }
 .navbar__link:hover { color: var(--asl-strong); }
 .navbar__link--active { color: var(--asl-strong); }
+.navbar__link.navbar-docs-link {
+  color: var(--asl-accent-text);
+  font-family: var(--ifm-font-family-monospace);
+  font-weight: 700;
+}
+.navbar__link.navbar-docs-link:hover { color: var(--asl-accent-text); }
 .navbar__link--active::after {
   content: '';
   position: absolute;
@@ -568,13 +582,11 @@ mark {
     display: flex;
     align-items: center;
     padding: 0 0.9rem;
-    border-left: 1px solid var(--asl-line);
     border-right: 1px solid var(--asl-line);
   }
   .navbar__items--right > .navbar__link {
     padding: 0 1.1rem;
-    margin-right: 0.9rem;
-    border-left: 1px solid var(--asl-line);
+    border-right: 1px solid var(--asl-line);
   }
   .navbar__items--right > .navbar__link--active::after { left: 0; right: 0; }
 }

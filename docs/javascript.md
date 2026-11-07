@@ -7,7 +7,7 @@ title: JavaScript SDK
 
 ASL is not only a command. The same compiler is available as an npm package, so you can use ASL as the foundation of your own tools. A diagram editor in the browser, for example, can validate the architecture behind the drawing against your rules as people draw, with no server involved.
 
-The `@architectureascode/asl` package is the same compiler as the [`asl` command](./cli.md), packaged for JavaScript. It runs in the browser and in Node.js, with no binary to install, and it gives the same verdict on the same manifests and the same [policies](./custom-policies.md).
+The `@architectureascode/asl` package is the same compiler as the [`asl` command](./cli.md), packaged for JavaScript. It runs in the browser and in Node.js, with no binary to install, and it gives the same result on the same manifests and the same [policies](./custom-policies.md).
 
 ## Try it
 

@@ -301,7 +301,7 @@ export const COPY: Record<Locale, Copy> = {
           action:
             'O desenho mais rápido lê direto do banco de pedidos.',
           asl:
-            'A ASL roda na proposta, antes de qualquer código. O Kyverno só vê o resultado, depois que o código foi escrito e publicado.',
+            'A ASL executa na proposta, antes de qualquer código. O Kyverno só vê o resultado, depois que o código foi escrito e publicado.',
         },
       },
       {
@@ -345,7 +345,7 @@ export const COPY: Record<Locale, Copy> = {
       offNote: 'a plataforma só permite EKS: fora da proposta',
       stepWrite: 'Agente propõe',
       stepFix: 'Agente corrige',
-      fixed: 'Todos os serviços agora rodam no EKS.',
+      fixed: 'Todos os serviços agora executam no EKS.',
       offOutcome: 'Duas semanas depois o time de plataforma rejeita na revisão de arquitetura. O desenho recomeça.',
       onOutcome: 'A ASL confere a proposta contra as regras da plataforma antes da revisão.',
     },

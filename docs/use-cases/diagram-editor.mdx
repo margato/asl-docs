@@ -1,0 +1,59 @@
+---
+sidebar_position: 5
+title: Powering a diagram editor
+---
+
+# Powering a diagram editor
+
+:::warning[Work in progress]
+This page is a work in progress. Content may change or be incomplete.
+:::
+
+Your platform team builds an internal diagram editor so product teams can sketch new systems. Nothing stops someone from drawing `checkout-service` into a database owned by another team, and the mistake only comes up in the design review.
+
+With the ASL [JavaScript SDK](../javascript.md), you can run the compiler in the browser, with no server. The editor checks the drawing on every change and marks the box that causes the problem.
+
+## From the canvas to a check
+
+Each box on the canvas maps to a manifest, and each arrow maps to a `Relationship`. On every change, the editor builds the list of components and passes it to `compile`:
+
+```js title="editor.js"
+import { compile, hasErrors } from '@architectureascode/asl';
+
+async function onCanvasChange(canvas) {
+  const components = canvas.nodes.map((node) => ({
+    apiVersion: 'asl/v1',
+    kind: node.kind,
+    metadata: { name: node.name },
+    spec: node.spec,
+  }));
+
+  const diagnostics = await compile(components);
+  showOnCanvas(diagnostics);
+  return !hasErrors(diagnostics);
+}
+```
+
+A `Database` dropped on the canvas with no provider comes back as a diagnostic:
+
+```json
+[
+  {
+    "file": "",
+    "line": 1,
+    "policy": "asl.builtin.api-contract",
+    "severity": "error",
+    "message": "spec: missing properties: 'providers'"
+  }
+]
+```
+
+The editor shows that as a red badge on the box. Once a provider is picked, the list is empty and the badge goes away.
+
+## Your rules, inside the editor
+
+The same call runs your company rules. Pass your [custom policies](../custom-policies.md) and a rule like "each application owns its data" is enforced on the canvas, as soon as someone draws the arrow.
+
+## Where next
+
+Installing the package and loading the compiler in the browser are covered in the [JavaScript SDK](../javascript.md).

@@ -53,6 +53,28 @@ It also changes who reads the architecture. An agent such as Claude Code or Code
 
 That is a text specification, not a picture.
 
+## Markdown describes, a language can be checked
+
+You can also write the architecture in Markdown, and an agent with a review skill can read it. It works until the list of rules grows: every review reads every file, costs tokens, depends on the session, and a violated rule can read as perfectly fine.
+
+Take a simple case. `inventory-service` writes to `stock-db`, a database that was renamed `inventory-db`. In Markdown, the mistake is one line in a table, in one of three files. In ASL, the compiler reports that `stock-db` does not exist, before anyone writes code. You can [try it in the playground](/playground).
+
+| | Markdown, reviewed by a skill or agent | ASL, checked by the compiler |
+| --- | --- | --- |
+| How the architecture is represented | Free text to interpret | Typed elements and relationships |
+| Cost and repeatability | Tokens on every review, and the result can change between runs | No LLM use, and the same input gives the same result |
+| Your company's policies | An agent can overlook or misread a rule | Rules written once as policies and enforced on every run |
+
+## What this enables for agents
+
+Because the architecture is typed code that can be compiled, it becomes an **architecture harness** for agents: the context they read, the guardrails they respect and the feedback they use to correct themselves.
+
+- **Context.** A draw.io file is XML full of coordinates and generated ids, and the agent pays tokens to recover a graph that was never stored as one. With ASL, it reads the architecture as typed data.
+- **Guardrails.** In a wiki, the rule is read probabilistically: two sessions can read the same diagram and build two different systems. Your rules become [policies](./custom-policies.md) the change must satisfy: ownership, allowed dependencies, naming, anything [CEL](https://cel.dev) can say.
+- **Feedback.** Nothing tells an agent its design is wrong until production. ASL compiles the change and returns a few lines of diagnostics, and the agent fixes it on its own.
+
+See it in practice in the [use cases](./use-cases/designing.mdx).
+
 ## Architecture can be verified
 
 A building plan can look coherent and still collapse. What makes it safe is applying the calculations to the measurements and materials. The same question applies to software: is this architecture valid before anyone builds it?

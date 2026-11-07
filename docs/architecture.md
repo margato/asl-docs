@@ -9,9 +9,9 @@ title: How ASL works
 This page is a work in progress. Content may change or be incomplete.
 :::
 
-You run `asl ./architecture` on your architecture folder and, a blink later, it says that `courier-app` publishes to `dispatch-queue`, which nobody declared. Nobody opened a diagram, and no model was asked for an opinion. What happened in that blink?
+You run `asl ./architecture` on your architecture folder and, a blink later, it says that `courier-app` publishes to `dispatch-queue`, which nobody declared. Nobody opened a diagram, and no LLM was asked for an opinion. What happened in that blink?
 
-Five steps, always in the same order. The same input gives the same verdict every time, which is why it costs nothing to run on every commit.
+Five steps, always in the same order. The same input gives the same result every time, which is why it costs nothing to run on every commit.
 
 ```mermaid
 flowchart LR
@@ -49,7 +49,7 @@ Problems are printed one block each, with the file and line. Errors turn into ex
 
 ## Where ASL runs
 
-Your architects use the terminal. Your platform team wants the same check inside an internal portal. A data team wants it in a Python script. All of them must get the same verdict, or the rules stop being rules.
+Your architects use the terminal. Your platform team wants the same check inside an internal portal. A data team wants it in a Python script. All of them must get the same result, or the rules stop being rules.
 
 That is why the checking logic is one piece, and everything else is a thin layer around it: the `asl` command for terminals and CI, a browser and Node build, a Python binding, and Go programs. Custom schemas and custom policies plug in from the outside, without changing anything inside.
 
@@ -117,11 +117,11 @@ flowchart LR
     GO --> API
 
 
-    classDef adapter fill:#06063a,stroke:#4f8aff,color:#cfe0ff
-    classDef core fill:#0b2418,stroke:#22c55e,color:#bbf7d0
-    classDef api fill:#2a1d07,stroke:#f59e0b,color:#fde68a
-    classDef extension fill:#04202a,stroke:#22d3ee,color:#a5f3fc
-    classDef builtin fill:#141416,stroke:#6b7280,color:#d1d5db
+    classDef adapter fill:#e0e7ff,stroke:#4f6bff,color:#1e2a78
+    classDef core fill:#dcfce7,stroke:#16a34a,color:#14532d
+    classDef api fill:#fef3c7,stroke:#d97706,color:#78350f
+    classDef extension fill:#cffafe,stroke:#0891b2,color:#164e63
+    classDef builtin fill:#f3f4f6,stroke:#6b7280,color:#374151
 
     class PY,PYSDK,ABI,WEB,JSSDK,WASM,GO,GOLIB adapter
     class PARSER,COMPILER,SCHEMAS,POLICIES core
@@ -130,4 +130,4 @@ flowchart LR
     class BUILTIN_S,BUILTIN_P builtin
 ```
 
-You choose where it runs. The rules, and the verdict, stay the same.
+You choose where it runs. The rules, and the result, stay the same.
