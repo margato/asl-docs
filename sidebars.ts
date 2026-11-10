@@ -35,7 +35,7 @@ const sidebars: SidebarsConfig = {
       type: 'category',
       label: 'Extend it',
       collapsible: false,
-      items: ['custom-policies', 'custom-schemas'],
+      items: ['custom-policies', 'custom-schemas', 'deprecation'],
     },
     {
       type: 'category',

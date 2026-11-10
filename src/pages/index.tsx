@@ -72,7 +72,7 @@ const COPY: Record<string, Copy> = {
       'Several applications writing to the same database is fine in some companies and a mistake in yours. Write that rule once, and every architecture proposed is checked against it, before anyone writes code.',
     manifestTitle: 'The architecture',
     manifestSub:
-      'billing-service needs to record credit data, and writing straight to credit-db is the fastest way to ship the feature.',
+      'subscription-service needs to record billing data, and writing straight to billing-db is the fastest way to ship the feature.',
     policyTitle: 'Your rule',
     policySub:
       'A CustomPolicy, versioned with the code: a database has a single writer.',
@@ -167,7 +167,7 @@ const COPY: Record<string, Copy> = {
       'Várias aplicações escrevendo no mesmo banco de dados pode ser aceitável em uma empresa e um erro na sua. Escreva essa regra uma única vez e toda arquitetura proposta será conferida contra ela, antes de alguém escrever código.',
     manifestTitle: 'A arquitetura',
     manifestSub:
-      'O billing-service precisa registrar dados de crédito, e gravar direto no credit-db é o caminho mais rápido para entregar a funcionalidade.',
+      'O subscription-service precisa registrar dados de cobrança, e gravar direto no billing-db é o caminho mais rápido para entregar a funcionalidade.',
     policyTitle: 'A sua regra',
     policySub:
       'Uma CustomPolicy, versionada com o código: um banco de dados tem um único escritor.',
@@ -243,7 +243,9 @@ const COPY: Record<string, Copy> = {
 const MANIFEST = `apiVersion: asl/v1
 kind: Application
 metadata:
-  name: credit-service
+  name: billing-service
+  annotations:
+    description: Charges customers and issues invoices.
 spec:
   providers:
     aws: EKS
@@ -252,7 +254,9 @@ spec:
 apiVersion: asl/v1
 kind: Application
 metadata:
-  name: billing-service
+  name: subscription-service
+  annotations:
+    description: Manages plans, renewals and cancellations.
 spec:
   providers:
     aws: EKS
@@ -261,7 +265,9 @@ spec:
 apiVersion: asl/v1
 kind: Database
 metadata:
-  name: credit-db
+  name: billing-db
+  annotations:
+    description: Invoices and payment records.
 spec:
   providers:
     aws: RDSPostgreSQL
@@ -269,22 +275,22 @@ spec:
 apiVersion: asl/v1
 kind: Relationship
 metadata:
-  name: credit-db-relations
+  name: billing-db-relations
 spec:
   relations:
-    - from:
-        kind: Application
-        name: credit-service
-      to:
-        kind: Database
-        name: credit-db
-      type: writes
     - from:
         kind: Application
         name: billing-service
       to:
         kind: Database
-        name: credit-db
+        name: billing-db
+      type: writes
+    - from:
+        kind: Application
+        name: subscription-service
+      to:
+        kind: Database
+        name: billing-db
       type: writes`;
 
 const POLICY = `apiVersion: asl/v1
@@ -302,10 +308,10 @@ spec:
       message: Only one application may write to database`;
 
 const RESULT = `error: Only one application may write to database
-  --> architecture/credit.asl.yaml:18
+  --> architecture/billing.asl.yaml:22
   policy: acme.single-writer
 
-error: could not compile due to 1 previous error (6.6ms)`;
+error: could not compile due to 1 previous error (19.1ms)`;
 
 
 // Turns every "CEL" in a copy string into a link to cel.dev.
@@ -471,11 +477,11 @@ export default function Home(): ReactNode {
                     {t.manifestTitle}
                   </h3>
                   <p className={styles.flowSub}>{t.manifestSub}</p>
-                  <FocusLine line={27}>
+                  <FocusLine line={33}>
                     <CodeBlock
                       language="yaml"
-                      title="architecture/credit.asl.yaml"
-                      metastring="showLineNumbers {33-46}"
+                      title="architecture/billing.asl.yaml"
+                      metastring="showLineNumbers {39-52}"
                     >
                       {MANIFEST}
                     </CodeBlock>

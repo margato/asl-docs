@@ -7,15 +7,15 @@ type Line = {
 };
 
 const SCRIPT: Line[] = [
-  {kind: 'comment', text: '# agent proposes: billing-service writes to credit-db'},
+  {kind: 'comment', text: '# agent proposes: subscription-service writes to billing-db'},
   {kind: 'cmd', text: 'asl ./architecture --policies-bundle-path ./policies'},
   {kind: 'error', text: 'error: Only one application may write to database'},
-  {kind: 'ptr', text: '  --> architecture/credit.asl.yaml:18'},
+  {kind: 'ptr', text: '  --> architecture/billing.asl.yaml:22'},
   {kind: 'ctx', text: '  policy: acme.single-writer'},
   {kind: 'blank', text: ''},
-  {kind: 'error', text: 'error: could not compile due to 1 previous error (6.6ms)'},
+  {kind: 'error', text: 'error: could not compile due to 1 previous error (19.1ms)'},
   {kind: 'blank', text: ''},
-  {kind: 'comment', text: '# agent fixes: billing-service gets its own database'},
+  {kind: 'comment', text: '# agent fixes: subscription-service gets its own database'},
   {kind: 'cmd', text: 'asl ./architecture --policies-bundle-path ./policies'},
   {kind: 'ok', text: 'ok 12ms'},
 ];
