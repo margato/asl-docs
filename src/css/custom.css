@@ -263,11 +263,27 @@ div[class*='codeBlockTitle'] {
 }
 .theme-code-block {
   border: 1px solid var(--asl-border);
-  border-radius: 14px;
+  border-top: 3px solid var(--asl-accent-text);
+  border-radius: 0;
   overflow: hidden;
 }
+div[class*='codeBlockContainer'] { border-radius: 0; }
 div[class*='codeBlockTitle'] {
+  display: flex;
+  align-items: center;
   border-bottom: 1px solid var(--asl-border);
+  border-radius: 0;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.8rem;
+}
+/* window bar: three small squares before the file name */
+div[class*='codeBlockTitle']::before {
+  content: '';
+  flex: none;
+  width: 38px;
+  height: 8px;
+  margin-right: 1rem;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='8'%3E%3Cg fill='%239ca3af'%3E%3Crect width='8' height='8'/%3E%3Crect x='15' width='8' height='8'/%3E%3Crect x='30' width='8' height='8'/%3E%3C/g%3E%3C/svg%3E") no-repeat;
 }
 
 /* footer: same black as the page, separated by a hairline */

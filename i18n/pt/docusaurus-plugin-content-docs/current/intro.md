@@ -56,5 +56,5 @@ Execute `asl ./architecture` e você recebe `ok`. Adicione uma segunda aplicaç�
 - [CLI](./cli.md): execute a checagem na sua máquina e no CI.
 - [Custom policies](./custom-policies.md): escreva suas próprias regras.
 - [Custom schemas](./custom-schemas.md): ensine ao ASL os seus próprios kinds.
-- [Por que arquitetura como código](./why.md) e [como ela difere de Diagram as Code](./aac-vs-diagram-as-code.md).
+- [Por que arquitetura como código](https://architectureascode.dev) e [como ela difere de Diagram as Code](./aac-vs-diagram-as-code.md).
 - [Como o ASL funciona](./architecture.md): o que acontece entre o seu YAML e o resultado.

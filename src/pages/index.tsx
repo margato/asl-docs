@@ -3,7 +3,7 @@ import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import CodeBlock from '@theme/CodeBlock';
-import { FiArrowRight, FiChevronDown } from 'react-icons/fi';
+import { FiArrowRight, FiMinus, FiPlus } from 'react-icons/fi';
 import { LuTerminal, LuBraces, LuShieldCheck, LuPuzzle } from 'react-icons/lu';
 import { SiGo, SiJavascript, SiPython } from 'react-icons/si';
 import { VscVscode } from 'react-icons/vsc';
@@ -70,7 +70,7 @@ const COPY: Record<string, Copy> = {
       'subscription-service needs to record billing data, and writing straight to billing-db is the fastest way to ship the feature.',
     policyTitle: 'Your rule',
     policySub:
-      'A CustomPolicy, versioned with the code: a database has a single writer.',
+      'A CustomPolicy definition of your context: a database has a single writer.',
     resultTitle: 'The result',
     resultSub:
       'A few lines, in milliseconds. billing-service gets its own data store and the check passes.',
@@ -166,7 +166,7 @@ const COPY: Record<string, Copy> = {
       'O subscription-service precisa registrar dados de cobrança, e gravar direto no billing-db é o caminho mais rápido para entregar a funcionalidade.',
     policyTitle: 'A sua regra',
     policySub:
-      'Uma CustomPolicy, versionada com o código: um banco de dados tem um único escritor.',
+      'Uma definição de CustomPolicy do seu contexto: um banco de dados tem um único escritor.',
     resultTitle: 'O resultado',
     resultSub:
       'Poucas linhas, em milissegundos. O billing-service ganha um banco só dele e a checagem passa.',
@@ -466,7 +466,7 @@ export default function Home(): ReactNode {
               <div className={styles.flow}>
                 <div className={styles.flowCol}>
                   <h3 className={styles.flowTitle}>
-                    <span className={styles.flowN}>01</span>
+                    <span className={styles.flowN}>1</span>
                     {t.manifestTitle}
                   </h3>
                   <p className={styles.flowSub}>{t.manifestSub}</p>
@@ -482,7 +482,7 @@ export default function Home(): ReactNode {
                 </div>
                 <div className={styles.flowCol}>
                   <h3 className={styles.flowTitle}>
-                    <span className={styles.flowN}>02</span>
+                    <span className={styles.flowN}>2</span>
                     {t.policyTitle}
                   </h3>
                   <p className={styles.flowSub}>{t.policySub}</p>
@@ -497,7 +497,7 @@ export default function Home(): ReactNode {
               </div>
               <div className={styles.flowResult}>
                 <h3 className={styles.flowTitle}>
-                  <span className={styles.flowN}>03</span>
+                  <span className={styles.flowN}>3</span>
                   {t.resultTitle}
                 </h3>
                 <p className={styles.flowSub}>{t.resultSub}</p>
@@ -511,7 +511,7 @@ export default function Home(): ReactNode {
             </div>
           </section>
 
-          <section className={styles.section}>
+          <section className={`${styles.section} ${styles.paper}`}>
             <div className={`container ${styles.agents}`}>
               <h2 className={styles.h2}>{hl(t.agentsTitle)}</h2>
               <p className={styles.lead}>{t.agentsText}</p>
@@ -529,7 +529,8 @@ export default function Home(): ReactNode {
                   <details key={f.q} className={styles.faqItem}>
                     <summary className={styles.faqQ}>
                       <span>{f.q}</span>
-                      <FiChevronDown aria-hidden />
+                      <FiPlus className={styles.faqPlus} aria-hidden />
+                      <FiMinus className={styles.faqMinus} aria-hidden />
                     </summary>
                     <div className={styles.faqA}>
                       <p>{rich(f.a)}</p>

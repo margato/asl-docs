@@ -212,8 +212,9 @@
   flex-direction: column;
   flex: 1;
   min-width: 0;
-  border: 1px solid var(--asl-border);
-  border-radius: 14px;
+  border: 1px solid var(--asl-border-2);
+  border-top: 3px solid var(--asl-accent-text);
+  border-radius: 0;
   background: var(--asl-screen);
   overflow: hidden;
 }
@@ -239,7 +240,7 @@
   background: var(--asl-surface);
 }
 .dots { display: inline-flex; gap: 5px; }
-.dots i { width: 9px; height: 9px; border-radius: 50%; background: var(--asl-border-2); }
+.dots i { width: 8px; height: 8px; background: var(--asl-border-4); }
 .winTitle { color: var(--asl-muted); font-size: 0.74rem; font-family: var(--ifm-font-family-monospace); }
 
 .outcome {
