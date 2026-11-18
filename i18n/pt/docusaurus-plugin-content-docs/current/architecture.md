@@ -51,14 +51,14 @@ Os problemas saem um bloco por vez, com arquivo e linha. Erros viram exit code `
 
 Os seus arquitetos usam o terminal. O seu time de plataforma quer a mesma checagem dentro de um portal interno. O time de dados quer num script Python. Todos precisam receber o mesmo resultado, ou as regras deixam de ser regras.
 
-Por isso a lógica de checagem é uma peça só, e todo o resto é uma camada fina em volta dela: o comando `asl` para terminal e CI, um build para navegador e Node, um binding para Python e programas em Go. Custom schemas e custom policies entram por fora, sem mudar nada por dentro.
+Por isso a lógica de checagem é uma peça só, e todo o resto é uma camada fina em volta dela: o comando `asl` para terminal e CI, um build para navegador e Node, uma extensão do VS Code, um binding para Python e programas em Go. Custom schemas e custom policies entram por fora, sem mudar nada por dentro.
 
 ```mermaid
 flowchart LR
     subgraph EXT["Extensibility"]
         direction TB
-        SCHEMA_FILES["Custom Schemas"]
-        POLICY_FILES["Custom Policies"]
+        SCHEMA_FILES["Custom<br/>Schemas"]
+        POLICY_FILES["Custom<br/>Policies"]
     end
 
     subgraph KERNEL["ASL Kernel · Go"]
@@ -70,9 +70,9 @@ flowchart LR
             PARSER["Parser"]
             COMPILER["Compiler"]
             SCHEMAS["Schemas Loader"]
+            BUILTIN_S["Built-in<br/>Schemas"]
             POLICIES["Policy Engine"]
-            BUILTIN_S["Built-in Schemas"]
-            BUILTIN_P["Built-in Policies"]
+            BUILTIN_P["Built-in<br/>Policies"]
         end
 
         API --> PARSER
@@ -81,19 +81,37 @@ flowchart LR
     subgraph PYTHON["Python"]
         direction TB
         PY["Python Application"]
-        PYSDK["ASL Python SDK"]
-        ABI["C ABI Binding"]
 
-        PY --> PYSDK --> ABI
+        subgraph PYSDK["ASL Python SDK"]
+            direction TB
+            WASI["WASI"]
+            PYWASM["WebAssembly"]
+
+            WASI --> PYWASM
+        end
+
+        PY --> WASI
     end
 
     subgraph BROWSER["Browser"]
         direction TB
         WEB["Web UI"]
-        JSSDK["ASL JavaScript SDK"]
-        WASM["WebAssembly Binding"]
 
-        WEB --> JSSDK --> WASM
+        subgraph JSSDK["ASL JavaScript SDK"]
+            direction TB
+            JSWASM["WebAssembly"]
+        end
+
+        WEB --> JSWASM
+    end
+
+    subgraph VSCODE["VS Code"]
+        direction TB
+
+        subgraph VSCEXT["ASL Extension"]
+            direction TB
+            VSCWASM["WebAssembly"]
+        end
     end
 
     subgraph GOAPP["Go"]
@@ -112,8 +130,9 @@ flowchart LR
     SCHEMAS --> SCHEMA_FILES
     POLICIES --> POLICY_FILES
 
-    ABI --> API
-    WASM --> API
+    PYWASM --> API
+    JSWASM --> API
+    VSCWASM --> API
     GO --> API
 
 
@@ -123,7 +142,7 @@ flowchart LR
     classDef extension fill:#cffafe,stroke:#0891b2,color:#164e63
     classDef builtin fill:#f3f4f6,stroke:#6b7280,color:#374151
 
-    class PY,PYSDK,ABI,WEB,JSSDK,WASM,GO,GOLIB adapter
+    class PY,WASI,PYWASM,WEB,JSWASM,VSCWASM,GO,GOLIB adapter
     class PARSER,COMPILER,SCHEMAS,POLICIES core
     class API api
     class SCHEMA_FILES,POLICY_FILES extension
