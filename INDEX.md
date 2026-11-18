@@ -8,7 +8,6 @@ File map of `asl-docs` for AI agents: where each thing lives and what to touch f
 | --- | --- | --- |
 | `docs/intro.md` | `i18n/pt/docusaurus-plugin-content-docs/current/intro.md` | Introduction |
 | `docs/why.md` | `.../why.md` | Why ASL |
-| `docs/aac-vs-diagram-as-code.md` | `.../aac-vs-diagram-as-code.md` | Architecture as code vs diagram as code |
 | `docs/architecture.md` | `.../architecture.md` | How ASL works |
 | `docs/cli.md` | `.../cli.md` | The `asl` CLI |
 | `docs/custom-schemas.md` | `.../custom-schemas.md` | Custom schemas |
@@ -46,6 +45,7 @@ Sidebar order and labels: `sidebars.ts` (English) and `i18n/pt/docusaurus-plugin
 | `src/data/architecture.ts` | Dark copy of the compiler's architecture diagram |
 | `src/lib/asl/` | JS wrapper and `wasm_exec.js` for the WASM compiler |
 | `src/clientModules/preloadSearch.ts` | Preloads the local search index |
+| `manifesto/index.html` | Standalone manifesto page (single HTML, no build; hosted in another repo) |
 | `static/` | Favicon and logo (`img/`), `asl/asl.wasm.gz`, `CNAME`, `.nojekyll` |
 
 ## Translations (pt-BR)

@@ -42,7 +42,15 @@ const sidebars: SidebarsConfig = {
       label: 'Learn more about it',
       collapsible: true,
       collapsed: true,
-      items: ['why', 'aac-vs-diagram-as-code', 'architecture', 'faq'],
+      items: [
+        {
+          type: 'link',
+          label: 'Why architecture as code',
+          href: 'https://architectureascode.dev',
+        },
+        'architecture',
+        'faq',
+      ],
     },
   ],
 };

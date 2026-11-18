@@ -4,7 +4,7 @@ import { FaGithub, FaRegStar } from 'react-icons/fa6';
 import { translate } from '@docusaurus/Translate';
 import styles from './styles.module.css';
 
-const REPO = 'https://github.com/margato/asl';
+const REPO = 'https://github.com/architectureascode/asl';
 const API = 'https://api.github.com/repos/margato/asl';
 const CACHE_KEY = 'asl.stars';
 const CACHE_MS = 10 * 60 * 1000;

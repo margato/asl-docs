@@ -70,7 +70,7 @@ const COPY: Record<string, Copy> = {
       'subscription-service needs to record billing data, and writing straight to billing-db is the fastest way to ship the feature.',
     policyTitle: 'Your rule',
     policySub:
-      'A CustomPolicy definition of your context: a database has a single writer.',
+      'A CustomPolicy definition of your context: a database must have a single writer.',
     resultTitle: 'The result',
     resultSub:
       'A few lines, in milliseconds. billing-service gets its own data store and the check passes.',
@@ -92,11 +92,11 @@ const COPY: Record<string, Copy> = {
       },
       {
         q: 'How is it different from Diagram as Code?',
-        a: 'Diagram as Code generates a picture from text. ASL is a specification: it can be compiled, checked against rules and read by agents. [Compare them](/docs/aac-vs-diagram-as-code).',
+        a: 'Diagram as Code generates a picture from text. ASL is a specification: it can be compiled, checked against rules and read by agents.',
       },
       {
         q: 'Why not describe the architecture in Markdown?',
-        a: 'Markdown is free text to interpret. Every review reads every file, costs tokens and can change between runs. ASL is typed and checked by a compiler: the same input gives the same result. [See the comparison](/docs/why).',
+        a: 'Markdown is free text to interpret. Every review reads every file, costs tokens and can change between runs. ASL is typed and checked by a compiler: the same input gives the same result. [See the comparison](https://architectureascode.dev).',
       },
       {
         q: 'Do I need AI or an LLM to use it?',
@@ -166,7 +166,7 @@ const COPY: Record<string, Copy> = {
       'O subscription-service precisa registrar dados de cobrança, e gravar direto no billing-db é o caminho mais rápido para entregar a funcionalidade.',
     policyTitle: 'A sua regra',
     policySub:
-      'Uma definição de CustomPolicy do seu contexto: um banco de dados tem um único escritor.',
+      'Uma definição de CustomPolicy do seu contexto: um banco de dados deve ter um único escritor.',
     resultTitle: 'O resultado',
     resultSub:
       'Poucas linhas, em milissegundos. O billing-service ganha um banco só dele e a checagem passa.',
@@ -188,11 +188,11 @@ const COPY: Record<string, Copy> = {
       },
       {
         q: 'Qual a diferença para Diagram as Code?',
-        a: 'Diagram as Code gera um desenho a partir de texto. O ASL é uma especificação: pode ser compilada, conferida contra regras e lida por agentes. [Compare os dois](/docs/aac-vs-diagram-as-code).',
+        a: 'Diagram as Code gera um desenho a partir de texto. O ASL é uma especificação: pode ser compilada, conferida contra regras e lida por agentes.',
       },
       {
         q: 'Por que não descrever a arquitetura em Markdown?',
-        a: 'Markdown é texto livre para interpretar. Cada revisão lê todos os arquivos, gasta tokens e pode variar entre execuções. O ASL é tipado e conferido por um compilador: a mesma entrada dá o mesmo resultado. [Veja a comparação](/docs/why).',
+        a: 'Markdown é texto livre para interpretar. Cada revisão lê todos os arquivos, gasta tokens e pode variar entre execuções. O ASL é tipado e conferido por um compilador: a mesma entrada dá o mesmo resultado. [Veja a comparação](https://architectureascode.dev).',
       },
       {
         q: 'Preciso de IA ou de um LLM para usar?',

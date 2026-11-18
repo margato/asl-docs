@@ -168,6 +168,17 @@
   overflow: auto;
 }
 
+/* desktop: the two columns share rows, so titles, subtitles and code blocks line up even when a subtitle wraps */
+@media (min-width: 997px) {
+  .flow { grid-template-rows: auto auto minmax(0, 1fr); }
+  .flowCol {
+    display: grid;
+    grid-row: span 3;
+    grid-template-rows: subgrid;
+  }
+  .flowCol .flowSub { margin-bottom: 1rem; }
+}
+
 .focusWrap { display: flex; flex: 1; flex-direction: column; }
 .focusWrap > :global(.theme-code-block) { flex: 1; }
 

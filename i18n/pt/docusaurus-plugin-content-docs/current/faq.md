@@ -17,7 +17,7 @@ O ASL, **Architecture Specification Language** (linguagem de especificação de 
 
 ## Qual a diferença para Diagram as Code?
 
-Diagram as Code gera um desenho a partir de texto. O ASL é uma especificação: pode ser compilada, conferida contra regras e lida por agentes. Veja [Arquitetura como código vs Diagram as Code](./aac-vs-diagram-as-code.md).
+Diagram as Code gera um desenho a partir de texto. O ASL é uma especificação: pode ser compilada, conferida contra regras e lida por agentes.
 
 ## Por que não descrever a arquitetura em Markdown?
 

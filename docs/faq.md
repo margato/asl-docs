@@ -17,7 +17,7 @@ ASL, the **Architecture Specification Language**, lets you describe applications
 
 ## How is it different from Diagram as Code?
 
-Diagram as Code generates a picture from text. ASL is a specification: it can be compiled, checked against rules and read by agents. See [Architecture as code vs Diagram as Code](./aac-vs-diagram-as-code.md).
+Diagram as Code generates a picture from text. ASL is a specification: it can be compiled, checked against rules and read by agents.
 
 ## Why not describe the architecture in Markdown?
 
