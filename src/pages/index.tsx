@@ -44,7 +44,7 @@ type Copy = {
 const COPY: Record<string, Copy> = {
   en: {
     title: 'The language for',
-    titleAccent: 'specifying architecture.',
+    titleAccent: 'declaring architecture.',
     sub: 'Describe your applications, databases and the relationships between them in YAML. ASL checks references, contracts and your own rules on every change, in milliseconds.',
     cta1: 'Get started',
     cta2: 'Try the playground',
@@ -62,7 +62,7 @@ const COPY: Record<string, Copy> = {
         text: 'Teach ASL your own kinds and policies, with no changes to the compiler.',
       },
     ],
-    flowTitle: 'Specify it. *Then check it.*',
+    flowTitle: 'Declare it. *Then validate it.*',
     flowIntro:
       'Several applications writing to the same database is fine in some companies and a mistake in yours. Write that rule once, and every architecture proposed is checked against it, before anyone writes code.',
     manifestTitle: 'The architecture',
@@ -104,7 +104,7 @@ const COPY: Record<string, Copy> = {
       },
       {
         q: 'Can I write my own rules?',
-        a: 'Yes. A [custom policy](/docs/custom-policies) is a small YAML file with an expression in CEL, and [custom schemas](/docs/custom-schemas) teach ASL your own kinds.',
+        a: 'Yes. A [custom policy](/docs/custom-policies) is a small YAML file with an expression in [CEL](https://cel.dev), and [custom schemas](/docs/custom-schemas) teach ASL your own kinds.',
       },
       {
         q: 'Is it ready for production?',
@@ -140,7 +140,7 @@ const COPY: Record<string, Copy> = {
   },
   pt: {
     title: 'A linguagem para',
-    titleAccent: 'especificar arquitetura.',
+    titleAccent: 'declarar arquitetura.',
     sub: 'Descreva suas aplicações, bancos de dados e os relacionamentos entre eles em YAML. O ASL confere referências, contratos e as suas próprias regras a cada mudança, em milissegundos.',
     cta1: 'Começar',
     cta2: 'Testar no playground',
@@ -158,7 +158,7 @@ const COPY: Record<string, Copy> = {
         text: 'Ensine ao ASL os seus próprios kinds e policies, sem mexer no compilador.',
       },
     ],
-    flowTitle: 'Especifique a arquitetura. *Compile.*',
+    flowTitle: 'Declare a arquitetura. *Depois valide.*',
     flowIntro:
       'Várias aplicações escrevendo no mesmo banco de dados pode ser aceitável em uma empresa e um erro na sua. Escreva essa regra uma única vez e toda arquitetura proposta será conferida contra ela, antes de alguém escrever código.',
     manifestTitle: 'A arquitetura',
@@ -200,7 +200,7 @@ const COPY: Record<string, Copy> = {
       },
       {
         q: 'Posso escrever as minhas próprias regras?',
-        a: 'Pode. Uma [policy customizada](/docs/custom-policies) é um pequeno arquivo YAML com uma expressão em CEL, e [schemas customizados](/docs/custom-schemas) ensinam ao ASL os seus próprios kinds.',
+        a: 'Pode. Uma [policy customizada](/docs/custom-policies) é um pequeno arquivo YAML com uma expressão em [CEL](https://cel.dev), e [schemas customizados](/docs/custom-schemas) ensinam ao ASL os seus próprios kinds.',
       },
       {
         q: 'Já está pronto para produção?',
