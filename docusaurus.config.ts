@@ -67,7 +67,7 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          editUrl: 'https://github.com/margato/asl-docs/tree/main/',
+          editUrl: 'https://github.com/architectureascode/asl-docs/tree/main/',
           editLocalizedFiles: true,
           routeBasePath: 'docs',
         },
@@ -132,7 +132,7 @@ const config: Config = {
           title: 'Project',
           items: [
             {label: 'How ASL works', to: '/docs/architecture'},
-            {label: 'GitHub', href: 'https://github.com/margato/asl'},
+            {label: 'GitHub', href: 'https://github.com/architectureascode/asl'},
             {label: 'CEL', href: 'https://cel.dev'},
           ],
         },

@@ -14,7 +14,7 @@ Details live in the sections below; these are the ones to keep in mind at all ti
 - Dark by default and currently dark only (switch disabled). Colors are tokens in `src/css/custom.css`: never hardcode neutral hex, use the `--asl-*` tokens. The light theme and `src/components/ThemeSwitch` are kept dormant. Accent `#ffcc00`, no gradients or glow, no movement (translate) on hover.
 - Never kill processes by name (`pkill -f ...`): the user runs their own server on port 3000. Check builds with `--out-dir` in a temp directory.
 - The server on port 3000 is the user's `npm start` (hot-reload dev server, English only), so edits to `docs/`, `src/`, `static/` and `i18n/` show up on their own. Changes to `docusaurus.config.ts` or `sidebars.ts` need the user to restart `npm start`: tell them when that happens instead of restarting it. Never start, stop or restart that server by hand (no manual `docusaurus serve` on that port, no killing the port 3000 process). Portuguese and the language switcher need `npm run dev:pt` or `npm run start:prod`, on another port.
-- Verify visual changes in a headless browser at desktop and about 390px width (dark), and keep the page free of horizontal overflow.
+- Verify visual changes in a headless browser at desktop and about 390px width (dark), and keep the page free of horizontal overflow. **Always close the browser after the check** so it does not pollute the user's Mac dock/menu bar: launch it in the background, keep its PID and close that PID right after the screenshot (never `pkill`/`killall` by name); screenshots and temp files go in the scratchpad, never the repo root.
 - Every `/docs` page keeps its "Work in progress" / "Em construção" admonition under the H1.
 - **Editing these files:** edits to `CLAUDE.md` or `AGENTS.md` must be made by a parallel agent (fork) in the background, never inline in the main conversation thread.
 
@@ -24,9 +24,9 @@ The documentation site for **ASL, the Architecture Specification Language**: a h
 
 Two separate repositories:
 
-| Repo | Contains |
-| --- | --- |
-| `margato/asl-docs` (this one) | the site |
+| Repo                             | Contains          |
+| -------------------------------- | ----------------- |
+| `margato/asl-docs` (this one)    | the site          |
 | `margato/asl` (`../asl` locally) | the compiler (Go) |
 
 All GitHub links in the navbar, footer and home point to `margato/asl` (the code). Only `editUrl` ("Edit this page") points to `margato/asl-docs`.
@@ -63,6 +63,7 @@ src/components/UseCases        no longer on the home. Exports `UseCases` (carous
 src/components/LocaleSwitch    EN | PT switch (custom navbar item)
 src/components/GithubLink      GitHub pill (custom navbar item)
 src/theme/NavbarItem/ComponentTypes.tsx   registers the two custom navbar items
+src/theme/DocSidebarItem/Link   sidebar link item: external links open in a new tab with a react-icons arrow
 src/theme/Mermaid              wraps every Mermaid diagram with a fullscreen button
 src/theme/prismTheme.ts        code highlight theme (dark); prismThemeLight.ts is the dormant light one
 src/theme/prism-include-languages.ts      extra Prism setup (see below)
@@ -78,8 +79,8 @@ INDEX.md                       file index for agents (where things live)
 ```
 
 - `docs.css` must stay scoped to docs classes so it never changes the home page. Global changes go in `custom.css`.
-- `prism-include-languages.ts` defines the `asldiag` language (compiler output blocks: error, pointer, policy, ok lines) and highlights unquoted YAML values. Use ```` ```asldiag ```` for CLI output blocks.
-- Home sections, in order: hero (centered: H1 "The language for specifying architecture.", sub, "Get started" button + playground link, then three short ideas: Declarative / Verifiable / Extensible; the blueprint grid squares use `stroke-opacity` .05), "Specify it. *Then check it.*" (manifest, policy and result in the 3-step flow), "A specification that agents *can read and respect.*" (short text and a link to `/docs/use-cases/designing`; the architecture harness is something ASL enables, not the headline), FAQ (`<details>` accordion, `faq` field of `COPY`; the item "One compiler. Use it wherever you work." has `cards: true` and opens the 5 portability cards; a "More questions" link goes to `/docs/faq`), final call to action. Removed from the home and moved to the docs: the animated `ArchDiagram`, `FileTabs`, the architecture harness cards, the Markdown-vs-ASL comparison and the use cases carousel. Section titles (h2) and the final call to action title have one accent-colored part: mark it with `*...*` in the copy strings of `src/pages/index.tsx`; `hl()` renders it, and new title strings use the same marker.
+- `prism-include-languages.ts` defines the `asldiag` language (compiler output blocks: error, pointer, policy, ok lines) and highlights unquoted YAML values. Use ` ```asldiag ` for CLI output blocks.
+- Home sections, in order: hero (centered: H1 "The language for specifying architecture.", sub, "Get started" button + playground link, then three short ideas: Declarative / Verifiable / Extensible; the blueprint grid squares use `stroke-opacity` .05), "Specify it. _Then check it._" (manifest, policy and result in the 3-step flow), "A specification that agents _can read and respect._" (short text and a link to `/docs/use-cases/designing`; the architecture harness is something ASL enables, not the headline), FAQ (`<details>` accordion, `faq` field of `COPY`; the item "One compiler. Use it wherever you work." has `cards: true` and opens the 5 portability cards; a "More questions" link goes to `/docs/faq`), final call to action. Removed from the home and moved to the docs: the animated `ArchDiagram`, `FileTabs`, the architecture harness cards, the Markdown-vs-ASL comparison and the use cases carousel. Section titles (h2) and the final call to action title have one accent-colored part: mark it with `*...*` in the copy strings of `src/pages/index.tsx`; `hl()` renders it, and new title strings use the same marker.
 - The navbar item order and left/right positions are set in `docusaurus.config.ts`; keep them unless asked.
 
 ## i18n
@@ -95,7 +96,7 @@ Rules: every user-visible string needs both languages. The home copy lives in `C
 
 ## Docs structure
 
-The sidebar has fixed, non-collapsible sections: **Get started** (intro, cli, vscode-extension), **Use cases** (use-cases/designing, developing, pci-scope, interpreting; `.mdx` pages that embed `<UseCase id={n} />`; pt label "Casos de uso" in `current.json`), **SDKs** (javascript), **Extend it** (custom-policies, custom-schemas), **Learn more about it** (why, aac-vs-diagram-as-code, architecture, faq). `why.md` carries "Markdown describes, a language can be checked" and "What this enables for agents"; `intro.md` has "Where it runs"; `faq.md` exists in en and pt (the home FAQ shows the main questions). Contributor and Go-internals pages (kinds, built-in policies, contributing, gotchas) were removed on purpose: this site is for people who use ASL.
+The sidebar has fixed, non-collapsible sections: **Get started** (intro, cli, vscode-extension), **Use cases** (use-cases/designing, developing, pci-scope, interpreting; `.mdx` pages that embed `<UseCase id={n} />`; pt label "Casos de uso" in `current.json`), **SDKs** (javascript), **Extend it** (custom-policies, custom-schemas), **Learn more about it** (an external link "Why architecture as code" (pt "Por que arquitetura como código") to `https://architectureascode.dev`, the manifesto, drawn by `src/theme/DocSidebarItem/Link` with a react-icons arrow; then architecture, faq). `why.md` still exists but is no longer in the sidebar. `why.md` carries "Markdown describes, a language can be checked" and "What this enables for agents"; `intro.md` has "Where it runs"; `faq.md` exists in en and pt (the home FAQ shows the main questions). Contributor and Go-internals pages (kinds, built-in policies, contributing, gotchas) were removed on purpose: this site is for people who use ASL.
 
 Every page carries a work-in-progress admonition right under the H1. Keep it when editing and add it to new pages:
 
@@ -115,7 +116,7 @@ Portuguese pages use `:::warning[Em construção]` and "Esta página está em co
 - One consistent world: a company with `billing-service`, `subscription-service` and `billing-db`, policy namespace `acme`, and an agent that proposes designs. Use "your company", not a company name, in prose.
 - Exception: the JavaScript page (`javascript`) uses an ecommerce world (`checkout-service`, `orders-db`, `recommendation-service`) instead of `billing-service`, by the user's request.
 - pt-BR must read as natural Brazilian Portuguese, not a literal translation: "alucinar" (never "chutar"), "na sua máquina" (never laptop/notebook for the computer), "navegador", "banco de dados compartilhado". Keep these in English as the Brazilian dev community does: pull request, build, pipeline, policy, schema, kind, manifest, exit code, CI, token, harness, guardrails. "Notebooks" meaning Jupyter stay.
-- Always write the term **Diagram as Code** exactly like this, capitalized, in both English and Portuguese (never "diagrama como código", never lowercase "diagram as code"). It applies to the home (comparison title, column header, per-item mobile labels) and to the docs page titles ("Architecture as code vs Diagram as Code" / "Arquitetura como código vs Diagram as Code"). The file slug `aac-vs-diagram-as-code` stays lowercase because it is a URL.
+- Always write the term **Diagram as Code** exactly like this, capitalized, in both English and Portuguese (never "diagrama como código", never lowercase "diagram as code"). It applies to the home (comparison title, column header, per-item mobile labels).
 - Write the product name as **ASL** (uppercase) in running text: home copy, docs, labels and messages. Never "asl" there. The exception is the CLI command and technical identifiers, which stay lowercase in code format (`asl ./architecture`, file names, `asl(acme.writer-needs-owner)`, policy ids like `asl.builtin...`). In Portuguese keep the article the page already uses.
 - When citing "harness" in visible text (home, docs, labels), always use the prefix: **architecture harness** in English and **harness de arquitetura** in Portuguese, because the architecture harness is a niche of the harness. Never plain "harness", "system-design harness" or "harness de system design" (the hero says "The architecture harness for your agents"; the home section is "What an architecture harness looks like: without ASL and with ASL"). Exceptions: code identifiers (`harness` as a copy key, CSS classes, field names) and generic mentions of the harness concept when the text is about harnesses in general, not about ASL.
 - Landing copy avoids over-technical wording; the CEL link goes to `https://cel.dev` (the home's `withCel()` links every "CEL").
@@ -182,7 +183,7 @@ For anything on GitHub (PRs, issues, runs, releases) use the `gh` CLI (`gh pr`, 
 - `index.tsx` is formatted by prettier, so naive multi-line string replaces fail. Match on content (a regex on the key, or a short unique phrase).
 - When you script edits, assert that the pattern was actually found; a replace that silently matches nothing leaves the file unchanged.
 - Do not add a new top-level Google Font without adding it to the `stylesheets` entry in the config.
-- Verify visual changes in a headless browser at desktop and about 390px width (dark), not only by building (for example Chrome driven by `puppeteer-core`, installed outside this repo).
+- Verify visual changes in a headless browser at desktop and about 390px width (dark), not only by building (for example Chrome driven by `puppeteer-core`, installed outside this repo). Close the browser when done: keep the PID of the process you launched and close that PID right after the screenshot, never by name, and keep screenshots out of the repo root.
 
 ## Before you finish
 

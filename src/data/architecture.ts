@@ -27,9 +27,9 @@ export const architecture = `flowchart LR
         direction TB
         PY["Python Application"]
         PYSDK["ASL Python SDK"]
-        ABI["C ABI Binding"]
+        WASI["WASI Binding"]
 
-        PY --> PYSDK --> ABI
+        PY --> PYSDK --> WASI
     end
 
     subgraph BROWSER["Browser"]
@@ -57,7 +57,7 @@ export const architecture = `flowchart LR
     SCHEMAS --> SCHEMA_FILES
     POLICIES --> POLICY_FILES
 
-    ABI --> API
+    WASI --> API
     WASM --> API
     GO --> API
 
@@ -68,7 +68,7 @@ export const architecture = `flowchart LR
     classDef extension fill:#04202a,stroke:#22d3ee,color:#a5f3fc
     classDef builtin fill:#141416,stroke:#6b7280,color:#d1d5db
 
-    class PY,PYSDK,ABI,WEB,JSSDK,WASM,GO,GOLIB adapter
+    class PY,PYSDK,WASI,WEB,JSSDK,WASM,GO,GOLIB adapter
     class PARSER,COMPILER,SCHEMAS,POLICIES core
     class API api
     class SCHEMA_FILES,POLICY_FILES extension

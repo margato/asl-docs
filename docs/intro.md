@@ -58,5 +58,5 @@ It is one compiler, and it gives the same result wherever you use it:
 - [CLI](./cli.md): run the check on your machine and in CI.
 - [Custom policies](./custom-policies.md): write your own rules.
 - [Custom schemas](./custom-schemas.md): teach ASL your own kinds.
-- [Why architecture as code](https://architectureascode.dev), and [how it differs from Diagram as Code](./aac-vs-diagram-as-code.md).
+- [Why architecture as code](https://architectureascode.dev).
 - [How ASL works](./architecture.md): what happens between your YAML and the result.

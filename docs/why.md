@@ -101,5 +101,3 @@ ASL stops being documentation and becomes a **contract**. A deploy pipeline can 
 :::note
 Architecture as code pays off when an organization already has governance practices such as a service catalog, ADRs or a tech radar. Without them, it can add complexity before it removes any.
 :::
-
-See how this differs from tools that generate diagrams from text in [Architecture as code vs Diagram as Code](./aac-vs-diagram-as-code.md).

@@ -101,5 +101,3 @@ O ASL deixa de ser documentação e vira um **contrato**. Um pipeline de deploy 
 :::note
 Arquitetura como código compensa quando a organização já tem práticas de governança, como catálogo de serviços, ADRs ou tech radar. Sem elas, pode trazer complexidade antes de resolver qualquer problema.
 :::
-
-Para ver no que isso difere das ferramentas que geram diagramas a partir de texto, leia [Arquitetura como código vs Diagram as Code](./aac-vs-diagram-as-code.md).

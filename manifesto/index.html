@@ -1,0 +1,723 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Manifesto · Architecture as Code</title>
+    <meta
+      name="description"
+      content="Stop drawing the architecture. Specify it. Why architecture as code matters, and how ASL makes it real."
+    />
+    <meta name="color-scheme" content="light" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2232%22%20height=%2232%22%20viewBox=%220%200%2016%2016%22%3E%3Cstyle%3E%0A%20%20%20%20.i%20%7B%20fill:%20%23001AFF;%20%7D%0A%20%20%20%20.s%20%7B%20stroke:%20%23001AFF;%20%7D%0A%20%20%20%20%40media%20(prefers-color-scheme:%20dark)%20%7B%0A%20%20%20%20%20%20.i%20%7B%20fill:%20%23CCD6FF;%20%7D%0A%20%20%20%20%20%20.s%20%7B%20stroke:%20%23CCD6FF;%20%7D%0A%20%20%20%20%7D%0A%20%20%3C/style%3E%3Cg%20class=%22i%22%20transform=%22translate(0.5%200)%22%3E%3Cpath%20d=%22M3.47798%2014.978C3.34548%2014.9777%203.21852%2014.9248%203.12498%2014.831L1.14598%2012.854C1.09942%2012.8076%201.06247%2012.7524%201.03727%2012.6916C1.01206%2012.6309%200.999084%2012.5658%200.999084%2012.5C0.999084%2012.4342%201.01206%2012.3691%201.03727%2012.3084C1.06247%2012.2476%201.09942%2012.1924%201.14598%2012.146L3.14598%2010.146C3.23986%2010.0521%203.3672%209.99937%203.49998%209.99937C3.63275%209.99937%203.76009%2010.0521%203.85398%2010.146C3.94787%2010.2399%204.00061%2010.3672%204.00061%2010.5C4.00061%2010.6328%203.94787%2010.7601%203.85398%2010.854L2.20698%2012.5L3.83198%2014.124C3.90209%2014.1939%203.94985%2014.2831%203.96922%2014.3802C3.98858%2014.4773%203.97868%2014.578%203.94076%2014.6695C3.90284%2014.7609%203.83862%2014.8391%203.75623%2014.894C3.67384%2014.9489%203.577%2014.9782%203.47798%2014.978Z%22/%3E%3Cpath%20d=%22M7.52198%2014.978C7.42296%2014.9782%207.32611%2014.9489%207.24372%2014.894C7.16134%2014.8391%207.09711%2014.7609%207.05919%2014.6695C7.02128%2014.578%207.01137%2014.4773%207.03074%2014.3802C7.05011%2014.2831%207.09787%2014.1939%207.16798%2014.124L8.79298%2012.5L7.14598%2010.854C7.05209%2010.7601%206.99935%2010.6328%206.99935%2010.5C6.99935%2010.3672%207.05209%2010.2399%207.14598%2010.146C7.23986%2010.0521%207.3672%209.99937%207.49998%209.99937C7.63275%209.99937%207.76009%2010.0521%207.85398%2010.146L9.85398%2012.146C9.90054%2012.1924%209.93748%2012.2476%209.96269%2012.3084C9.9879%2012.3691%2010.0009%2012.4342%2010.0009%2012.5C10.0009%2012.5658%209.9879%2012.6309%209.96269%2012.6916C9.93748%2012.7524%209.90054%2012.8076%209.85398%2012.854L7.87498%2014.831C7.78144%2014.9248%207.65447%2014.9777%207.52198%2014.978Z%22/%3E%3Cpath%20d=%22M9.5%201.5L13.5%205.5H9.5Z%22/%3E%3C/g%3E%3Cpath%20class=%22s%22%20transform=%22translate(0.5%200)%22%20d=%22M4.5%209V1.5H9.8L13.5%205.2V14.5H9.5%22%20fill=%22none%22%20stroke-width=%221%22%20stroke-linejoin=%22miter%22%20stroke-miterlimit=%2210%22/%3E%3C/svg%3E" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..700&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=Audiowide&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #f4f5f7;
+        --surface: #fff;
+        --line: #e5e7eb;
+        --line-2: #d1d5db;
+        --strong: #0a0a0b;
+        --text-1: #1f1f23;
+        --text-2: #3f3f46;
+        --text-3: #52525b;
+        --muted: #6b6b73;
+        --accent: #001aff;
+        --link: #001aff;
+        --display: 'Bricolage Grotesque', 'Instrument Sans', system-ui, sans-serif;
+        --body: 'Instrument Sans', system-ui, sans-serif;
+        --mono: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        -webkit-font-smoothing: antialiased;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text-2);
+        font-family: var(--body);
+        font-size: 1.125rem;
+        line-height: 1.7;
+      }
+      a {
+        color: var(--link);
+      }
+      a:hover {
+        color: var(--strong);
+      }
+      :focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+      }
+
+      /* navbar: same as the ASL site */
+      nav {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        height: 4rem;
+        padding: 0 1.25rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: var(--bg);
+        border-bottom: 1px solid var(--line);
+      }
+      nav .brandwrap {
+        display: flex;
+        align-items: center;
+      }
+      nav .brand {
+        font-family: 'Audiowide', var(--display);
+        font-size: 1.35rem;
+        font-weight: 400;
+        letter-spacing: 0.04em;
+        color: var(--accent);
+        text-decoration: none;
+        user-select: none;
+        white-space: nowrap;
+      }
+      nav .expansion {
+        padding-left: 0.75rem;
+        font-size: 0.85rem;
+        color: var(--muted);
+        white-space: nowrap;
+      }
+      @media (max-width: 1200px) {
+        nav .expansion {
+          display: none;
+        }
+      }
+      nav .links {
+        display: flex;
+        align-items: center;
+      }
+      nav .links a {
+        position: relative;
+        height: 4rem;
+        padding: 0 0.85rem;
+        display: inline-flex;
+        align-items: center;
+        font-weight: 500;
+        font-size: 1rem;
+        color: var(--text-3);
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+      nav .links a:hover,
+      nav .links a[aria-current] {
+        color: var(--strong);
+      }
+      nav .links a[aria-current]::after {
+        content: '';
+        position: absolute;
+        left: 0.85rem;
+        right: 0.85rem;
+        bottom: -1px;
+        height: 2px;
+        background: var(--accent);
+      }
+      nav .links a.asl {
+        gap: 0.3rem;
+        color: var(--accent);
+        font-family: var(--mono);
+        font-weight: 700;
+      }
+
+      .lang {
+        display: inline-flex;
+        align-items: center;
+        gap: 2px;
+        margin-left: 0.5rem;
+        padding: 3px;
+        line-height: 1.65;
+        border: 1px solid #9ca3af;
+        border-radius: 999px;
+        background: #e5e7eb;
+      }
+      nav .links .lang button {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        position: relative;
+        height: auto;
+        padding: 3px 11px;
+        border: 0;
+        border-radius: 999px;
+        background: none;
+        color: var(--text-3);
+        font-family: var(--mono);
+        font-size: 0.78rem;
+        font-weight: 500;
+        line-height: 1.65;
+        text-align: center;
+        cursor: pointer;
+        transition:
+          background-color 0.15s,
+          color 0.15s;
+      }
+      nav .links .lang button:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+      nav .links .lang button:hover {
+        background: #b8bec7;
+        color: var(--strong);
+      }
+      nav .links .lang button[aria-pressed='true'],
+      nav .links .lang button[aria-pressed='true']:hover {
+        background: var(--accent);
+        color: #fff;
+        font-weight: 700;
+      }
+      html[data-lang='en'] [data-l='pt'],
+      html[data-lang='pt'] [data-l='en'] {
+        display: none;
+      }
+
+      .sr {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+      }
+
+      /* article */
+      main {
+        max-width: 52rem;
+        margin: 0 auto;
+        padding: 4.5rem 1.25rem 5rem;
+      }
+      .kicker {
+        margin: 0 0 1.25rem;
+        font-family: var(--mono);
+        font-size: 0.8rem;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--accent);
+      }
+      h1,
+      h2 {
+        font-family: var(--display);
+        color: var(--strong);
+        font-weight: 600;
+      }
+      h1 {
+        margin: 0 0 1.25rem;
+        font-size: clamp(2.7rem, 5.6vw, 4.9rem);
+        line-height: 1;
+        letter-spacing: -0.045em;
+      }
+      h1 em,
+      h2 em {
+        font-style: normal;
+        color: var(--accent);
+      }
+      .lede {
+        margin: 0 0 3.5rem;
+        font-size: 1.35rem;
+        line-height: 1.5;
+        color: var(--text-3);
+      }
+      h2 {
+        margin: 3.25rem 0 1rem;
+        font-size: 1.6rem;
+        line-height: 1.2;
+        letter-spacing: -0.01em;
+      }
+      p {
+        margin: 0 0 1.25rem;
+      }
+      strong {
+        color: var(--strong);
+        font-weight: 600;
+      }
+      code {
+        font-family: var(--mono);
+        font-size: 0.88em;
+        color: var(--text-1);
+        background: var(--surface);
+        border: 1px solid var(--line-2);
+        border-radius: 6px;
+        padding: 0.1em 0.35em;
+      }
+      blockquote {
+        margin: 2rem 0;
+        padding: 0 0 0 1.25rem;
+        border-left: 2px solid var(--accent);
+        font-family: var(--display);
+        font-size: 1.5rem;
+        line-height: 1.35;
+        color: var(--strong);
+      }
+      ul {
+        margin: 0 0 1.25rem;
+        padding-left: 1.25rem;
+      }
+      li {
+        margin-bottom: 0.4rem;
+      }
+      li::marker {
+        color: var(--accent);
+      }
+
+      .signature {
+        margin-top: 4rem;
+        padding-top: 2rem;
+        border-top: 1px solid var(--line-2);
+      }
+      .signature .label {
+        margin: 0 0 0.75rem;
+        font-family: var(--mono);
+        font-size: 0.8rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .signature ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        font-family: var(--display);
+        font-size: 1.3rem;
+        color: var(--strong);
+      }
+      .signature li {
+        margin: 0 0 0.2rem;
+      }
+      .signature .date {
+        margin: 1rem 0 0;
+        font-size: 0.95rem;
+        color: var(--muted);
+      }
+
+      @media (max-width: 480px) {
+        body {
+          font-size: 1.0625rem;
+        }
+        nav {
+          padding: 0 0.5rem 0 1rem;
+        }
+        nav .brand {
+          font-size: 1.15rem;
+        }
+        nav .links a {
+          padding: 0 0.6rem;
+          font-size: 0.95rem;
+        }
+        nav .links a[aria-current]::after {
+          left: 0.6rem;
+          right: 0.6rem;
+        }
+        main {
+          padding-top: 3rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav aria-label="Main">
+      <div class="brandwrap">
+        <a class="brand" href="/" aria-label="Architecture as Code">AaC</a>
+        <span class="expansion"
+          ><span data-l="en">Architecture as Code</span
+          ><span data-l="pt">Arquitetura como Código</span></span
+        >
+      </div>
+      <div class="links">
+        <a href="#" aria-current="page">Manifesto</a>
+        <a
+          class="asl"
+          href="https://asl.architectureascode.dev"
+          target="_blank"
+          rel="noopener"
+          >ASL<svg
+            class="ext"
+            viewBox="0 0 24 24"
+            width="14"
+            height="14"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M7 17 17 7M8 7h9v9" />
+          </svg>
+          <span class="sr"><span data-l="en">(opens in a new tab)</span><span data-l="pt">(abre em uma nova aba)</span></span></a
+        >
+        <span class="lang" role="group" aria-label="Language / Idioma"
+          ><button type="button" data-set="en" lang="en">EN</button
+          ><button type="button" data-set="pt" lang="pt-BR">PT</button></span
+        >
+      </div>
+    </nav>
+
+    <main>
+      <article data-l="en" lang="en">
+        <p class="kicker">Manifesto</p>
+        <h1>Stop drawing the architecture. <em>Specify it.</em></h1>
+        <p class="lede">
+          Software is written as code, tested as code, deployed as code. Yet the
+          architecture that decides what that code may do is still a picture:
+          it can't be versioned, tested or enforced.
+        </p>
+
+        <h2>Who this is for</h2>
+        <ul>
+          <li>
+            <strong>Software architects</strong>, who want their decisions to
+            outlive the design review.
+          </li>
+          <li>
+            <strong>Tech leads</strong>, who need the team and its agents to
+            build what was agreed.
+          </li>
+          <li>
+            <strong>Engineering leaders</strong>, such as CTOs, heads of
+            engineering and platform, who answer for consistency, risk and
+            compliance across many teams.
+          </li>
+          <li>
+            <strong>Platform and governance teams</strong>, who turn standards
+            into checks instead of documents.
+          </li>
+          <li>
+            <strong>Developers and agent builders</strong>, who want a
+            specification they can read, not a picture to interpret from.
+          </li>
+        </ul>
+
+        <h2>The diagram is born dead</h2>
+        <p>
+          A team spends two weeks on a diagram. The design review approves it,
+          and everyone leaves the room sure of what will be built. Three sprints
+          later, a service calls another one synchronously, inside the customer
+          request, with a retry loop nobody discussed. The diagram never
+          changed. Nobody can say whether that was a mistake, because the
+          diagram never said what was allowed.
+        </p>
+        <p>
+          A diagram records an intention at one moment and then starts to
+          drift. Worse, it is open to interpretation. One arrow between a
+          service and a queue hides questions the picture cannot answer: is it
+          push or poll, sync or async, who retries, what happens when it fails.
+          Whoever drew it knows. Everyone else needs the author in the room.
+        </p>
+        <blockquote>
+          The happy path is documented. The real behavior rarely is.
+        </blockquote>
+
+        <h2>What architecture as code means</h2>
+        <p>
+          Architecture as code is the practice of writing the architecture in a
+          language instead of drawing it: elements with a type, relationships
+          with a meaning, rules that say what is allowed. It lives in the
+          repository, it is reviewed in a pull request, and it has a history.
+        </p>
+        <p>
+          That is different from generating a picture from text. A diagram made
+          with code is still a diagram: it is meant to be looked at. An
+          architecture as code is meant to be <strong>checked</strong>. When
+          the architecture is data, you can ask whether it is valid before
+          anyone builds it, the same way a building plan is verified by
+          calculation, not by how coherent the drawing looks.
+        </p>
+
+        <h2>Why now</h2>
+        <p>
+          Generative AI sped up writing and shipping code. The distance between
+          the architecture on paper and the system in production grows faster
+          than ever, and the reader of that architecture is no longer only a
+          person. An agent that receives a diagram pays tokens to interpret an
+          image and may hallucinate what the arrows mean. It needs what a
+          person needs, in a form a machine can trust:
+        </p>
+        <ul>
+          <li>well-defined entities and explicit relationships;</li>
+          <li>contracts and dependencies;</li>
+          <li>policies that say what a change must satisfy.</li>
+        </ul>
+        <p>
+          That is a specification, not a picture. And a specification can give
+          an agent three things no diagram can: <strong>context</strong> to
+          read, <strong>guardrails</strong> to respect and
+          <strong>feedback</strong> to correct itself.
+        </p>
+
+        <h2>Enter ASL</h2>
+        <p>
+          <strong>ASL</strong>, the Architecture Specification Language, is our
+          attempt to make this real. You describe applications, databases,
+          queues and the relationships between them in plain YAML manifests,
+          next to your code. A compiler reads them and tells you, in a few
+          lines, whether the architecture holds.
+        </p>
+        <p>
+          It checks the format of every element, the relationships between
+          them and the consistency of the whole graph. Then it applies
+          <strong>your own policies</strong>, written once in
+          <a href="https://cel.dev">CEL</a> and enforced on every run: a
+          database has one writer, only the owner writes to its data, nothing
+          reaches the payment scope without approval. A rule stops being a
+          paragraph in a wiki that an agent may overlook, and becomes a check
+          that fails the build.
+        </p>
+        <p>
+          It needs no model to run, so it costs no tokens and gives the same
+          answer twice. It runs in the terminal, in the editor, in a pull
+          request and in a pipeline. The architecture stops being
+          documentation and becomes a <strong>contract</strong>: a deploy can
+          refuse to go ahead if it does not compile.
+        </p>
+
+        <h2>What we believe</h2>
+        <ul>
+          <li>Architecture belongs in the repository, not in a slide.</li>
+          <li>A rule that nothing enforces is only a suggestion.</li>
+          <li>Meaning should live in a file, not in a meeting.</li>
+          <li>Agents deserve a specification they can read and respect.</li>
+          <li>
+            Specify first, then check, before the first line of code is
+            written.
+          </li>
+        </ul>
+        <p>
+          Architecture as code is not a replacement for good architects. It is
+          what lets their decisions survive the meeting. If your organization
+          already cares about governance, it is the next step. Try it, break
+          it, tell us what is missing.
+        </p>
+        <p>
+          <a href="https://asl.architectureascode.dev">Read the ASL docs →</a>
+        </p>
+
+        <footer class="signature">
+          <p class="label">Signed by the contributors</p>
+          <ul>
+            <li>Osvaldo Margato</li>
+            <li>Joao Francisco</li>
+            <li>Osnir Teixeira</li>
+          </ul>
+          <p class="date">2026</p>
+        </footer>
+      </article>
+      <article data-l="pt" lang="pt-BR">
+        <p class="kicker">Manifesto</p>
+        <h1>Pare de desenhar a arquitetura. <em>Especifique.</em></h1>
+        <p class="lede">
+          O software é escrito como código, testado como código, publicado como
+          código. Já a arquitetura que define o que esse código pode fazer
+          continua sendo um desenho: não dá para versionar, testar nem fazer
+          cumprir.
+        </p>
+
+        <h2>Para quem é</h2>
+        <ul>
+          <li>
+            <strong>Arquitetos de software</strong>, que querem que suas
+            decisões sobrevivam à revisão de design.
+          </li>
+          <li>
+            <strong>Tech leads</strong>, que precisam que o time e seus agentes
+            construam o que foi combinado.
+          </li>
+          <li>
+            <strong>Líderes de engenharia</strong>, como CTOs e heads de
+            engenharia e de plataforma, que respondem por consistência, risco e
+            compliance em muitos times.
+          </li>
+          <li>
+            <strong>Times de plataforma e governança</strong>, que transformam
+            padrões em verificações, e não em documentos.
+          </li>
+          <li>
+            <strong>Pessoas desenvolvedoras e quem constrói agentes</strong>,
+            que querem uma especificação para ler, e não um desenho para
+            interpretar.
+          </li>
+        </ul>
+
+        <h2>O diagrama já nasce morto</h2>
+        <p>
+          Um time passa duas semanas em um diagrama. A revisão de design
+          aprova, e todo mundo sai da sala certo do que será construído. Três
+          sprints depois, um serviço chama outro de forma síncrona, dentro da
+          requisição do cliente, com um loop de retry que ninguém discutiu. O
+          diagrama não mudou. Ninguém consegue dizer se aquilo foi um erro,
+          porque o diagrama nunca disse o que era permitido.
+        </p>
+        <p>
+          Um diagrama registra uma intenção em um momento e depois começa a
+          divergir. Pior, ele está aberto a interpretações. Uma seta entre um
+          serviço e uma fila esconde perguntas que o desenho não responde: é
+          push ou poll, síncrono ou assíncrono, quem faz o retry, o que
+          acontece quando falha. Quem desenhou sabe. Todo o resto precisa do
+          autor na sala.
+        </p>
+        <blockquote>
+          O caminho feliz é documentado. O comportamento real raramente é.
+        </blockquote>
+
+        <h2>O que é arquitetura como código</h2>
+        <p>
+          Arquitetura como código é a prática de escrever a arquitetura em uma
+          linguagem em vez de desenhá-la: elementos com tipo, relações com
+          significado, regras que dizem o que é permitido. Ela vive no
+          repositório, é revisada em um pull request e tem histórico.
+        </p>
+        <p>
+          Isso é diferente de gerar uma imagem a partir de texto. Um diagrama
+          feito com código continua sendo um diagrama: foi feito para ser
+          olhado. Uma arquitetura como código foi feita para ser
+          <strong>verificada</strong>. Quando a arquitetura é dado, você pode
+          perguntar se ela é válida antes de alguém construí-la, do mesmo jeito
+          que a planta de um prédio é verificada por cálculo, e não pela
+          coerência do desenho.
+        </p>
+
+        <h2>Por que agora</h2>
+        <p>
+          A IA generativa acelerou a escrita e a entrega de código. A distância
+          entre a arquitetura no papel e o sistema em produção cresce mais
+          rápido do que nunca, e quem lê essa arquitetura já não é só uma
+          pessoa. Um agente que recebe um diagrama gasta tokens para
+          interpretar uma imagem e pode alucinar o que as setas significam. Ele
+          precisa do que uma pessoa precisa, em uma forma em que a máquina
+          possa confiar:
+        </p>
+        <ul>
+          <li>entidades bem definidas e relações explícitas;</li>
+          <li>contratos e dependências;</li>
+          <li>policies que dizem o que uma mudança precisa satisfazer.</li>
+        </ul>
+        <p>
+          Isso é uma especificação, não um desenho. E uma especificação dá a um
+          agente três coisas que nenhum diagrama dá: <strong>contexto</strong>
+          para ler, <strong>guardrails</strong> para respeitar e
+          <strong>feedback</strong> para se corrigir.
+        </p>
+
+        <h2>Entra a ASL</h2>
+        <p>
+          A <strong>ASL</strong>, a Architecture Specification Language, é a
+          nossa tentativa de tornar isso real. Você descreve aplicações, bancos
+          de dados, filas e as relações entre eles em manifests YAML simples,
+          ao lado do seu código. Um compilador os lê e diz, em poucas linhas, se
+          a arquitetura se sustenta.
+        </p>
+        <p>
+          Ele verifica o formato de cada elemento, as relações entre eles e a
+          consistência do grafo inteiro. Depois aplica as
+          <strong>suas próprias policies</strong>, escritas uma vez em
+          <a href="https://cel.dev">CEL</a> e aplicadas em toda execução: um
+          banco de dados tem um único escritor, só o dono escreve nos seus
+          dados, nada chega ao escopo de pagamentos sem aprovação. Uma regra
+          deixa de ser um parágrafo no wiki que um agente pode ignorar e vira
+          uma verificação que quebra o build.
+        </p>
+        <p>
+          Ela não precisa de um modelo para rodar, então não gasta tokens e dá
+          a mesma resposta duas vezes. Roda no terminal, no editor, em um pull
+          request e em um pipeline. A arquitetura deixa de ser documentação e
+          vira um <strong>contrato</strong>: um deploy pode se recusar a seguir
+          se ela não compilar.
+        </p>
+
+        <h2>No que acreditamos</h2>
+        <ul>
+          <li>Arquitetura pertence ao repositório, não a um slide.</li>
+          <li>Uma regra que nada aplica é só uma sugestão.</li>
+          <li>O significado deve viver em um arquivo, não em uma reunião.</li>
+          <li>
+            Agentes merecem uma especificação que possam ler e respeitar.
+          </li>
+          <li>
+            Especifique primeiro, verifique depois, antes de escrever a
+            primeira linha de código.
+          </li>
+        </ul>
+        <p>
+          Arquitetura como código não substitui bons arquitetos. É o que permite
+          que as decisões deles sobrevivam à reunião. Se a sua organização já se
+          preocupa com governança, é o próximo passo. Experimente, quebre,
+          conte para nós o que falta.
+        </p>
+        <p>
+          <a href="https://asl.architectureascode.dev/pt/docs/intro"
+            >Leia a documentação da ASL →</a
+          >
+        </p>
+
+        <footer class="signature">
+          <p class="label">Assinado pelos contribuidores</p>
+          <ul>
+            <li>Osvaldo Margato</li>
+            <li>Joao Francisco</li>
+            <li>Osnir Teixeira</li>
+          </ul>
+          <p class="date">2026</p>
+        </footer>
+      </article>
+    </main>
+    <script>
+      (function () {
+        var T = {
+          en: {
+            title: 'Manifesto · Architecture as Code',
+            desc: "Stop drawing the architecture. Specify it. Why architecture as code matters, and how ASL makes it real.",
+            lang: 'en',
+          },
+          pt: {
+            title: 'Manifesto · Arquitetura como Código',
+            desc: 'Pare de desenhar a arquitetura. Especifique. Por que arquitetura como código importa e como a ASL torna isso real.',
+            lang: 'pt-BR',
+          },
+        };
+        var root = document.documentElement;
+        function pick() {
+          var q = /[?&]lang=(en|pt)/.exec(location.search);
+          if (q) return q[1];
+          try {
+            var s = localStorage.getItem('manifesto.lang');
+            if (s === 'en' || s === 'pt') return s;
+          } catch (e) {}
+          return /^pt/i.test(navigator.language || '') ? 'pt' : 'en';
+        }
+        function set(l, save) {
+          root.setAttribute('data-lang', l);
+          root.lang = T[l].lang;
+          document.title = T[l].title;
+          var m = document.querySelector('meta[name=description]');
+          if (m) m.content = T[l].desc;
+          document.querySelectorAll('[data-set]').forEach(function (b) {
+            b.setAttribute('aria-pressed', String(b.getAttribute('data-set') === l));
+          });
+          if (save) {
+            try {
+              localStorage.setItem('manifesto.lang', l);
+            } catch (e) {}
+          }
+        }
+        document.querySelectorAll('[data-set]').forEach(function (b) {
+          b.addEventListener('click', function () {
+            set(b.getAttribute('data-set'), true);
+          });
+        });
+        set(pick(), false);
+      })();
+    </script>
+  </body>
+</html>

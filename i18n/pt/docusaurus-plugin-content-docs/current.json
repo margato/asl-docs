@@ -22,5 +22,9 @@
   "sidebar.docsSidebar.category.Learn more about it": {
     "message": "Saiba mais",
     "description": "The label for category Learn more about it in sidebar docsSidebar"
+  },
+  "sidebar.docsSidebar.link.Why architecture as code": {
+    "message": "Por que arquitetura como código",
+    "description": "The label for link Why architecture as code in sidebar docsSidebar"
   }
 }
