@@ -1,0 +1,84 @@
+# Checks for every pull request ("CI"): the title is a Conventional Commit, the
+# TypeScript compiles and both locales (en + pt) build with no broken links.
+# `edited` re-validates the title when it changes; that run only executes the
+# pr-title job and has its own concurrency group, so editing a PR never cancels
+# a running build.
+name: PR
+run-name: CI
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}-${{ github.event.action == 'edited' && 'title' || 'code' }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  # The squash-merge commit takes the PR title, so it must be a Conventional
+  # Commit (feat:, fix:, docs:, chore:...). The same rule runs locally through
+  # the husky commit-msg hook (commitlint).
+  pr-title:
+    name: Validate conventional commit title
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    steps:
+      - name: Validate PR title
+        uses: amannn/action-semantic-pull-request@v6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # Typecheck, then build both locales. The build is the real gate: with
+  # onBrokenLinks "throw", a bad link or a missing translation key fails here.
+  build:
+    name: Typecheck and build site (en + pt locales)
+    if: github.event.action != 'edited'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Build
+        run: npm run build
+
+  # Shows the result of each job in the run summary, so the status is readable
+  # without opening every job. Derived from the job results (no API call).
+  overview:
+    name: Overview of checks
+    needs: [pr-title, build]
+    if: always() && github.event.action != 'edited'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Summarize the run
+        env:
+          PR_TITLE: ${{ needs.pr-title.result }}
+          BUILD: ${{ needs.build.result }}
+        run: |
+          icon() {
+            case "$1" in
+              success) echo "✅" ;;
+              failure) echo "❌" ;;
+              cancelled) echo "🚫" ;;
+              *) echo "⏭️" ;;
+            esac
+          }
+          {
+            echo "## Overview"
+            echo
+            echo "| Job | Result |"
+            echo "|---|---|"
+            echo "| Validate conventional commit title | $(icon "$PR_TITLE") |"
+            echo "| Typecheck and build site (en + pt locales) | $(icon "$BUILD") |"
+          } >> "$GITHUB_STEP_SUMMARY"

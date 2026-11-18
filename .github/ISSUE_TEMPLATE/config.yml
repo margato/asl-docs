@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Compiler or language bug
+    url: https://github.com/architectureascode/asl/issues
+    about: Problems with the asl CLI, schemas or policies belong in the compiler repository.
+  - name: Documentation site
+    url: https://asl.architectureascode.dev/
+    about: Browse the published docs before opening an issue.

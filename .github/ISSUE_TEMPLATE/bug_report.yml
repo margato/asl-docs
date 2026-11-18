@@ -1,0 +1,65 @@
+name: Bug report
+description: Something on the documentation site is broken or wrong.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a problem with the docs site. For a bug in the `asl` compiler itself, open the issue in the compiler repository instead.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Docs content is wrong or outdated
+        - Broken link
+        - Example or compiler output does not match the real compiler
+        - Layout or styling
+        - Mobile / responsive
+        - Playground
+        - Search
+        - Language switch or Portuguese translation
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: Page URL
+      description: The page where you saw the problem.
+      placeholder: https://asl.architectureascode.dev/docs/cli
+    validations:
+      required: true
+  - type: dropdown
+    id: locale
+    attributes:
+      label: Language
+      options:
+        - English
+        - Português (pt-BR)
+        - Both
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Browser and device
+      description: Browser, OS and screen width, if the problem is visual.
+      placeholder: Safari 18 on iPhone, 390px
+  - type: textarea
+    id: actual
+    attributes:
+      label: What is wrong
+      description: What you saw. A screenshot helps for visual problems.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: textarea
+    id: extra
+    attributes:
+      label: Additional context
