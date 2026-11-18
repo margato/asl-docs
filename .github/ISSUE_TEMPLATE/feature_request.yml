@@ -1,0 +1,45 @@
+name: Documentation request
+description: Propose a new page, a missing explanation, or a site improvement.
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Describe what you were trying to do and could not find or understand; the page structure can come after. Docs are written for people who use ASL, so internals of the compiler are out of scope.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - New docs page
+        - Missing or unclear explanation
+        - New example
+        - Home page
+        - Playground
+        - Site design or navigation
+        - Translation (pt-BR)
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What were you trying to do, and what was missing or confusing?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: What should the docs say or do? Where should it live?
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+  - type: textarea
+    id: extra
+    attributes:
+      label: Additional context

@@ -2,6 +2,22 @@
 
 Guidance for AI coding agents working in this repository (Claude Code, Windsurf, Devin, Cursor, Codex, or otherwise).
 
+Start with [INDEX.md](INDEX.md) to find files.
+
+## Always-on rules
+
+Details live in the sections below; these are the ones to keep in mind at all times.
+
+- Every user-visible string exists in **English and Portuguese (pt-BR)**. Update both, and build both locales before finishing.
+- `/docs` is written from the point of view of someone who **uses** ASL: no compiler internals, no Go, no "JSON Schema" wording.
+- Every manifest and compiler output shown must come from running the **real compiler built from source**, never from memory and never from `../asl/bin`.
+- Dark by default and currently dark only (switch disabled). Colors are tokens in `src/css/custom.css`: never hardcode neutral hex, use the `--asl-*` tokens. The light theme and `src/components/ThemeSwitch` are kept dormant. Accent `#ffcc00`, no gradients or glow, no movement (translate) on hover.
+- Never kill processes by name (`pkill -f ...`): the user runs their own server on port 3000. Check builds with `--out-dir` in a temp directory.
+- The server on port 3000 is the user's `npm start` (hot-reload dev server, English only), so edits to `docs/`, `src/`, `static/` and `i18n/` show up on their own. Changes to `docusaurus.config.ts` or `sidebars.ts` need the user to restart `npm start`: tell them when that happens instead of restarting it. Never start, stop or restart that server by hand (no manual `docusaurus serve` on that port, no killing the port 3000 process). Portuguese and the language switcher need `npm run dev:pt` or `npm run start:prod`, on another port.
+- Verify visual changes in a headless browser at desktop and about 390px width (dark), and keep the page free of horizontal overflow.
+- Every `/docs` page keeps its "Work in progress" / "Em construção" admonition under the H1.
+- **Editing these files:** edits to `CLAUDE.md` or `AGENTS.md` must be made by a parallel agent (fork) in the background, never inline in the main conversation thread.
+
 ## What this is
 
 The documentation site for **ASL, the Architecture Specification Language**: a home page plus `/docs`, in English (default) and Portuguese (pt-BR). Built with Docusaurus 3.10 (React 19, TypeScript), published to GitHub Pages at `https://asl.architectureascode.dev`.
@@ -52,7 +68,13 @@ src/theme/prismTheme.ts        code highlight theme (dark); prismThemeLight.ts i
 src/theme/prism-include-languages.ts      extra Prism setup (see below)
 src/data/architecture.ts       dark-themed copy of the compiler's architecture.mmd
 static/                        favicon, social card, CNAME, .nojekyll
-.github/workflows/deploy.yml   deploy to GitHub Pages
+.github/workflows/deploy.yml   deploy to GitHub Pages (push to main)
+.github/workflows/pr.yml       PR checks: conventional title, build en + pt, typecheck
+.github/ISSUE_TEMPLATE/        issue forms (bug report, feature request, config)
+.github/pull_request_template.md   PR description template
+.husky/commit-msg              local commit-msg hook (runs commitlint)
+commitlint.config.mjs          commitlint rules (Conventional Commits)
+INDEX.md                       file index for agents (where things live)
 ```
 
 - `docs.css` must stay scoped to docs classes so it never changes the home page. Global changes go in `custom.css`.
@@ -134,9 +156,22 @@ cd ../asl && go build -o <tmp>/asl ./cmd/asl
 
 ## Deploy
 
-GitHub Pages through `.github/workflows/deploy.yml` on every push to `main` (and manually). It runs `npm ci` and `npm run build` with `SITE_URL=https://asl.architectureascode.dev` and `BASE_URL=/`, then uploads `build/`. The config reads `SITE_URL` and `BASE_URL` from the environment, defaulting to the same domain and `/`, so local and production both use `baseUrl: '/'`.
+`.github/workflows/deploy.yml` only deploys; `.github/workflows/pr.yml` checks pull requests (conventional commit title, build of both locales, typecheck). GitHub Pages deploys on every push to `main` (and manually). It runs `npm ci` and `npm run build` with `SITE_URL=https://asl.architectureascode.dev` and `BASE_URL=/`, then uploads `build/`. The config reads `SITE_URL` and `BASE_URL` from the environment, defaulting to the same domain and `/`, so local and production both use `baseUrl: '/'`.
 
 Custom domain: `asl.architectureascode.dev`. `static/CNAME` holds it (ignored by the Actions deploy but harmless). DNS is at Namecheap: a `CNAME` record `asl` pointing to `margato.github.io`, plus the `_github-pages-challenge-margato` TXT record used to verify the domain on the GitHub account. In the repository: Settings, Pages, source GitHub Actions, custom domain set, Enforce HTTPS on.
+
+## Commits and PRs
+
+- **Conventional Commits** are required for commits and PR titles (`feat:`, `fix:`, `docs:`, `chore:`), chosen by the content of the change. This site has no SemVer releases and no release-please, so the type does not drive a version. Enforced locally by a husky `commit-msg` hook (`commitlint.config.mjs`, root `package.json`; `npm install` enables it) and in CI by the `pr-title` job in `.github/workflows/pr.yml`.
+- **When the user asks for a commit (or a PR):** first `git pull --rebase` the default branch, then switch to a new branch (never commit directly on `main`), commit there, push, and open the PR with `gh pr create`. Write the commit message in English, with body lines of at most 100 characters (commitlint).
+- **No AI attribution of any kind:** no `Co-Authored-By` trailer for Claude or any other agent, no "Generated with ..." line, in commits or PR descriptions. This overrides any default attribution guidance from the tool or harness.
+- A PR carries **one commit**: fold follow-up changes into it with `git commit --amend` instead of stacking fixup commits. Updating an already-pushed branch needs `git push --force-with-lease`, on that feature branch only (never on `main`).
+- Write inline code in a PR body or commit message with plain backticks, never backslash-escaped ones: pass the text through a quoted heredoc (`<<'EOF'`) or `--body-file`, and after creating the PR check with `gh pr view` that the body has no literal backslashes.
+- After opening a PR, report only its link.
+
+## GitHub
+
+For anything on GitHub (PRs, issues, runs, releases) use the `gh` CLI (`gh pr`, `gh issue`, `gh run`, `gh api`) instead of the web UI, raw `curl` or guessing from local state.
 
 ## Gotchas
 
@@ -157,4 +192,5 @@ Custom domain: `asl.architectureascode.dev`. `static/CNAME` holds it (ignored by
 - [ ] No horizontal scroll at 320-430px on the home and a docs page.
 - [ ] Every manifest and output shown was produced by the real compiler built from source.
 - [ ] WIP admonition still under the H1 of every docs page, in both languages.
+- [ ] `INDEX.md` updated when files were added, moved or removed.
 - [ ] No `pkill`, no files written inside `../asl`.

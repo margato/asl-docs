@@ -1,4 +1,12 @@
-name: Deploy docs to GitHub Pages
+# Publishes the documentation site to GitHub Pages at
+# https://asl.architectureascode.dev on every push to main (or by hand from the
+# Actions tab). Pull requests are checked by pr.yml; this workflow only deploys.
+#
+# One-time repository setup: Settings > Pages > Source: GitHub Actions, custom
+# domain asl.architectureascode.dev, Enforce HTTPS on. static/CNAME holds the
+# domain (the Actions deploy ignores it, but it is harmless).
+name: Deploy
+run-name: Deploy docs to GitHub Pages
 
 on:
   push:
@@ -7,45 +15,57 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 # One deployment at a time; a newer push cancels the one still running.
 concurrency:
   group: pages
   cancel-in-progress: true
 
+env:
+  # The site config reads these two; they default to the same values, so local
+  # builds and production both use baseUrl "/".
+  SITE_URL: https://asl.architectureascode.dev
+  BASE_URL: /
+
 jobs:
+  # Builds both locales (en at /, pt at /pt/) into build/. onBrokenLinks is
+  # "throw", so a broken link fails the deploy before anything is published.
   build:
+    name: Build site (en + pt locales)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
-
-      - run: npm ci
-
-      - name: Build (en + pt)
+      - name: Install dependencies
+        # `prepare` runs husky, which only wires local git hooks: harmless in CI.
+        run: npm ci
+      - name: Build
         run: npm run build
-        env:
-          SITE_URL: https://asl.architectureascode.dev
-          BASE_URL: /
-
-      - uses: actions/configure-pages@v5
-
-      - uses: actions/upload-pages-artifact@v3
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+      - name: Upload the site
+        uses: actions/upload-pages-artifact@v3
         with:
           path: build
 
+  # Publishes the artifact built above. The environment link shows the live URL
+  # in the run summary.
   deploy:
+    name: Publish to GitHub Pages
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - id: deployment
+      - name: Deploy
+        id: deployment
         uses: actions/deploy-pages@v4
