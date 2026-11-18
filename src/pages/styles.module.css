@@ -374,7 +374,6 @@
 }
 .faqQ::-webkit-details-marker { display: none; }
 .faqQ svg { flex: none; color: var(--asl-muted); transition: transform 0.2s; }
-.faqItem[open] .faqQ svg { transform: rotate(180deg); }
 .faqQ:hover { color: var(--asl-accent-text); }
 .faqQ:focus-visible { outline: 2px solid var(--asl-accent-text); outline-offset: 2px; }
 .faqA { padding: 0 0 1.5rem; color: var(--asl-text-3); line-height: 1.65; }
@@ -389,3 +388,155 @@
   .heroCenter .ctas .textLink { justify-content: center; }
   .ideas { grid-template-columns: minmax(0, 1fr); gap: 1.75rem; margin-top: 2.5rem; }
 }
+
+/* ---------- design pass: white paper, ink band, blue HUD details ---------- */
+/* hero: white sheet, stronger blueprint grid that fades out toward the bottom */
+.hero { background: var(--asl-surface); }
+.hero::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Cpath d='M48 0H0V48' fill='none' stroke='%23001aff' stroke-opacity='.1'/%3E%3C/svg%3E");
+  -webkit-mask-image: linear-gradient(#000 30%, transparent 95%);
+  mask-image: linear-gradient(#000 30%, transparent 95%);
+}
+.heroCenter .sub { font-size: 1.2rem; color: var(--asl-text-2); }
+
+/* section titles get a small chamfered blue marker */
+.h2::before {
+  content: '';
+  display: inline-block;
+  width: 0.4em;
+  height: 0.4em;
+  margin-right: 0.55em;
+  vertical-align: 0.1em;
+  background: var(--asl-accent-text);
+  clip-path: polygon(0 0, 65% 0, 100% 35%, 100% 100%, 35% 100%, 0 65%);
+}
+
+/* the three ideas: panels with a solid blue icon tile */
+.ideas { gap: 1rem; padding-top: 0; border-top: 0; margin-top: 4rem; }
+.idea {
+  position: relative;
+  padding: 1.75rem;
+  background: var(--asl-surface);
+  border: 1px solid var(--asl-border-2);
+}
+.ideaIcon {
+  box-sizing: content-box;
+  width: 1.4rem;
+  height: 1.4rem;
+  padding: 0.7rem;
+  margin-bottom: 0.9rem;
+  background: var(--asl-accent-text);
+  color: #fff;
+  clip-path: polygon(0 0, calc(100% - 9px) 0, 100% 9px, 100% 100%, 9px 100%, 0 calc(100% - 9px));
+}
+.idea strong { font-size: 1.25rem; }
+.idea span { color: var(--asl-text-3); }
+
+.flowN {
+  border-radius: 0;
+  border-color: var(--ifm-color-primary-light);
+  background: var(--ifm-color-primary-light);
+  color: #fff;
+  clip-path: polygon(0 0, calc(100% - 7px) 0, 100% 7px, 100% 100%, 7px 100%, 0 calc(100% - 7px));
+}
+
+/* agents: title on the left, text and link on the right */
+.paper { background: var(--asl-surface); }
+.agents {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  column-gap: 5rem;
+  align-items: start;
+  max-width: var(--ifm-container-width);
+}
+.agents .h2 {
+  grid-row: 1 / span 2;
+  max-width: none;
+  margin: 0;
+  font-size: clamp(2rem, 3.6vw, 3rem);
+}
+.agents .lead { margin: 0 0 1.5rem; font-size: 1.2rem; color: var(--asl-text-2); }
+.agents .textLink { justify-self: start; }
+
+/* faq: one panel per question, the chevron becomes a square that fills blue when open */
+.faq { display: grid; gap: 0.75rem; border-top: 0; }
+.faqItem {
+  padding: 0 1.4rem;
+  background: var(--asl-surface);
+  border: 1px solid var(--asl-border-2);
+  transition: background-color 0.2s, border-color 0.2s;
+}
+.faqItem:not([open]):hover { background: var(--asl-surface-hover); border-color: var(--asl-border-4); }
+.faqItem[open] { border-color: var(--asl-accent-text); }
+.faqQ svg {
+  box-sizing: border-box;
+  width: 2rem;
+  height: 2rem;
+  padding: 0.45rem;
+  border: 1px solid var(--asl-border-3);
+  color: var(--asl-text-2);
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+.faqItem[open] .faqQ svg { background: var(--asl-accent-text); border-color: var(--asl-accent-text); color: #fff; }
+
+/* final call: same blueprint grid as the hero, mirrored */
+.final {
+  position: relative;
+  background: var(--asl-surface);
+}
+.final::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Cpath d='M48 0H0V48' fill='none' stroke='%23001aff' stroke-opacity='.1'/%3E%3C/svg%3E");
+  -webkit-mask-image: linear-gradient(transparent 5%, #000 90%);
+  mask-image: linear-gradient(transparent 5%, #000 90%);
+}
+.final > * { position: relative; }
+.finalActions :global(.button--outline) { background: transparent; }
+.finalActions :global(.button--outline)::after { background-color: var(--asl-surface); }
+
+@media (max-width: 996px) {
+  .agents { grid-template-columns: minmax(0, 1fr); row-gap: 1.25rem; }
+  .agents .h2 { grid-row: auto; }
+  .idea { padding: 1.5rem; }
+  .faqItem { padding: 0 1rem; }
+}
+
+/* faq icon: plus when closed, minus when open (swapped, never rotated) */
+.faqMinus { display: none; }
+.faqItem[open] .faqPlus { display: none; }
+.faqItem[open] .faqMinus { display: block; }
+
+/* flow: code windows with a blue top edge and a small window bar (three squares, then the file name in mono) */
+.flowCol :global(.theme-code-block),
+.flowResult :global(.theme-code-block) {
+  border: 1px solid var(--asl-border-3);
+  border-top: 3px solid var(--asl-accent-text);
+  border-radius: 0;
+}
+.flowCol :global(div[class*='codeBlockContainer']),
+.flowResult :global(div[class*='codeBlockContainer']) { border-radius: 0; }
+.flowCol :global(div[class*='codeBlockTitle']),
+.flowResult :global(div[class*='codeBlockTitle']) {
+  display: flex;
+  align-items: center;
+  padding: 0.7rem 1rem;
+  border-radius: 0;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.8rem;
+  letter-spacing: 0.01em;
+  user-select: none;
+}
+.flowCol :global(div[class*='codeBlockTitle'])::before,
+.flowResult :global(div[class*='codeBlockTitle'])::before {
+  content: '';
+  flex: none;
+  width: 38px;
+  height: 8px;
+  margin-right: 1rem;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='8'%3E%3Cg fill='%239ca3af'%3E%3Crect width='8' height='8'/%3E%3Crect x='15' width='8' height='8'/%3E%3Crect x='30' width='8' height='8'/%3E%3C/g%3E%3C/svg%3E") no-repeat;
+}
+.flowCol :global(.theme-code-block) pre,
+.flowResult :global(.theme-code-block) pre { padding-top: 0.5rem; padding-bottom: 0.5rem; }

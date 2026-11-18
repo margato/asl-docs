@@ -123,7 +123,7 @@ const config: Config = {
           title: 'Docs',
           items: [
             {label: 'Introduction', to: '/docs/intro'},
-            {label: 'Why architecture as code', to: '/docs/why'},
+            {label: 'Why architecture as code', href: 'https://architectureascode.dev'},
             {label: 'CLI', to: '/docs/cli'},
             {label: 'Custom policies', to: '/docs/custom-policies'},
           ],
