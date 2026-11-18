@@ -1,15 +1,10 @@
-import {useEffect, useRef, type ReactNode} from 'react';
+import { useEffect, useRef, type ReactNode } from 'react';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import CodeBlock from '@theme/CodeBlock';
 import { FiArrowRight, FiChevronDown } from 'react-icons/fi';
-import {
-  LuTerminal,
-  LuBraces,
-  LuShieldCheck,
-  LuPuzzle,
-} from 'react-icons/lu';
+import { LuTerminal, LuBraces, LuShieldCheck, LuPuzzle } from 'react-icons/lu';
 import { SiGo, SiJavascript, SiPython } from 'react-icons/si';
 import { VscVscode } from 'react-icons/vsc';
 import { FaGithub } from 'react-icons/fa6';
@@ -79,7 +74,7 @@ const COPY: Record<string, Copy> = {
     resultTitle: 'The result',
     resultSub:
       'A few lines, in milliseconds. billing-service gets its own data store and the check passes.',
-    agentsTitle: 'A specification that agents *can read and respect.*',
+    agentsTitle: 'An architecture specification that agents *can read and respect.*',
     agentsText:
       'Because the architecture is typed code that compiles, an agent gets what a diagram never gave it: context to read, guardrails to respect and feedback to correct itself. Using ASL as an architecture harness for your agents is one of its use cases.',
     agentsLink: 'See it in the use cases',
@@ -123,7 +118,7 @@ const COPY: Record<string, Copy> = {
       },
       {
         title: 'Go SDK',
-        text: 'Embed validation in your team\'s portal or internal engineering platform and check the architecture right there, without leaving the tool.',
+        text: "Embed validation in your team's portal or internal engineering platform and check the architecture right there, without leaving the tool.",
       },
       {
         title: 'JS SDK',
@@ -139,7 +134,8 @@ const COPY: Record<string, Copy> = {
       },
     ],
     ctaTitle: 'Give your architecture *a language.*',
-    ctaText: 'Write the rule once. Every design is checked before anyone writes code.',
+    ctaText:
+      'Write the rule once. Every design is checked before anyone writes code.',
     ctaGithub: 'View on GitHub',
   },
   pt: {
@@ -174,7 +170,7 @@ const COPY: Record<string, Copy> = {
     resultTitle: 'O resultado',
     resultSub:
       'Poucas linhas, em milissegundos. O billing-service ganha um banco só dele e a checagem passa.',
-    agentsTitle: 'Uma especificação que agentes *conseguem ler e respeitar.*',
+    agentsTitle: 'Uma especificação de arquitetura que agentes *conseguem ler e respeitar.*',
     agentsText:
       'Como a arquitetura é código tipado que compila, o agente ganha o que um diagrama nunca deu: contexto para ler, guardrails para respeitar e feedback para se corrigir. Usar o ASL como harness de arquitetura para os seus agentes é um dos casos de uso.',
     agentsLink: 'Veja nos casos de uso',
@@ -313,7 +309,6 @@ const RESULT = `error: Only one application may write to database
 
 error: could not compile due to 1 previous error (19.1ms)`;
 
-
 // Turns every "CEL" in a copy string into a link to cel.dev.
 // *text* marks the accent-colored part of a section title.
 function hl(text: string): ReactNode {
@@ -385,7 +380,6 @@ function FocusLine({
   );
 }
 
-
 // Inline `code`, [links](/path) and CEL links inside a FAQ answer.
 function rich(text: string): ReactNode {
   return text.split(/(\[[^\]]+\]\([^)]+\))/).map((part, i) => {
@@ -424,7 +418,6 @@ function PortCards({ items }: { items: Item[] }): ReactNode {
     </div>
   );
 }
-
 
 export default function Home(): ReactNode {
   const { i18n } = useDocusaurusContext();
@@ -522,10 +515,7 @@ export default function Home(): ReactNode {
             <div className={`container ${styles.agents}`}>
               <h2 className={styles.h2}>{hl(t.agentsTitle)}</h2>
               <p className={styles.lead}>{t.agentsText}</p>
-              <Link
-                className={styles.textLink}
-                to="/docs/use-cases/designing"
-              >
+              <Link className={styles.textLink} to="/docs/use-cases/designing">
                 {t.agentsLink} <FiArrowRight />
               </Link>
             </div>
@@ -571,7 +561,7 @@ export default function Home(): ReactNode {
                 </Link>
                 <a
                   className="button button--outline button--primary button--lg"
-                  href="https://github.com/margato/asl"
+                  href="https://github.com/architectureascode/asl"
                   target="_blank"
                   rel="noopener noreferrer"
                 >

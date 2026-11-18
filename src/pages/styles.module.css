@@ -384,5 +384,8 @@
 
 @media (max-width: 996px) {
   .heroCenter { padding-top: 1.5rem; }
+  .heroCenter .ctas { width: 100%; flex-direction: column; align-items: stretch; gap: 1rem; }
+  .heroCenter .ctas :global(.button--primary) { width: 100%; }
+  .heroCenter .ctas .textLink { justify-content: center; }
   .ideas { grid-template-columns: minmax(0, 1fr); gap: 1.75rem; margin-top: 2.5rem; }
 }

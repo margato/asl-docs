@@ -34,6 +34,11 @@
   .link:not(.mobile) { padding: 0.4rem 0.6rem; margin-left: 0.5rem; }
 }
 
+/* tablet: more room before the language switch */
+@media (min-width: 577px) and (max-width: 996px) {
+  .link:not(.mobile) { margin-right: 1rem; }
+}
+
 /* inside the mobile side menu: a normal full-width row with its label */
 .mobile {
   display: flex;
